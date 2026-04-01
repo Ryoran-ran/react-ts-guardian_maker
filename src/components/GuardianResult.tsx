@@ -60,20 +60,28 @@ export function GuardianResult({ guardian, onSave }: GuardianResultProps) {
 
       <dl className="summary-grid">
         <div>
-          <dt>シード値</dt>
-          <dd>{guardian.seed}</dd>
+          <dt>名前</dt>
+          <dd>{guardian.displayName}</dd>
+        </div>
+        <div>
+          <dt>身長</dt>
+          <dd>{guardian.heightCm}cm</dd>
         </div>
         <div>
           <dt>性格</dt>
-          <dd>{guardian.personality}</dd>
+          <dd>{guardian.personalityLine}</dd>
         </div>
         <div>
           <dt>好きなもの</dt>
-          <dd>{guardian.favorite}</dd>
+          <dd>{guardian.favoriteLine}</dd>
         </div>
         <div>
-          <dt>苦手なもの</dt>
-          <dd>{guardian.weakness}</dd>
+          <dt>嫌いなもの</dt>
+          <dd>{guardian.weaknessLine}</dd>
+        </div>
+        <div>
+          <dt>シード値</dt>
+          <dd>{guardian.seed}</dd>
         </div>
         <div>
           <dt>使用武器</dt>

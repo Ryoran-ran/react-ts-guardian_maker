@@ -13,7 +13,6 @@ const PREVIEW_SCALE = 0.86
 const GROUND_Y = 470
 const OUTLINE_COLOR = '#5c4436'
 const OUTLINE_WIDTH = 3
-const EYE_LINE_COLOR = 'rgba(92, 68, 54, 0.72)'
 
 function Hair({ guardian }: GuardianCanvasProps) {
   const { hairColor, hairVariant } = guardian.visuals
@@ -95,20 +94,6 @@ function Eyes({ guardian }: GuardianCanvasProps) {
         <Ellipse x={302} y={216} radiusX={25} radiusY={12} rotation={12} fill="#fff" />
         <Ellipse x={218} y={216} radiusX={9} radiusY={9} fill={eyeHex} />
         <Ellipse x={302} y={216} radiusX={9} radiusY={9} fill={eyeHex} />
-        <Line
-          points={[196, 214, 218, 207, 240, 214]}
-          stroke={EYE_LINE_COLOR}
-          strokeWidth={1.6}
-          tension={0.4}
-          lineCap="round"
-        />
-        <Line
-          points={[280, 214, 302, 207, 324, 214]}
-          stroke={EYE_LINE_COLOR}
-          strokeWidth={1.6}
-          tension={0.4}
-          lineCap="round"
-        />
       </>
     )
   }
@@ -120,20 +105,6 @@ function Eyes({ guardian }: GuardianCanvasProps) {
         <Ellipse x={304} y={216} radiusX={24} radiusY={15} fill="#fff" />
         <Circle x={220} y={217} radius={10} fill={eyeHex} />
         <Circle x={304} y={217} radius={10} fill={eyeHex} />
-        <Line
-          points={[198, 206, 220, 201, 242, 206]}
-          stroke={EYE_LINE_COLOR}
-          strokeWidth={1.6}
-          tension={0.45}
-          lineCap="round"
-        />
-        <Line
-          points={[282, 206, 304, 201, 326, 206]}
-          stroke={EYE_LINE_COLOR}
-          strokeWidth={1.6}
-          tension={0.45}
-          lineCap="round"
-        />
       </>
     )
   }
@@ -145,20 +116,6 @@ function Eyes({ guardian }: GuardianCanvasProps) {
         <Ellipse x={304} y={214} radiusX={23} radiusY={10} rotation={6} fill="#fff" />
         <Ellipse x={220} y={214} radiusX={8.5} radiusY={8.5} fill={eyeHex} />
         <Ellipse x={304} y={214} radiusX={8.5} radiusY={8.5} fill={eyeHex} />
-        <Line
-          points={[198, 211, 220, 208, 242, 211]}
-          stroke={EYE_LINE_COLOR}
-          strokeWidth={1.7}
-          tension={0.25}
-          lineCap="round"
-        />
-        <Line
-          points={[282, 211, 304, 208, 326, 211]}
-          stroke={EYE_LINE_COLOR}
-          strokeWidth={1.7}
-          tension={0.25}
-          lineCap="round"
-        />
       </>
     )
   }

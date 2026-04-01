@@ -62,6 +62,11 @@ export type GuardianVisuals = {
 export type GuardianProfile = {
   seed: number
   guardianName: string
+  displayName: string
+  heightCm: number
+  personalityLine: string
+  favoriteLine: string
+  weaknessLine: string
   personality: string
   favorite: string
   weakness: string

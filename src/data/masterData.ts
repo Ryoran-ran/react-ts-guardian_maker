@@ -35,6 +35,24 @@ export const personalities = [
   '粘り強く最後まで諦めない努力家',
 ] as const
 
+export const personalityLeadings = [
+  '冷静で',
+  '朗らかで',
+  '神秘的で',
+  '大胆で',
+  '繊細で',
+  '誠実で',
+] as const
+
+export const personalityEndings = [
+  '仲間思い',
+  '観察眼が鋭い',
+  '芯が強い',
+  '面倒見がよい',
+  '少し気まぐれ',
+  '直感に優れる',
+] as const
+
 export const favorites = [
   '朝焼けの空気',
   '澄んだ水辺',
@@ -46,6 +64,24 @@ export const favorites = [
   '静かな雨音',
 ] as const
 
+export const favoritePrefixes = [
+  '静かな',
+  '光る',
+  '懐かしい',
+  '澄んだ',
+  'やわらかな',
+  '神秘的な',
+] as const
+
+export const favoriteSubjects = [
+  '森の香り',
+  '月夜の散歩',
+  '古代の書物',
+  '祭礼の音色',
+  '温かな湯気',
+  '星降る空',
+] as const
+
 export const weaknesses = [
   '騒がしすぎる場所',
   '不意打ちの褒め言葉',
@@ -55,6 +91,24 @@ export const weaknesses = [
   '細かすぎる規則',
   '眠気を誘う午後',
   '曖昧な指示',
+] as const
+
+export const weaknessPrefixes = [
+  '過度に',
+  '妙に',
+  'じわじわと',
+  '不意に',
+  '執拗に',
+  '必要以上に',
+] as const
+
+export const weaknessSubjects = [
+  '騒がしい場所',
+  '湿った空気',
+  '曖昧な指示',
+  '急な沈黙',
+  '強い眠気',
+  '空腹の時間',
 ] as const
 
 export const weapons = [

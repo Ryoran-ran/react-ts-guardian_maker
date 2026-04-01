@@ -11,6 +11,8 @@ import {
   eyebrowThicknesses,
   faceShapes,
   favorites,
+  favoritePrefixes,
+  favoriteSubjects,
   guardianNameParts,
   guardianTitles,
   hairstyles,
@@ -19,8 +21,12 @@ import {
   mouthShapes,
   mouthSizes,
   personalities,
+  personalityEndings,
+  personalityLeadings,
   skinColors,
   weapons,
+  weaknessPrefixes,
+  weaknessSubjects,
   weaknesses,
 } from '../data/masterData'
 import type { GuardianAppearance, GuardianFormInput, GuardianProfile } from '../types/guardian'
@@ -91,6 +97,7 @@ export function generateGuardian(input: GuardianFormInput): GuardianProfile {
   const appearance = pickAppearance(random)
   const auraHue = random.nextInt(0, 359)
   const weaponName = random.pick(weapons)
+  const guardianName = composeGuardianName(random)
 
   const faceVariant =
     appearance.faceShape === '丸顔'
@@ -138,7 +145,17 @@ export function generateGuardian(input: GuardianFormInput): GuardianProfile {
 
   return {
     seed,
-    guardianName: composeGuardianName(random),
+    guardianName,
+    displayName: guardianName,
+    heightCm:
+      appearance.height === '低め'
+        ? random.nextInt(138, 154)
+        : appearance.height === '標準'
+          ? random.nextInt(155, 173)
+          : random.nextInt(174, 196),
+    personalityLine: `${random.pick(personalityLeadings)}${random.pick(personalityEndings)}`,
+    favoriteLine: `${random.pick(favoritePrefixes)}${random.pick(favoriteSubjects)}`,
+    weaknessLine: `${random.pick(weaknessPrefixes)}${random.pick(weaknessSubjects)}`,
     personality: random.pick(personalities),
     favorite: random.pick(favorites),
     weakness: random.pick(weaknesses),
