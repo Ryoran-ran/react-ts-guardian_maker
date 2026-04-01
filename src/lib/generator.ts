@@ -151,8 +151,14 @@ export function generateGuardian(input: GuardianFormInput): GuardianProfile {
       eyeHex: eyeHexMap[appearance.eyeColor],
       bodyScaleX:
         appearance.bodyType === '細身' ? 0.88 : appearance.bodyType === '均整' ? 1 : 1.15,
-      bodyScaleY:
-        appearance.height === '低め' ? 0.92 : appearance.height === '標準' ? 1 : 1.12,
+      torsoHeight:
+        appearance.height === '低め' ? 146 : appearance.height === '標準' ? 164 : 184,
+      armLength:
+        appearance.height === '低め' ? 98 : appearance.height === '標準' ? 112 : 126,
+      legLength:
+        appearance.height === '低め' ? 76 : appearance.height === '標準' ? 94 : 114,
+      characterY:
+        appearance.height === '低め' ? 304 : appearance.height === '標準' ? 294 : 280,
       headScaleX:
         appearance.faceShape === '丸顔' ? 1.05 : appearance.faceShape === '卵型' ? 0.95 : 0.9,
       jawWidth:

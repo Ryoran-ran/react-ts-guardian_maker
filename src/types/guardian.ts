@@ -37,7 +37,10 @@ export type GuardianVisuals = {
   skinHex: string
   eyeHex: string
   bodyScaleX: number
-  bodyScaleY: number
+  torsoHeight: number
+  armLength: number
+  legLength: number
+  characterY: number
   headScaleX: number
   jawWidth: number
   eyeScaleX: number

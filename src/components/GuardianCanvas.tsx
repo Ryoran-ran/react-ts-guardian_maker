@@ -9,6 +9,8 @@ type GuardianCanvasProps = {
 
 const WIDTH = 520
 const HEIGHT = 520
+const PREVIEW_SCALE = 0.86
+const GROUND_Y = 470
 
 function Weapon({ guardian }: GuardianCanvasProps) {
   const { weaponColor, weaponType } = guardian.visuals
@@ -222,69 +224,95 @@ export const GuardianCanvas = forwardRef<Konva.Stage, GuardianCanvasProps>(funct
         <Stage width={WIDTH * scale} height={HEIGHT * scale} scaleX={scale} scaleY={scale} ref={ref}>
           <Layer>
             <Rect width={WIDTH} height={HEIGHT} fill="#f7f1e5" />
-            <Circle x={260} y={258} radius={188} fill={visuals.auraAccent} opacity={0.18} />
-            <Circle x={260} y={240} radius={148} fill={visuals.auraColor} opacity={0.22} />
-            <RegularPolygon
-              x={260}
-              y={240}
-              sides={8}
-              radius={130}
-              stroke={visuals.sigilColor}
-              strokeWidth={4}
-              opacity={0.48}
-              rotation={22}
-            />
-            <RegularPolygon
-              x={260}
-              y={240}
-              sides={3}
-              radius={92}
-              stroke={visuals.sigilColor}
-              strokeWidth={2}
-              opacity={0.52}
-              rotation={-30}
-            />
+            <Group x={260} y={288} offsetX={260} offsetY={260} scaleX={PREVIEW_SCALE} scaleY={PREVIEW_SCALE}>
+              <Rect x={76} y={GROUND_Y} width={368} height={6} fill="#d7c6a7" cornerRadius={999} opacity={0.9} />
+              <Circle x={260} y={258} radius={188} fill={visuals.auraAccent} opacity={0.18} />
+              <Circle x={260} y={240} radius={148} fill={visuals.auraColor} opacity={0.22} />
+              <RegularPolygon
+                x={260}
+                y={240}
+                sides={8}
+                radius={130}
+                stroke={visuals.sigilColor}
+                strokeWidth={4}
+                opacity={0.48}
+                rotation={22}
+              />
+              <RegularPolygon
+                x={260}
+                y={240}
+                sides={3}
+                radius={92}
+                stroke={visuals.sigilColor}
+                strokeWidth={2}
+                opacity={0.52}
+                rotation={-30}
+              />
 
-            <Weapon guardian={guardian} />
+              <Weapon guardian={guardian} />
 
-            <Group x={260} y={306} scaleX={visuals.bodyScaleX} scaleY={visuals.bodyScaleY}>
-              <Rect x={-72} y={-18} width={144} height={164} fill={visuals.robeColor} cornerRadius={34} />
-              <Rect x={-108} y={2} width={42} height={112} fill={visuals.robeColor} cornerRadius={18} rotation={14} />
-              <Rect x={68} y={2} width={42} height={112} fill={visuals.robeColor} cornerRadius={18} rotation={-14} />
-              <Rect x={-46} y={142} width={34} height={94} fill="#453428" cornerRadius={18} />
-              <Rect x={12} y={142} width={34} height={94} fill="#453428" cornerRadius={18} />
-              <Circle x={0} y={14} radius={18} fill={visuals.auraAccent} opacity={0.65} />
+              <Group
+                x={260}
+                y={GROUND_Y - (visuals.torsoHeight + visuals.legLength - 22)}
+                offsetX={260}
+                offsetY={306}
+              >
+                <Group x={260} y={306} scaleX={visuals.bodyScaleX}>
+                  <Rect x={-72} y={-18} width={144} height={visuals.torsoHeight} fill={visuals.robeColor} cornerRadius={34} />
+                  <Rect
+                    x={-108}
+                    y={2}
+                    width={42}
+                    height={visuals.armLength}
+                    fill={visuals.robeColor}
+                    cornerRadius={18}
+                    rotation={14}
+                  />
+                  <Rect
+                    x={68}
+                    y={2}
+                    width={42}
+                    height={visuals.armLength}
+                    fill={visuals.robeColor}
+                    cornerRadius={18}
+                    rotation={-14}
+                  />
+                  <Rect x={-46} y={visuals.torsoHeight - 22} width={34} height={visuals.legLength} fill="#453428" cornerRadius={18} />
+                  <Rect x={12} y={visuals.torsoHeight - 22} width={34} height={visuals.legLength} fill="#453428" cornerRadius={18} />
+                  <Circle x={0} y={14} radius={18} fill={visuals.auraAccent} opacity={0.65} />
+                </Group>
+
+                <Hair guardian={guardian} />
+                <Ear x={176} y={232} guardian={guardian} direction={-1} />
+                <Ear x={344} y={232} guardian={guardian} direction={1} />
+
+                <Group x={260} offsetX={260} scaleX={visuals.headScaleX}>
+                  <Ellipse x={260} y={226} radiusX={76} radiusY={88} fill={visuals.skinHex} stroke="#5c4436" strokeWidth={3} />
+                </Group>
+
+                <Line
+                  points={[220 - visuals.browWidth / 2, 182, 220 + visuals.browWidth / 2, 178]}
+                  stroke={visuals.eyebrowHex}
+                  strokeWidth={visuals.browStroke}
+                  lineCap="round"
+                />
+                <Line
+                  points={[304 - visuals.browWidth / 2, 178, 304 + visuals.browWidth / 2, 182]}
+                  stroke={visuals.eyebrowHex}
+                  strokeWidth={visuals.browStroke}
+                  lineCap="round"
+                />
+
+                <Eyes guardian={guardian} />
+                <Circle x={220} y={214} radius={3.6} fill="#161616" />
+                <Circle x={304} y={214} radius={3.6} fill="#161616" />
+                <Circle x={216} y={210} radius={2.2} fill="#ffffff" opacity={0.8} />
+                <Circle x={300} y={210} radius={2.2} fill="#ffffff" opacity={0.8} />
+
+                <Line points={[260, 226, 252, 252, 260, 256]} stroke="#9d6d5a" strokeWidth={2.5} tension={0.6} lineCap="round" />
+                <Mouth guardian={guardian} />
+              </Group>
             </Group>
-
-            <Hair guardian={guardian} />
-            <Ear x={176} y={232} guardian={guardian} direction={-1} />
-            <Ear x={344} y={232} guardian={guardian} direction={1} />
-
-            <Group x={260} offsetX={260} scaleX={visuals.headScaleX}>
-              <Ellipse x={260} y={226} radiusX={76} radiusY={88} fill={visuals.skinHex} stroke="#5c4436" strokeWidth={3} />
-            </Group>
-
-            <Line
-              points={[220 - visuals.browWidth / 2, 182, 220 + visuals.browWidth / 2, 178]}
-              stroke={visuals.eyebrowHex}
-              strokeWidth={visuals.browStroke}
-              lineCap="round"
-            />
-            <Line
-              points={[304 - visuals.browWidth / 2, 178, 304 + visuals.browWidth / 2, 182]}
-              stroke={visuals.eyebrowHex}
-              strokeWidth={visuals.browStroke}
-              lineCap="round"
-            />
-
-            <Eyes guardian={guardian} />
-            <Circle x={220} y={214} radius={3.6} fill="#161616" />
-            <Circle x={304} y={214} radius={3.6} fill="#161616" />
-            <Circle x={216} y={210} radius={2.2} fill="#ffffff" opacity={0.8} />
-            <Circle x={300} y={210} radius={2.2} fill="#ffffff" opacity={0.8} />
-
-            <Line points={[260, 226, 252, 252, 260, 256]} stroke="#9d6d5a" strokeWidth={2.5} tension={0.6} lineCap="round" />
-            <Mouth guardian={guardian} />
           </Layer>
         </Stage>
       </div>
