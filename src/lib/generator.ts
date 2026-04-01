@@ -6,6 +6,7 @@ import {
   eyeColors,
   eyeShapes,
   eyeSizes,
+  eyebrowShapes,
   eyebrowColors,
   eyebrowSizes,
   eyebrowThicknesses,
@@ -78,6 +79,7 @@ function pickAppearance(random: SeededRandom): GuardianAppearance {
     eyeSize: random.pick(eyeSizes),
     eyeShape: random.pick(eyeShapes),
     eyeColor: random.pick(eyeColors),
+    eyebrowShape: random.pick(eyebrowShapes),
     eyebrowSize: random.pick(eyebrowSizes),
     eyebrowThickness: random.pick(eyebrowThicknesses),
     eyebrowColor: random.pick(eyebrowColors),
@@ -151,6 +153,15 @@ function buildGuardianFromSeed(seed: number, recoveryCode: string | null): Guard
       : appearance.earShape === '葉耳'
         ? 'leaf'
         : 'pointed'
+
+  const browVariant =
+    appearance.eyebrowShape === 'まっすぐ'
+      ? 'straight'
+      : appearance.eyebrowShape === 'アーチ'
+        ? 'arched'
+        : appearance.eyebrowShape === 'きりり'
+          ? 'angled'
+          : 'gentle'
 
   const hairVariant =
     appearance.hairstyle === '短髪'
@@ -243,6 +254,7 @@ function buildGuardianFromSeed(seed: number, recoveryCode: string | null): Guard
       hairVariant,
       faceVariant,
       eyeVariant,
+      browVariant,
       earVariant,
     },
   }

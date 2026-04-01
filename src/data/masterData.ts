@@ -288,6 +288,7 @@ export const hairstyles = ['短髪', '長髪', '逆立ち', '切り揃え'] as c
 export const eyeSizes = ['小さめ', '標準', '大きめ'] as const
 export const eyeShapes = ['丸い', '切れ長', 'つり目', '可愛い', 'クール'] as const
 export const eyeColors = ['蒼', '翠', '琥珀', '紫紺'] as const
+export const eyebrowShapes = ['まっすぐ', 'アーチ', 'きりり', 'たれ気味'] as const
 export const eyebrowSizes = ['短め', '標準', '長め'] as const
 export const eyebrowThicknesses = ['細い', '標準', '太い'] as const
 export const eyebrowColors = ['黒', '茶', '銀', '紺'] as const

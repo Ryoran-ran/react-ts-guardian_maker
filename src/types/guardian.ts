@@ -13,6 +13,7 @@ export type GuardianAppearance = {
   eyeSize: string
   eyeShape: string
   eyeColor: string
+  eyebrowShape: string
   eyebrowSize: string
   eyebrowThickness: string
   eyebrowColor: string
@@ -56,6 +57,7 @@ export type GuardianVisuals = {
   hairVariant: 'short' | 'long' | 'spiky' | 'bob'
   faceVariant: 'round' | 'oval' | 'diamond'
   eyeVariant: 'round' | 'almond' | 'sharp' | 'cute' | 'cool'
+  browVariant: 'straight' | 'arched' | 'angled' | 'gentle'
   earVariant: 'round' | 'leaf' | 'pointed'
 }
 

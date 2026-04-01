@@ -158,6 +158,88 @@ function Mouth({ guardian }: GuardianCanvasProps) {
   )
 }
 
+function Brows({ guardian }: GuardianCanvasProps) {
+  const { browVariant, browWidth, browStroke, eyebrowHex } = guardian.visuals
+
+  if (browVariant === 'arched') {
+    return (
+      <>
+        <Line
+          points={[220 - browWidth / 2, 184, 220, 176, 220 + browWidth / 2, 184]}
+          stroke={eyebrowHex}
+          strokeWidth={browStroke}
+          tension={0.45}
+          lineCap="round"
+        />
+        <Line
+          points={[304 - browWidth / 2, 184, 304, 176, 304 + browWidth / 2, 184]}
+          stroke={eyebrowHex}
+          strokeWidth={browStroke}
+          tension={0.45}
+          lineCap="round"
+        />
+      </>
+    )
+  }
+
+  if (browVariant === 'angled') {
+    return (
+      <>
+        <Line
+          points={[220 - browWidth / 2, 186, 220 + browWidth / 2, 178]}
+          stroke={eyebrowHex}
+          strokeWidth={browStroke}
+          lineCap="round"
+        />
+        <Line
+          points={[304 - browWidth / 2, 178, 304 + browWidth / 2, 186]}
+          stroke={eyebrowHex}
+          strokeWidth={browStroke}
+          lineCap="round"
+        />
+      </>
+    )
+  }
+
+  if (browVariant === 'gentle') {
+    return (
+      <>
+        <Line
+          points={[220 - browWidth / 2, 178, 220, 184, 220 + browWidth / 2, 186]}
+          stroke={eyebrowHex}
+          strokeWidth={browStroke}
+          tension={0.4}
+          lineCap="round"
+        />
+        <Line
+          points={[304 - browWidth / 2, 186, 304, 184, 304 + browWidth / 2, 178]}
+          stroke={eyebrowHex}
+          strokeWidth={browStroke}
+          tension={0.4}
+          lineCap="round"
+        />
+      </>
+    )
+  }
+
+  return (
+    <>
+      <Line
+        points={[220 - browWidth / 2, 182, 220 + browWidth / 2, 178]}
+        stroke={eyebrowHex}
+        strokeWidth={browStroke}
+        lineCap="round"
+      />
+      <Line
+        points={[304 - browWidth / 2, 178, 304 + browWidth / 2, 182]}
+        stroke={eyebrowHex}
+        strokeWidth={browStroke}
+        lineCap="round"
+      />
+    </>
+  )
+}
+
 function Arm({ side, color, length }: { side: 'left' | 'right'; color: string; length: number }) {
   const isLeft = side === 'left'
   const armHeight = Math.max(92, length * 0.92)
@@ -275,19 +357,7 @@ export const GuardianCanvas = forwardRef<Konva.Stage, GuardianCanvasProps>(funct
                   <Ellipse x={260} y={226} radiusX={76} radiusY={88} fill={visuals.skinHex} stroke={OUTLINE_COLOR} strokeWidth={OUTLINE_WIDTH} />
                 </Group>
 
-                <Line
-                  points={[220 - visuals.browWidth / 2, 182, 220 + visuals.browWidth / 2, 178]}
-                  stroke={visuals.eyebrowHex}
-                  strokeWidth={visuals.browStroke}
-                  lineCap="round"
-                />
-                <Line
-                  points={[304 - visuals.browWidth / 2, 178, 304 + visuals.browWidth / 2, 182]}
-                  stroke={visuals.eyebrowHex}
-                  strokeWidth={visuals.browStroke}
-                  lineCap="round"
-                />
-
+                <Brows guardian={guardian} />
                 <Eyes guardian={guardian} />
               {visuals.eyeVariant === 'sharp' ? (
                 <>
