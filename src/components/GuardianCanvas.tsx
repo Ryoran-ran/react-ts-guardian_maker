@@ -158,6 +158,49 @@ function Mouth({ guardian }: GuardianCanvasProps) {
   )
 }
 
+function Nose({ guardian }: GuardianCanvasProps) {
+  const { noseVariant, noseWidth, noseHeight } = guardian.visuals
+  const x = 260
+  const y = 226
+
+  if (noseVariant === 'sharp') {
+    return (
+      <Line
+        points={[x + 2, y, x - noseWidth, y + noseHeight * 0.78, x + noseWidth * 0.2, y + noseHeight]}
+        stroke={OUTLINE_COLOR}
+        strokeWidth={2.5}
+        tension={0.2}
+        lineCap="round"
+        lineJoin="round"
+      />
+    )
+  }
+
+  if (noseVariant === 'short') {
+    return (
+      <Line
+        points={[x, y + 4, x - noseWidth * 0.55, y + noseHeight * 0.6, x + noseWidth * 0.4, y + noseHeight * 0.66]}
+        stroke={OUTLINE_COLOR}
+        strokeWidth={2.5}
+        tension={0.7}
+        lineCap="round"
+        lineJoin="round"
+      />
+    )
+  }
+
+  return (
+    <Line
+      points={[x, y, x - noseWidth, y + noseHeight * 0.82, x + noseWidth * 0.3, y + noseHeight]}
+      stroke={OUTLINE_COLOR}
+      strokeWidth={2.5}
+      tension={0.6}
+      lineCap="round"
+      lineJoin="round"
+    />
+  )
+}
+
 function Brows({ guardian }: GuardianCanvasProps) {
   const { browVariant, browWidth, browStroke, eyebrowHex } = guardian.visuals
 
@@ -389,7 +432,7 @@ export const GuardianCanvas = forwardRef<Konva.Stage, GuardianCanvasProps>(funct
                 </>
               )}
 
-                <Line points={[260, 226, 252, 252, 260, 256]} stroke={OUTLINE_COLOR} strokeWidth={2.5} tension={0.6} lineCap="round" />
+                <Nose guardian={guardian} />
                 <Mouth guardian={guardian} />
               </Group>
             </Group>

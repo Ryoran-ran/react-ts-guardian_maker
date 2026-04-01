@@ -19,6 +19,8 @@ export type GuardianAppearance = {
   eyebrowColor: string
   earShape: string
   earSize: string
+  noseShape: string
+  noseSize: string
   mouthShape: string
   mouthSize: string
   bodyType: string
@@ -49,6 +51,8 @@ export type GuardianVisuals = {
   browStroke: number
   earWidth: number
   earHeight: number
+  noseWidth: number
+  noseHeight: number
   mouthWidth: number
   mouthCurve: number
   weaponType: 'sword' | 'staff' | 'spear' | 'orb'
@@ -57,6 +61,7 @@ export type GuardianVisuals = {
   eyeVariant: 'round' | 'almond' | 'sharp' | 'cute' | 'cool'
   browVariant: 'straight' | 'arched' | 'angled' | 'gentle'
   earVariant: 'round' | 'leaf' | 'pointed'
+  noseVariant: 'rounded' | 'sharp' | 'short'
 }
 
 export type GuardianProfile = {

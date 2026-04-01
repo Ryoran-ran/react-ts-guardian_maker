@@ -26,6 +26,8 @@ import {
   heights,
   mouthShapes,
   mouthSizes,
+  noseShapes,
+  noseSizes,
   personalities,
   personalityEndings,
   personalityLeadings,
@@ -84,6 +86,8 @@ function pickAppearance(random: SeededRandom): GuardianAppearance {
     eyebrowColor: random.pick(eyebrowColors),
     earShape: random.pick(earShapes),
     earSize: random.pick(earSizes),
+    noseShape: random.pick(noseShapes),
+    noseSize: random.pick(noseSizes),
     mouthShape: random.pick(mouthShapes),
     mouthSize: random.pick(mouthSizes),
     bodyType: random.pick(bodyTypes),
@@ -151,6 +155,13 @@ function buildGuardianFromSeed(seed: number, recoveryCode: string | null): Guard
       : appearance.earShape === '葉耳'
         ? 'leaf'
         : 'pointed'
+
+  const noseVariant =
+    appearance.noseShape === '丸い'
+      ? 'rounded'
+      : appearance.noseShape === 'すっきり'
+        ? 'sharp'
+        : 'short'
 
   const browVariant =
     appearance.eyebrowShape === 'まっすぐ'
@@ -238,6 +249,10 @@ function buildGuardianFromSeed(seed: number, recoveryCode: string | null): Guard
         appearance.earSize === '小さめ' ? 12 : appearance.earSize === '標準' ? 16 : 20,
       earHeight:
         appearance.earSize === '小さめ' ? 20 : appearance.earSize === '標準' ? 26 : 34,
+      noseWidth:
+        appearance.noseSize === '小さめ' ? 6 : appearance.noseSize === '標準' ? 8 : 10,
+      noseHeight:
+        appearance.noseSize === '小さめ' ? 22 : appearance.noseSize === '標準' ? 28 : 34,
       mouthWidth:
         appearance.mouthSize === '小さめ' ? 16 : appearance.mouthSize === '標準' ? 24 : 34,
       mouthCurve:
@@ -252,6 +267,7 @@ function buildGuardianFromSeed(seed: number, recoveryCode: string | null): Guard
       eyeVariant,
       browVariant,
       earVariant,
+      noseVariant,
     },
   }
 }
