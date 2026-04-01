@@ -61,6 +61,7 @@ export type GuardianVisuals = {
 
 export type GuardianProfile = {
   seed: number
+  recoveryCode: string | null
   guardianName: string
   displayName: string
   heightCm: number

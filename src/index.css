@@ -146,6 +146,12 @@ button {
   transform: translateY(-1px);
 }
 
+.code-input {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.78rem;
+  line-height: 1.45;
+}
+
 .primary-button,
 .secondary-button {
   border: none;
@@ -240,10 +246,40 @@ button {
   margin: 6px 0 0;
   color: var(--heading);
   font-weight: 700;
+  white-space: nowrap;
+  overflow-x: auto;
+  display: block;
+  padding-bottom: 2px;
 }
 
 .appearance-block {
   margin-top: 24px;
+}
+
+.code-strip {
+  margin-top: 16px;
+  padding: 12px 14px;
+  border: 1px solid rgba(118, 89, 61, 0.12);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.42);
+  display: grid;
+  gap: 6px;
+}
+
+.code-label {
+  color: var(--muted);
+  font-size: 0.82rem;
+}
+
+.code-value {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.78rem;
+  line-height: 1.45;
+  color: var(--heading);
+  white-space: nowrap;
+  overflow-x: auto;
+  display: block;
+  padding-bottom: 2px;
 }
 
 .appearance-grid {

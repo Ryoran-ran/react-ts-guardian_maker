@@ -116,6 +116,15 @@ export function downloadGuardianProfileCard(
       drawWrappedText(context, value, cardX + 24, cardY + 58, 880, 28)
     })
 
+    if (guardian.recoveryCode) {
+      context.fillStyle = '#7a6456'
+      context.font = '500 18px "Hiragino Sans", "Yu Gothic", sans-serif'
+      context.fillText('コード', 76, 1712)
+      context.fillStyle = '#2c211c'
+      context.font = '400 14px ui-monospace, SFMono-Regular, Menlo, monospace'
+      drawWrappedText(context, guardian.recoveryCode, 76, 1742, 928, 18)
+    }
+
     downloadDataUrl(canvas.toDataURL('image/png'), fileName)
   }
 }

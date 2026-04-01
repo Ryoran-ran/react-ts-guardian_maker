@@ -37,17 +37,57 @@ export const guardianConnectors = [
   'に祝福された',
 ] as const
 
-export const guardianNameParts = [
-  'アマネ',
-  'クオン',
-  'レイ',
-  'ミナト',
-  'ヒスイ',
-  'カグラ',
-  'ソラ',
-  'トワ',
-  'ユラ',
-  'シオン',
+export const guardianNameStarts = [
+  'ア',
+  'イ',
+  'カ',
+  'キ',
+  'シ',
+  'ソ',
+  'ト',
+  'ナ',
+  'ヒ',
+  'ミ',
+  'ユ',
+  'リ',
+  'レ',
+  'ロ',
+  'セ',
+  'ツ',
+] as const
+
+export const guardianNameMiddles = [
+  'マ',
+  'オ',
+  'グ',
+  'ラ',
+  'ナ',
+  'ス',
+  'ヨ',
+  'ツ',
+  'ル',
+  'ノ',
+  'ハ',
+  'ミ',
+  'キ',
+  'シ',
+  'ト',
+  'ヤ',
+] as const
+
+export const guardianNameEnds = [
+  'ネ',
+  'ト',
+  'イ',
+  'ラ',
+  'ヤ',
+  'ナ',
+  'オ',
+  'ア',
+  'キ',
+  'ル',
+  'カ',
+  'リ',
 ] as const
 
 export const guardianNameSuffixes = [
@@ -61,6 +101,12 @@ export const guardianNameSuffixes = [
   'ミア',
   'ヴィス',
   'ラ',
+  'ティア',
+  'ノエル',
+  'セリア',
+  'ヴェル',
+  'リア',
+  'シュ',
 ] as const
 
 export const personalities = [

@@ -3,13 +3,29 @@ import type { Gender, GuardianFormInput } from '../types/guardian'
 
 type GuardianFormProps = {
   value: GuardianFormInput
+  seedValue: string
+  recoveryValue: string
   onChange: (value: GuardianFormInput) => void
+  onSeedChange: (value: string) => void
+  onRecoveryChange: (value: string) => void
   onSubmit: () => void
+  onSeedSubmit: () => void
+  onRecoverySubmit: () => void
 }
 
 const genderOptions: Gender[] = ['女性', '男性', 'その他']
 
-export function GuardianForm({ value, onChange, onSubmit }: GuardianFormProps) {
+export function GuardianForm({
+  value,
+  seedValue,
+  recoveryValue,
+  onChange,
+  onSeedChange,
+  onRecoveryChange,
+  onSubmit,
+  onSeedSubmit,
+  onRecoverySubmit,
+}: GuardianFormProps) {
   const handleFieldChange =
     (field: keyof GuardianFormInput) =>
     (event: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -68,6 +84,37 @@ export function GuardianForm({ value, onChange, onSubmit }: GuardianFormProps) {
 
       <button className="primary-button" type="submit">
         生成
+      </button>
+
+      <label className="field">
+        <span>シード値から再生成</span>
+        <input
+          type="text"
+          inputMode="numeric"
+          className="code-input"
+          value={seedValue}
+          onChange={(event) => onSeedChange(event.target.value)}
+          placeholder="例: 2447797810"
+        />
+      </label>
+
+      <button className="secondary-button" type="button" onClick={onSeedSubmit}>
+        シードから再生成
+      </button>
+
+      <label className="field">
+        <span>復元コードから再入力</span>
+        <input
+          type="text"
+          className="code-input"
+          value={recoveryValue}
+          onChange={(event) => onRecoveryChange(event.target.value)}
+          placeholder="復元コードを貼り付け"
+        />
+      </label>
+
+      <button className="secondary-button" type="button" onClick={onRecoverySubmit}>
+        復元コードから再入力
       </button>
     </form>
   )

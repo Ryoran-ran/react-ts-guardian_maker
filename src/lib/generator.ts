@@ -16,7 +16,9 @@ import {
   favoriteSubjects,
   guardianConnectors,
   guardianDescriptors,
-  guardianNameParts,
+  guardianNameEnds,
+  guardianNameMiddles,
+  guardianNameStarts,
   guardianNameSuffixes,
   guardianTitles,
   hairstyles,
@@ -37,6 +39,7 @@ import {
 } from '../data/masterData'
 import type { GuardianAppearance, GuardianFormInput, GuardianProfile } from '../types/guardian'
 import { createSeedFromInput } from './hash'
+import { encodeRecoveryCode } from './recovery'
 import { SeededRandom } from './seededRandom'
 
 const skinHexMap: Record<string, string> = {
@@ -90,7 +93,7 @@ function pickAppearance(random: SeededRandom): GuardianAppearance {
 }
 
 function composeGuardianName(random: SeededRandom): string {
-  const coreName = `${random.pick(guardianNameParts)}${random.pick(guardianNameSuffixes)}`
+  const coreName = `${random.pick(guardianNameStarts)}${random.pick(guardianNameMiddles)}${random.pick(guardianNameEnds)}${random.pick(guardianNameSuffixes)}`
   return `${random.pick(guardianTitles)}${random.pick(guardianDescriptors)}${random.pick(guardianConnectors)} ${coreName}`
 }
 
@@ -102,8 +105,7 @@ function joinUnique(parts: string[]): string {
   return parts.filter((part, index) => parts.indexOf(part) === index).join('')
 }
 
-export function generateGuardian(input: GuardianFormInput): GuardianProfile {
-  const seed = createSeedFromInput(input)
+function buildGuardianFromSeed(seed: number, recoveryCode: string | null): GuardianProfile {
   const random = new SeededRandom(seed)
   const appearance = pickAppearance(random)
   const auraHue = random.nextInt(0, 359)
@@ -171,6 +173,7 @@ export function generateGuardian(input: GuardianFormInput): GuardianProfile {
 
   return {
     seed,
+    recoveryCode,
     guardianName,
     displayName: guardianName,
     heightCm:
@@ -243,4 +246,12 @@ export function generateGuardian(input: GuardianFormInput): GuardianProfile {
       earVariant,
     },
   }
+}
+
+export function generateGuardian(input: GuardianFormInput): GuardianProfile {
+  return buildGuardianFromSeed(createSeedFromInput(input), encodeRecoveryCode(input))
+}
+
+export function generateGuardianFromSeed(seed: number): GuardianProfile {
+  return buildGuardianFromSeed((seed >>> 0) || 1, null)
 }

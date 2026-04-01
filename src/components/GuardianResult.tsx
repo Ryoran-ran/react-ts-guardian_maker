@@ -95,6 +95,13 @@ export function GuardianResult({ guardian, onSave, onSaveWithInfo }: GuardianRes
         </div>
       </dl>
 
+      {guardian.recoveryCode ? (
+        <div className="code-strip">
+          <span className="code-label">コード</span>
+          <code className="code-value">{guardian.recoveryCode}</code>
+        </div>
+      ) : null}
+
       <div className="appearance-block">
         <h3>外見パラメータ</h3>
         <dl className="appearance-grid">
