@@ -24,7 +24,6 @@ import {
   guardianTitles,
   hairstyles,
   heights,
-  jaws,
   mouthShapes,
   mouthSizes,
   personalities,
@@ -87,7 +86,6 @@ function pickAppearance(random: SeededRandom): GuardianAppearance {
     earSize: random.pick(earSizes),
     mouthShape: random.pick(mouthShapes),
     mouthSize: random.pick(mouthSizes),
-    jaw: random.pick(jaws),
     bodyType: random.pick(bodyTypes),
     height: random.pick(heights),
     armLength: random.pick(armLengths),
@@ -224,8 +222,6 @@ function buildGuardianFromSeed(seed: number, recoveryCode: string | null): Guard
         appearance.height === '低め' ? 304 : appearance.height === '標準' ? 294 : 280,
       headScaleX:
         appearance.faceShape === '丸顔' ? 1.05 : appearance.faceShape === '卵型' ? 0.95 : 0.9,
-      jawWidth:
-        appearance.jaw === 'なめらか' ? 52 : appearance.jaw === 'シャープ' ? 42 : 60,
       eyeScaleX:
         appearance.eyeShape === '丸い' ? 1 : appearance.eyeShape === '切れ長' ? 1.35 : 1.2,
       eyeScaleY:

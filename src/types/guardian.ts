@@ -21,7 +21,6 @@ export type GuardianAppearance = {
   earSize: string
   mouthShape: string
   mouthSize: string
-  jaw: string
   bodyType: string
   height: string
   armLength: string
@@ -44,7 +43,6 @@ export type GuardianVisuals = {
   legLength: number
   characterY: number
   headScaleX: number
-  jawWidth: number
   eyeScaleX: number
   eyeScaleY: number
   browWidth: number
