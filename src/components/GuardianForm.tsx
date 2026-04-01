@@ -13,7 +13,7 @@ type GuardianFormProps = {
   onRecoverySubmit: () => void
 }
 
-const genderOptions: Gender[] = ['女性', '男性', 'その他']
+const genderOptions: Gender[] = ['男性', '女性', 'その他']
 
 export function GuardianForm({
   value,
