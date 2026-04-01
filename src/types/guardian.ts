@@ -23,6 +23,7 @@ export type GuardianAppearance = {
   jaw: string
   bodyType: string
   height: string
+  armLength: string
 }
 
 export type GuardianVisuals = {

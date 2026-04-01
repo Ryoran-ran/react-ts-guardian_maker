@@ -11,56 +11,8 @@ const WIDTH = 520
 const HEIGHT = 520
 const PREVIEW_SCALE = 0.86
 const GROUND_Y = 470
-
-function Weapon({ guardian }: GuardianCanvasProps) {
-  const { weaponColor, weaponType } = guardian.visuals
-
-  if (weaponType === 'staff') {
-    return (
-      <Group x={366} y={210} rotation={-18}>
-        <Rect width={12} height={185} fill="#8d6b54" cornerRadius={8} />
-        <Circle x={6} y={-10} radius={20} fill={weaponColor} shadowBlur={14} shadowColor={weaponColor} />
-      </Group>
-    )
-  }
-
-  if (weaponType === 'spear') {
-    return (
-      <Group x={368} y={200} rotation={-16}>
-        <Rect width={10} height={200} fill="#8d6b54" cornerRadius={8} />
-        <Line
-          points={[5, -18, 20, 18, 5, 32, -10, 18]}
-          closed
-          fill={weaponColor}
-          stroke="#edf3ff"
-          strokeWidth={2}
-        />
-      </Group>
-    )
-  }
-
-  if (weaponType === 'orb') {
-    return (
-      <Group x={374} y={240}>
-        <Circle radius={28} fill={weaponColor} shadowBlur={18} shadowColor={guardian.visuals.auraColor} />
-        <Circle radius={13} fill="#ffffff" opacity={0.46} />
-      </Group>
-    )
-  }
-
-  return (
-    <Group x={366} y={204} rotation={-10}>
-      <Rect width={10} height={170} fill="#8d6b54" cornerRadius={8} />
-      <Line
-        points={[5, -12, 24, 22, 18, 34, 5, 26, -8, 34, -14, 22]}
-        closed
-        fill={weaponColor}
-        stroke="#edf3ff"
-        strokeWidth={2}
-      />
-    </Group>
-  )
-}
+const OUTLINE_COLOR = '#5c4436'
+const OUTLINE_WIDTH = 3
 
 function Hair({ guardian }: GuardianCanvasProps) {
   const { hairColor, hairVariant } = guardian.visuals
@@ -68,9 +20,9 @@ function Hair({ guardian }: GuardianCanvasProps) {
   if (hairVariant === 'long') {
     return (
       <Group>
-        <Ellipse x={260} y={186} radiusX={90} radiusY={104} fill={hairColor} />
-        <Rect x={176} y={188} width={40} height={160} fill={hairColor} cornerRadius={20} />
-        <Rect x={304} y={188} width={40} height={160} fill={hairColor} cornerRadius={20} />
+        <Ellipse x={260} y={186} radiusX={90} radiusY={104} fill={hairColor} stroke={OUTLINE_COLOR} strokeWidth={OUTLINE_WIDTH} />
+        <Rect x={176} y={188} width={40} height={160} fill={hairColor} cornerRadius={20} stroke={OUTLINE_COLOR} strokeWidth={OUTLINE_WIDTH} />
+        <Rect x={304} y={188} width={40} height={160} fill={hairColor} cornerRadius={20} stroke={OUTLINE_COLOR} strokeWidth={OUTLINE_WIDTH} />
       </Group>
     )
   }
@@ -78,7 +30,7 @@ function Hair({ guardian }: GuardianCanvasProps) {
   if (hairVariant === 'spiky') {
     return (
       <Group>
-        <RegularPolygon x={260} y={124} sides={9} radius={82} fill={hairColor} rotation={-14} />
+        <RegularPolygon x={260} y={124} sides={9} radius={82} fill={hairColor} rotation={-14} stroke={OUTLINE_COLOR} strokeWidth={OUTLINE_WIDTH} />
         <Ellipse x={260} y={176} radiusX={88} radiusY={76} fill={hairColor} />
       </Group>
     )
@@ -87,14 +39,14 @@ function Hair({ guardian }: GuardianCanvasProps) {
   if (hairVariant === 'bob') {
     return (
       <Group>
-        <Rect x={170} y={110} width={180} height={150} fill={hairColor} cornerRadius={48} />
-        <Rect x={190} y={238} width={32} height={84} fill={hairColor} cornerRadius={16} />
-        <Rect x={298} y={238} width={32} height={84} fill={hairColor} cornerRadius={16} />
+        <Rect x={170} y={110} width={180} height={150} fill={hairColor} cornerRadius={48} stroke={OUTLINE_COLOR} strokeWidth={OUTLINE_WIDTH} />
+        <Rect x={190} y={238} width={32} height={84} fill={hairColor} cornerRadius={16} stroke={OUTLINE_COLOR} strokeWidth={OUTLINE_WIDTH} />
+        <Rect x={298} y={238} width={32} height={84} fill={hairColor} cornerRadius={16} stroke={OUTLINE_COLOR} strokeWidth={OUTLINE_WIDTH} />
       </Group>
     )
   }
 
-  return <Ellipse x={260} y={170} radiusX={86} radiusY={72} fill={hairColor} />
+  return <Ellipse x={260} y={170} radiusX={86} radiusY={72} fill={hairColor} stroke={OUTLINE_COLOR} strokeWidth={OUTLINE_WIDTH} />
 }
 
 function Ear({ x, y, guardian, direction }: { x: number; y: number; guardian: GuardianProfile; direction: 1 | -1 }) {
@@ -106,8 +58,8 @@ function Ear({ x, y, guardian, direction }: { x: number; y: number; guardian: Gu
         points={[x, y, x + direction * earWidth, y - earHeight / 2, x + direction * (earWidth + 2), y + earHeight / 2]}
         closed
         fill={skinHex}
-        stroke="#5c4436"
-        strokeWidth={2}
+        stroke={OUTLINE_COLOR}
+        strokeWidth={OUTLINE_WIDTH}
       />
     )
   }
@@ -120,14 +72,14 @@ function Ear({ x, y, guardian, direction }: { x: number; y: number; guardian: Gu
         radiusX={earWidth}
         radiusY={earHeight / 2}
         fill={skinHex}
-        stroke="#5c4436"
-        strokeWidth={2}
+        stroke={OUTLINE_COLOR}
+        strokeWidth={OUTLINE_WIDTH}
         rotation={direction * 18}
       />
     )
   }
 
-  return <Ellipse x={x} y={y} radiusX={earWidth} radiusY={earHeight / 2} fill={skinHex} stroke="#5c4436" strokeWidth={2} />
+  return <Ellipse x={x} y={y} radiusX={earWidth} radiusY={earHeight / 2} fill={skinHex} stroke={OUTLINE_COLOR} strokeWidth={OUTLINE_WIDTH} />
 }
 
 function Eyes({ guardian }: GuardianCanvasProps) {
@@ -183,11 +135,34 @@ function Mouth({ guardian }: GuardianCanvasProps) {
   )
 }
 
+function Arm({ side, color, length }: { side: 'left' | 'right'; color: string; length: number }) {
+  const isLeft = side === 'left'
+  const armHeight = Math.max(92, length * 0.92)
+
+  return (
+    <Rect
+      x={isLeft ? -92 : 92}
+      y={58}
+      offsetX={17}
+      offsetY={armHeight / 2}
+      width={34}
+      height={armHeight}
+      cornerRadius={17}
+      rotation={isLeft ? 20 : -20}
+      fill={color}
+      stroke={OUTLINE_COLOR}
+      strokeWidth={OUTLINE_WIDTH}
+    />
+  )
+}
+
 export const GuardianCanvas = forwardRef<Konva.Stage, GuardianCanvasProps>(function GuardianCanvas(
   { guardian },
   ref,
 ) {
   const { visuals } = guardian
+  const faceRadiusX = 76 * visuals.headScaleX
+  const earOffsetX = faceRadiusX + Math.max(4, visuals.earWidth * 0.35)
   const frameRef = useRef<HTMLDivElement>(null)
   const [scale, setScale] = useState(1)
 
@@ -249,8 +224,6 @@ export const GuardianCanvas = forwardRef<Konva.Stage, GuardianCanvasProps>(funct
                 rotation={-30}
               />
 
-              <Weapon guardian={guardian} />
-
               <Group
                 x={260}
                 y={GROUND_Y - (visuals.torsoHeight + visuals.legLength - 22)}
@@ -258,36 +231,19 @@ export const GuardianCanvas = forwardRef<Konva.Stage, GuardianCanvasProps>(funct
                 offsetY={306}
               >
                 <Group x={260} y={306} scaleX={visuals.bodyScaleX}>
-                  <Rect x={-72} y={-18} width={144} height={visuals.torsoHeight} fill={visuals.robeColor} cornerRadius={34} />
-                  <Rect
-                    x={-108}
-                    y={2}
-                    width={42}
-                    height={visuals.armLength}
-                    fill={visuals.robeColor}
-                    cornerRadius={18}
-                    rotation={14}
-                  />
-                  <Rect
-                    x={68}
-                    y={2}
-                    width={42}
-                    height={visuals.armLength}
-                    fill={visuals.robeColor}
-                    cornerRadius={18}
-                    rotation={-14}
-                  />
-                  <Rect x={-46} y={visuals.torsoHeight - 22} width={34} height={visuals.legLength} fill="#453428" cornerRadius={18} />
-                  <Rect x={12} y={visuals.torsoHeight - 22} width={34} height={visuals.legLength} fill="#453428" cornerRadius={18} />
-                  <Circle x={0} y={14} radius={18} fill={visuals.auraAccent} opacity={0.65} />
+                  <Rect x={-72} y={-18} width={144} height={visuals.torsoHeight} fill={visuals.robeColor} cornerRadius={34} stroke={OUTLINE_COLOR} strokeWidth={OUTLINE_WIDTH} />
+                  <Arm side="left" color={visuals.robeColor} length={visuals.armLength} />
+                  <Arm side="right" color={visuals.robeColor} length={visuals.armLength} />
+                  <Rect x={-46} y={visuals.torsoHeight - 22} width={34} height={visuals.legLength} fill="#453428" cornerRadius={18} stroke={OUTLINE_COLOR} strokeWidth={OUTLINE_WIDTH} />
+                  <Rect x={12} y={visuals.torsoHeight - 22} width={34} height={visuals.legLength} fill="#453428" cornerRadius={18} stroke={OUTLINE_COLOR} strokeWidth={OUTLINE_WIDTH} />
+                  <Circle x={0} y={14} radius={18} fill={visuals.auraAccent} opacity={0.65} stroke={OUTLINE_COLOR} strokeWidth={OUTLINE_WIDTH} />
                 </Group>
 
                 <Hair guardian={guardian} />
-                <Ear x={176} y={232} guardian={guardian} direction={-1} />
-                <Ear x={344} y={232} guardian={guardian} direction={1} />
-
+                <Ear x={260 - earOffsetX} y={232} guardian={guardian} direction={-1} />
+                <Ear x={260 + earOffsetX} y={232} guardian={guardian} direction={1} />
                 <Group x={260} offsetX={260} scaleX={visuals.headScaleX}>
-                  <Ellipse x={260} y={226} radiusX={76} radiusY={88} fill={visuals.skinHex} stroke="#5c4436" strokeWidth={3} />
+                  <Ellipse x={260} y={226} radiusX={76} radiusY={88} fill={visuals.skinHex} stroke={OUTLINE_COLOR} strokeWidth={OUTLINE_WIDTH} />
                 </Group>
 
                 <Line
@@ -309,7 +265,7 @@ export const GuardianCanvas = forwardRef<Konva.Stage, GuardianCanvasProps>(funct
                 <Circle x={216} y={210} radius={2.2} fill="#ffffff" opacity={0.8} />
                 <Circle x={300} y={210} radius={2.2} fill="#ffffff" opacity={0.8} />
 
-                <Line points={[260, 226, 252, 252, 260, 256]} stroke="#9d6d5a" strokeWidth={2.5} tension={0.6} lineCap="round" />
+                <Line points={[260, 226, 252, 252, 260, 256]} stroke={OUTLINE_COLOR} strokeWidth={2.5} tension={0.6} lineCap="round" />
                 <Mouth guardian={guardian} />
               </Group>
             </Group>

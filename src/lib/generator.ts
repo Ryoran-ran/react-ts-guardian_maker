@@ -1,4 +1,5 @@
 import {
+  armLengths,
   bodyTypes,
   earShapes,
   earSizes,
@@ -72,6 +73,7 @@ function pickAppearance(random: SeededRandom): GuardianAppearance {
     jaw: random.pick(jaws),
     bodyType: random.pick(bodyTypes),
     height: random.pick(heights),
+    armLength: random.pick(armLengths),
   }
 }
 
@@ -154,7 +156,7 @@ export function generateGuardian(input: GuardianFormInput): GuardianProfile {
       torsoHeight:
         appearance.height === '低め' ? 146 : appearance.height === '標準' ? 164 : 184,
       armLength:
-        appearance.height === '低め' ? 98 : appearance.height === '標準' ? 112 : 126,
+        appearance.armLength === '短め' ? 92 : appearance.armLength === '標準' ? 108 : 126,
       legLength:
         appearance.height === '低め' ? 76 : appearance.height === '標準' ? 94 : 114,
       characterY:
