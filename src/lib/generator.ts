@@ -1,4 +1,5 @@
 import {
+  armAngles,
   armThicknesses,
   armLengths,
   bodyTypes,
@@ -24,9 +25,11 @@ import {
   guardianNameStarts,
   guardianNameSuffixes,
   guardianTitles,
+  hairVolumes,
   hairstyles,
   heights,
   mouthShapes,
+  mouthPositions,
   mouthSizes,
   noseShapes,
   noseSizes,
@@ -36,6 +39,7 @@ import {
   personalityMiddles,
   skinColors,
   legThicknesses,
+  legLengths,
   shoulderWidths,
   weapons,
   weaknessPrefixes,
@@ -81,6 +85,7 @@ function pickAppearance(random: SeededRandom): GuardianAppearance {
     faceShape: random.pick(faceShapes),
     skinColor: random.pick(skinColors),
     hairstyle: random.pick(hairstyles),
+    hairVolume: random.pick(hairVolumes),
     eyeSize: random.pick(eyeSizes),
     eyeShape: random.pick(eyeShapes),
     eyeSpacing: random.pick(eyeSpacings),
@@ -94,12 +99,15 @@ function pickAppearance(random: SeededRandom): GuardianAppearance {
     noseShape: random.pick(noseShapes),
     noseSize: random.pick(noseSizes),
     mouthShape: random.pick(mouthShapes),
+    mouthPosition: random.pick(mouthPositions),
     mouthSize: random.pick(mouthSizes),
     shoulderWidth: random.pick(shoulderWidths),
     bodyType: random.pick(bodyTypes),
     height: random.pick(heights),
     armThickness: random.pick(armThicknesses),
+    armAngle: random.pick(armAngles),
     armLength: random.pick(armLengths),
+    legLength: random.pick(legLengths),
     legThickness: random.pick(legThicknesses),
   }
 }
@@ -226,6 +234,18 @@ function buildGuardianFromSeed(seed: number, recoveryCode: string | null): Guard
       weaponColor: buildAuraColor((auraHue + 22) % 360, 30, 82),
       robeColor: buildAuraColor((auraHue + 300) % 360, 34, 34),
       hairColor: hairHexMap[appearance.hairstyle],
+      hairScaleX:
+        appearance.hairVolume === '少なめ'
+          ? 0.9
+          : appearance.hairVolume === '標準'
+            ? 1
+            : 1.12,
+      hairScaleY:
+        appearance.hairVolume === '少なめ'
+          ? 0.88
+          : appearance.hairVolume === '標準'
+            ? 1
+            : 1.16,
       eyebrowHex: eyebrowHexMap[appearance.eyebrowColor],
       skinHex: skinHexMap[appearance.skinColor],
       eyeHex: eyeHexMap[appearance.eyeColor],
@@ -242,7 +262,8 @@ function buildGuardianFromSeed(seed: number, recoveryCode: string | null): Guard
       armLength:
         appearance.armLength === '短め' ? 92 : appearance.armLength === '標準' ? 108 : 126,
       legLength:
-        appearance.height === '低め' ? 76 : appearance.height === '標準' ? 94 : 114,
+        (appearance.height === '低め' ? 76 : appearance.height === '標準' ? 94 : 114)
+        + (appearance.legLength === '短め' ? -10 : appearance.legLength === '標準' ? 0 : 12),
       legWidth:
         appearance.legThickness === '細め'
           ? 28
@@ -275,6 +296,12 @@ function buildGuardianFromSeed(seed: number, recoveryCode: string | null): Guard
         appearance.noseSize === '小さめ' ? 6 : appearance.noseSize === '標準' ? 8 : 10,
       noseHeight:
         appearance.noseSize === '小さめ' ? 22 : appearance.noseSize === '標準' ? 28 : 34,
+      mouthY:
+        appearance.mouthPosition === '高め'
+          ? 274
+          : appearance.mouthPosition === '標準'
+            ? 282
+            : 290,
       mouthWidth:
         appearance.mouthSize === '小さめ' ? 16 : appearance.mouthSize === '標準' ? 24 : 34,
       mouthCurve:
@@ -289,6 +316,12 @@ function buildGuardianFromSeed(seed: number, recoveryCode: string | null): Guard
           : appearance.shoulderWidth === '標準'
             ? 92
             : 104,
+      armRotation:
+        appearance.armAngle === '内寄り'
+          ? 12
+          : appearance.armAngle === '標準'
+            ? 20
+            : 28,
       weaponType,
       hairVariant,
       faceVariant,

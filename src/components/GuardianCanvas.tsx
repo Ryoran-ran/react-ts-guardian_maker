@@ -16,11 +16,11 @@ const OUTLINE_COLOR = '#5c4436'
 const OUTLINE_WIDTH = 3
 
 function Hair({ guardian }: GuardianCanvasProps) {
-  const { hairColor, hairVariant } = guardian.visuals
+  const { hairColor, hairVariant, hairScaleX, hairScaleY } = guardian.visuals
 
   if (hairVariant === 'long') {
     return (
-      <Group>
+      <Group x={260} y={186} offsetX={260} offsetY={186} scaleX={hairScaleX} scaleY={hairScaleY}>
         <Ellipse x={260} y={186} radiusX={90} radiusY={104} fill={hairColor} stroke={OUTLINE_COLOR} strokeWidth={OUTLINE_WIDTH} />
         <Rect x={176} y={188} width={40} height={160} fill={hairColor} cornerRadius={20} stroke={OUTLINE_COLOR} strokeWidth={OUTLINE_WIDTH} />
         <Rect x={304} y={188} width={40} height={160} fill={hairColor} cornerRadius={20} stroke={OUTLINE_COLOR} strokeWidth={OUTLINE_WIDTH} />
@@ -30,7 +30,7 @@ function Hair({ guardian }: GuardianCanvasProps) {
 
   if (hairVariant === 'spiky') {
     return (
-      <Group>
+      <Group x={260} y={164} offsetX={260} offsetY={164} scaleX={hairScaleX} scaleY={hairScaleY}>
         <RegularPolygon x={260} y={124} sides={9} radius={82} fill={hairColor} rotation={-14} stroke={OUTLINE_COLOR} strokeWidth={OUTLINE_WIDTH} />
         <Ellipse x={260} y={176} radiusX={88} radiusY={76} fill={hairColor} />
       </Group>
@@ -39,7 +39,7 @@ function Hair({ guardian }: GuardianCanvasProps) {
 
   if (hairVariant === 'bob') {
     return (
-      <Group>
+      <Group x={260} y={184} offsetX={260} offsetY={184} scaleX={hairScaleX} scaleY={hairScaleY}>
         <Rect x={170} y={110} width={180} height={150} fill={hairColor} cornerRadius={48} stroke={OUTLINE_COLOR} strokeWidth={OUTLINE_WIDTH} />
         <Rect x={190} y={238} width={32} height={84} fill={hairColor} cornerRadius={16} stroke={OUTLINE_COLOR} strokeWidth={OUTLINE_WIDTH} />
         <Rect x={298} y={238} width={32} height={84} fill={hairColor} cornerRadius={16} stroke={OUTLINE_COLOR} strokeWidth={OUTLINE_WIDTH} />
@@ -47,7 +47,11 @@ function Hair({ guardian }: GuardianCanvasProps) {
     )
   }
 
-  return <Ellipse x={260} y={170} radiusX={86} radiusY={72} fill={hairColor} stroke={OUTLINE_COLOR} strokeWidth={OUTLINE_WIDTH} />
+  return (
+    <Group x={260} y={170} offsetX={260} offsetY={170} scaleX={hairScaleX} scaleY={hairScaleY}>
+      <Ellipse x={260} y={170} radiusX={86} radiusY={72} fill={hairColor} stroke={OUTLINE_COLOR} strokeWidth={OUTLINE_WIDTH} />
+    </Group>
+  )
 }
 
 function Ear({ x, y, guardian, direction }: { x: number; y: number; guardian: GuardianProfile; direction: 1 | -1 }) {
@@ -145,13 +149,13 @@ function Eyes({ guardian }: GuardianCanvasProps) {
 }
 
 function Mouth({ guardian }: GuardianCanvasProps) {
-  const { mouthCurve, mouthWidth } = guardian.visuals
+  const { mouthCurve, mouthWidth, mouthY } = guardian.visuals
   const left = 260 - mouthWidth / 2
   const right = 260 + mouthWidth / 2
 
   return (
     <Line
-      points={[left, 282, 260, 282 + mouthCurve, right, 282]}
+      points={[left, mouthY, 260, mouthY + mouthCurve, right, mouthY]}
       stroke="#7c3e49"
       strokeWidth={3}
       tension={0.6}
@@ -293,28 +297,31 @@ function Arm({
   length,
   width,
   shoulderOffset,
+  rotation,
 }: {
   side: 'left' | 'right'
   color: string
   length: number
   width: number
   shoulderOffset: number
+  rotation: number
 }) {
   const isLeft = side === 'left'
   const armHeight = Math.max(92, length * 0.92)
   const armWidth = width
   const radius = armWidth / 2
+  const armX = isLeft ? -(shoulderOffset - armWidth * 0.45) : shoulderOffset - armWidth * 0.55
 
   return (
     <Rect
-      x={isLeft ? -shoulderOffset : shoulderOffset}
-      y={58}
+      x={armX}
+      y={52}
       offsetX={radius}
       offsetY={armHeight / 2}
       width={armWidth}
       height={armHeight}
       cornerRadius={radius}
-      rotation={isLeft ? 20 : -20}
+      rotation={isLeft ? rotation : -rotation}
       fill={color}
       stroke={OUTLINE_COLOR}
       strokeWidth={OUTLINE_WIDTH}
@@ -403,8 +410,8 @@ export const GuardianCanvas = forwardRef<Konva.Stage, GuardianCanvasProps>(funct
                 offsetY={306}
               >
                 <Group x={260} y={306} scaleX={visuals.bodyScaleX}>
-                  <Arm side="left" color={visuals.robeColor} length={visuals.armLength} width={visuals.armWidth} shoulderOffset={visuals.shoulderOffset} />
-                  <Arm side="right" color={visuals.robeColor} length={visuals.armLength} width={visuals.armWidth} shoulderOffset={visuals.shoulderOffset} />
+                  <Arm side="left" color={visuals.robeColor} length={visuals.armLength} width={visuals.armWidth} shoulderOffset={visuals.shoulderOffset} rotation={visuals.armRotation} />
+                  <Arm side="right" color={visuals.robeColor} length={visuals.armLength} width={visuals.armWidth} shoulderOffset={visuals.shoulderOffset} rotation={visuals.armRotation} />
                   <Rect x={-(visuals.legWidth + 12)} y={visuals.torsoHeight - 22} width={visuals.legWidth} height={visuals.legLength} fill="#453428" cornerRadius={visuals.legWidth / 2} stroke={OUTLINE_COLOR} strokeWidth={OUTLINE_WIDTH} />
                   <Rect x={12} y={visuals.torsoHeight - 22} width={visuals.legWidth} height={visuals.legLength} fill="#453428" cornerRadius={visuals.legWidth / 2} stroke={OUTLINE_COLOR} strokeWidth={OUTLINE_WIDTH} />
                   <Rect x={-72} y={-18} width={144} height={visuals.torsoHeight} fill={visuals.robeColor} cornerRadius={34} stroke={OUTLINE_COLOR} strokeWidth={OUTLINE_WIDTH} />
