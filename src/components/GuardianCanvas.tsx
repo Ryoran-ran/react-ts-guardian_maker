@@ -287,13 +287,23 @@ function Brows({ guardian }: GuardianCanvasProps) {
   )
 }
 
-function Arm({ side, color, length }: { side: 'left' | 'right'; color: string; length: number }) {
+function Arm({
+  side,
+  color,
+  length,
+  shoulderOffset,
+}: {
+  side: 'left' | 'right'
+  color: string
+  length: number
+  shoulderOffset: number
+}) {
   const isLeft = side === 'left'
   const armHeight = Math.max(92, length * 0.92)
 
   return (
     <Rect
-      x={isLeft ? -92 : 92}
+      x={isLeft ? -shoulderOffset : shoulderOffset}
       y={58}
       offsetX={17}
       offsetY={armHeight / 2}
@@ -389,8 +399,8 @@ export const GuardianCanvas = forwardRef<Konva.Stage, GuardianCanvasProps>(funct
                 offsetY={306}
               >
                 <Group x={260} y={306} scaleX={visuals.bodyScaleX}>
-                  <Arm side="left" color={visuals.robeColor} length={visuals.armLength} />
-                  <Arm side="right" color={visuals.robeColor} length={visuals.armLength} />
+                  <Arm side="left" color={visuals.robeColor} length={visuals.armLength} shoulderOffset={visuals.shoulderOffset} />
+                  <Arm side="right" color={visuals.robeColor} length={visuals.armLength} shoulderOffset={visuals.shoulderOffset} />
                   <Rect x={-46} y={visuals.torsoHeight - 22} width={34} height={visuals.legLength} fill="#453428" cornerRadius={18} stroke={OUTLINE_COLOR} strokeWidth={OUTLINE_WIDTH} />
                   <Rect x={12} y={visuals.torsoHeight - 22} width={34} height={visuals.legLength} fill="#453428" cornerRadius={18} stroke={OUTLINE_COLOR} strokeWidth={OUTLINE_WIDTH} />
                   <Rect x={-72} y={-18} width={144} height={visuals.torsoHeight} fill={visuals.robeColor} cornerRadius={34} stroke={OUTLINE_COLOR} strokeWidth={OUTLINE_WIDTH} />

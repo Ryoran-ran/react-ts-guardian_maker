@@ -34,6 +34,7 @@ import {
   personalityLeadings,
   personalityMiddles,
   skinColors,
+  shoulderWidths,
   weapons,
   weaknessPrefixes,
   weaknessMiddles,
@@ -92,6 +93,7 @@ function pickAppearance(random: SeededRandom): GuardianAppearance {
     noseSize: random.pick(noseSizes),
     mouthShape: random.pick(mouthShapes),
     mouthSize: random.pick(mouthSizes),
+    shoulderWidth: random.pick(shoulderWidths),
     bodyType: random.pick(bodyTypes),
     height: random.pick(heights),
     armLength: random.pick(armLengths),
@@ -265,6 +267,12 @@ function buildGuardianFromSeed(seed: number, recoveryCode: string | null): Guard
           : appearance.mouthShape === '凛々しい'
             ? -4
             : 2,
+      shoulderOffset:
+        appearance.shoulderWidth === '狭め'
+          ? 82
+          : appearance.shoulderWidth === '標準'
+            ? 92
+            : 104,
       weaponType,
       hairVariant,
       faceVariant,

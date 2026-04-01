@@ -299,6 +299,7 @@ export const noseShapes = ['丸い', 'すっきり', '短め'] as const
 export const noseSizes = ['小さめ', '標準', '大きめ'] as const
 export const mouthShapes = ['微笑み', '凛々しい', '穏やか'] as const
 export const mouthSizes = ['小さめ', '標準', '大きめ'] as const
+export const shoulderWidths = ['狭め', '標準', '広め'] as const
 export const bodyTypes = ['細身', '均整', '頑健'] as const
 export const heights = ['低め', '標準', '高め'] as const
 export const armLengths = ['短め', '標準', '長め'] as const

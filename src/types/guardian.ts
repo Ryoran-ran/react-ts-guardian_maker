@@ -24,6 +24,7 @@ export type GuardianAppearance = {
   noseSize: string
   mouthShape: string
   mouthSize: string
+  shoulderWidth: string
   bodyType: string
   height: string
   armLength: string
@@ -57,6 +58,7 @@ export type GuardianVisuals = {
   noseHeight: number
   mouthWidth: number
   mouthCurve: number
+  shoulderOffset: number
   weaponType: 'sword' | 'staff' | 'spear' | 'orb'
   hairVariant: 'short' | 'long' | 'spiky' | 'bob'
   faceVariant: 'round' | 'oval' | 'diamond'
