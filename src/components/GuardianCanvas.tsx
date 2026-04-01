@@ -260,11 +260,11 @@ export const GuardianCanvas = forwardRef<Konva.Stage, GuardianCanvasProps>(funct
                 offsetY={306}
               >
                 <Group x={260} y={306} scaleX={visuals.bodyScaleX}>
-                  <Rect x={-72} y={-18} width={144} height={visuals.torsoHeight} fill={visuals.robeColor} cornerRadius={34} stroke={OUTLINE_COLOR} strokeWidth={OUTLINE_WIDTH} />
                   <Arm side="left" color={visuals.robeColor} length={visuals.armLength} />
                   <Arm side="right" color={visuals.robeColor} length={visuals.armLength} />
                   <Rect x={-46} y={visuals.torsoHeight - 22} width={34} height={visuals.legLength} fill="#453428" cornerRadius={18} stroke={OUTLINE_COLOR} strokeWidth={OUTLINE_WIDTH} />
                   <Rect x={12} y={visuals.torsoHeight - 22} width={34} height={visuals.legLength} fill="#453428" cornerRadius={18} stroke={OUTLINE_COLOR} strokeWidth={OUTLINE_WIDTH} />
+                  <Rect x={-72} y={-18} width={144} height={visuals.torsoHeight} fill={visuals.robeColor} cornerRadius={34} stroke={OUTLINE_COLOR} strokeWidth={OUTLINE_WIDTH} />
                   <Circle x={0} y={14} radius={18} fill={visuals.auraAccent} opacity={0.65} stroke={OUTLINE_COLOR} strokeWidth={OUTLINE_WIDTH} />
                 </Group>
 
