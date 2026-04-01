@@ -91,7 +91,7 @@ function pickAppearance(random: SeededRandom): GuardianAppearance {
 
 function composeGuardianName(random: SeededRandom): string {
   const coreName = `${random.pick(guardianNameParts)}${random.pick(guardianNameSuffixes)}`
-  return `${random.pick(guardianTitles)}${random.pick(guardianDescriptors)}${random.pick(guardianConnectors)}${coreName}`
+  return `${random.pick(guardianTitles)}${random.pick(guardianDescriptors)}${random.pick(guardianConnectors)} ${coreName}`
 }
 
 function buildAuraColor(hue: number, saturation: number, lightness: number): string {

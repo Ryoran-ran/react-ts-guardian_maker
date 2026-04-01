@@ -3,6 +3,7 @@ import type { GuardianProfile } from '../types/guardian'
 type GuardianResultProps = {
   guardian: GuardianProfile
   onSave: () => void
+  onSaveWithInfo: () => void
 }
 
 const appearanceLabels: Array<keyof GuardianProfile['appearance']> = [
@@ -45,7 +46,7 @@ const labelMap: Record<(typeof appearanceLabels)[number], string> = {
   armLength: '手の長さ',
 }
 
-export function GuardianResult({ guardian, onSave }: GuardianResultProps) {
+export function GuardianResult({ guardian, onSave, onSaveWithInfo }: GuardianResultProps) {
   return (
     <section className="panel result-panel">
       <div className="result-top">
@@ -53,9 +54,14 @@ export function GuardianResult({ guardian, onSave }: GuardianResultProps) {
           <p className="eyebrow">Result</p>
           <h2>{guardian.guardianName}</h2>
         </div>
-        <button className="secondary-button" onClick={onSave} type="button">
-          画像を保存
-        </button>
+        <div className="result-actions">
+          <button className="secondary-button" onClick={onSave} type="button">
+            画像を保存
+          </button>
+          <button className="secondary-button" onClick={onSaveWithInfo} type="button">
+            情報付きで保存
+          </button>
+        </div>
       </div>
 
       <dl className="summary-grid">

@@ -4,7 +4,7 @@ import './index.css'
 import { GuardianCanvas } from './components/GuardianCanvas'
 import { GuardianForm } from './components/GuardianForm'
 import { GuardianResult } from './components/GuardianResult'
-import { downloadStageAsPng } from './lib/exportImage'
+import { downloadGuardianProfileCard, downloadStageAsPng } from './lib/exportImage'
 import { generateGuardian } from './lib/generator'
 import type { GuardianFormInput } from './types/guardian'
 
@@ -37,6 +37,20 @@ function App() {
     downloadStageAsPng(stageRef.current, `${safeName}-guardian.png`)
   }
 
+  const handleSaveWithInfo = () => {
+    if (!stageRef.current) {
+      return
+    }
+
+    const safeName = draft.name.trim() || 'guardian'
+    downloadGuardianProfileCard(
+      stageRef.current,
+      `${safeName}-guardian-profile.png`,
+      submitted.name.trim(),
+      guardian,
+    )
+  }
+
   return (
     <main className="app-shell">
       <section className="layout-grid">
@@ -44,7 +58,11 @@ function App() {
 
         <section className="right-column">
           <GuardianCanvas guardian={guardian} ref={stageRef} />
-          <GuardianResult guardian={guardian} onSave={handleSave} />
+          <GuardianResult
+            guardian={guardian}
+            onSave={handleSave}
+            onSaveWithInfo={handleSaveWithInfo}
+          />
         </section>
       </section>
     </main>

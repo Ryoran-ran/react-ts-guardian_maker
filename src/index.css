@@ -202,6 +202,13 @@ button {
   align-items: start;
 }
 
+.result-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
 .summary-grid,
 .appearance-grid {
   margin: 0;
@@ -279,5 +286,9 @@ button {
 
   .result-top {
     flex-direction: column;
+  }
+
+  .result-actions {
+    width: 100%;
   }
 }
