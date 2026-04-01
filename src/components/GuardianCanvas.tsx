@@ -184,7 +184,12 @@ export const GuardianCanvas = forwardRef<Konva.Stage, GuardianCanvasProps>(funct
 ) {
   const { visuals } = guardian
   const faceRadiusX = 76 * visuals.headScaleX
-  const earOffsetX = faceRadiusX + Math.max(4, visuals.earWidth * 0.35)
+  const earOffsetX =
+    visuals.earVariant === 'pointed'
+      ? faceRadiusX - 6
+      : visuals.earVariant === 'leaf'
+        ? faceRadiusX + 2
+        : faceRadiusX + Math.max(2, visuals.earWidth * 0.15)
   const frameRef = useRef<HTMLDivElement>(null)
   const [scale, setScale] = useState(1)
 

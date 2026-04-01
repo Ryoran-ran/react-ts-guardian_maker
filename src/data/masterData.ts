@@ -11,6 +11,32 @@ export const guardianTitles = [
   '幽晶',
 ] as const
 
+export const guardianDescriptors = [
+  '暁光',
+  '深翠',
+  '燐火',
+  '銀嵐',
+  '霞月',
+  '蒼雷',
+  '煌星',
+  '黒曜',
+  '霜華',
+  '陽炎',
+  '天涙',
+  '秘紋',
+] as const
+
+export const guardianConnectors = [
+  'を纏う',
+  'に護られし',
+  'を統べる',
+  'より現れし',
+  'を宿す',
+  'に選ばれし',
+  'を渡る',
+  'に祝福された',
+] as const
+
 export const guardianNameParts = [
   'アマネ',
   'クオン',
@@ -22,6 +48,19 @@ export const guardianNameParts = [
   'トワ',
   'ユラ',
   'シオン',
+] as const
+
+export const guardianNameSuffixes = [
+  'フィア',
+  'ノア',
+  'リオン',
+  'セナ',
+  'アルト',
+  'エル',
+  'レイン',
+  'ミア',
+  'ヴィス',
+  'ラ',
 ] as const
 
 export const personalities = [
@@ -42,6 +81,25 @@ export const personalityLeadings = [
   '大胆で',
   '繊細で',
   '誠実で',
+  '穏やかで',
+  '情熱的で',
+  '理知的で',
+  '柔軟で',
+  '慎重で',
+  '奔放で',
+] as const
+
+export const personalityMiddles = [
+  '面倒見がよく',
+  '責任感が強く',
+  '空気を読むのがうまく',
+  '自分の信念を大切にし',
+  '周囲をよく観察し',
+  '独自の感性を持ち',
+  '仲間への気配りを忘れず',
+  '感情の機微に敏く',
+  '状況判断が早く',
+  '物事を丁寧に積み上げ',
 ] as const
 
 export const personalityEndings = [
@@ -51,6 +109,12 @@ export const personalityEndings = [
   '面倒見がよい',
   '少し気まぐれ',
   '直感に優れる',
+  '決断力がある',
+  '包容力がある',
+  '努力を惜しまない',
+  '意外と頑固',
+  '発想が自由',
+  '頼られることが多い',
 ] as const
 
 export const favorites = [
@@ -71,6 +135,25 @@ export const favoritePrefixes = [
   '澄んだ',
   'やわらかな',
   '神秘的な',
+  '風の通る',
+  '澄みきった',
+  '古びた',
+  '祝福された',
+  'ぬくもりのある',
+  '淡く輝く',
+] as const
+
+export const favoriteMiddles = [
+  '森の',
+  '水辺の',
+  '夜空の',
+  '書庫の',
+  '祭壇の',
+  '山道の',
+  '朝露の',
+  '月影の',
+  '焚き火の',
+  '花園の',
 ] as const
 
 export const favoriteSubjects = [
@@ -80,6 +163,12 @@ export const favoriteSubjects = [
   '祭礼の音色',
   '温かな湯気',
   '星降る空',
+  '木漏れ日の静けさ',
+  '澄んだ鐘の音',
+  '焼きたての香ばしさ',
+  '柔らかな布の感触',
+  '小川のせせらぎ',
+  '古い祈りの言葉',
 ] as const
 
 export const weaknesses = [
@@ -100,6 +189,25 @@ export const weaknessPrefixes = [
   '不意に',
   '執拗に',
   '必要以上に',
+  '思ったより',
+  'じっと',
+  'ひどく',
+  'やたらと',
+  '不自然に',
+  'やけに',
+] as const
+
+export const weaknessMiddles = [
+  '騒がしい',
+  '湿った',
+  '曖昧な',
+  '張りつめた',
+  '眠気を誘う',
+  '空腹を招く',
+  '急かされる',
+  'ざわついた',
+  '重たい',
+  '乾ききった',
 ] as const
 
 export const weaknessSubjects = [
@@ -109,6 +217,12 @@ export const weaknessSubjects = [
   '急な沈黙',
   '強い眠気',
   '空腹の時間',
+  '長すぎる会話',
+  '終わりの見えない待ち時間',
+  '冷えた石畳',
+  '雑然とした机',
+  'まとまりのない報告',
+  '急な予定変更',
 ] as const
 
 export const weapons = [

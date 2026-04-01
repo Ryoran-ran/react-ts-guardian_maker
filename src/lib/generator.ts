@@ -12,8 +12,12 @@ import {
   faceShapes,
   favorites,
   favoritePrefixes,
+  favoriteMiddles,
   favoriteSubjects,
+  guardianConnectors,
+  guardianDescriptors,
   guardianNameParts,
+  guardianNameSuffixes,
   guardianTitles,
   hairstyles,
   heights,
@@ -23,9 +27,11 @@ import {
   personalities,
   personalityEndings,
   personalityLeadings,
+  personalityMiddles,
   skinColors,
   weapons,
   weaknessPrefixes,
+  weaknessMiddles,
   weaknessSubjects,
   weaknesses,
 } from '../data/masterData'
@@ -84,11 +90,16 @@ function pickAppearance(random: SeededRandom): GuardianAppearance {
 }
 
 function composeGuardianName(random: SeededRandom): string {
-  return `${random.pick(guardianTitles)}の${random.pick(guardianNameParts)}`
+  const coreName = `${random.pick(guardianNameParts)}${random.pick(guardianNameSuffixes)}`
+  return `${random.pick(guardianTitles)}${random.pick(guardianDescriptors)}${random.pick(guardianConnectors)}${coreName}`
 }
 
 function buildAuraColor(hue: number, saturation: number, lightness: number): string {
   return `hsl(${hue} ${saturation}% ${lightness}%)`
+}
+
+function joinUnique(parts: string[]): string {
+  return parts.filter((part, index) => parts.indexOf(part) === index).join('')
 }
 
 export function generateGuardian(input: GuardianFormInput): GuardianProfile {
@@ -98,6 +109,21 @@ export function generateGuardian(input: GuardianFormInput): GuardianProfile {
   const auraHue = random.nextInt(0, 359)
   const weaponName = random.pick(weapons)
   const guardianName = composeGuardianName(random)
+  const personalityLine = joinUnique([
+    random.pick(personalityLeadings),
+    random.pick(personalityMiddles),
+    random.pick(personalityEndings),
+  ])
+  const favoriteLine = joinUnique([
+    random.pick(favoritePrefixes),
+    random.pick(favoriteMiddles),
+    random.pick(favoriteSubjects),
+  ])
+  const weaknessLine = joinUnique([
+    random.pick(weaknessPrefixes),
+    random.pick(weaknessMiddles),
+    random.pick(weaknessSubjects),
+  ])
 
   const faceVariant =
     appearance.faceShape === '丸顔'
@@ -153,12 +179,12 @@ export function generateGuardian(input: GuardianFormInput): GuardianProfile {
         : appearance.height === '標準'
           ? random.nextInt(155, 173)
           : random.nextInt(174, 196),
-    personalityLine: `${random.pick(personalityLeadings)}${random.pick(personalityEndings)}`,
-    favoriteLine: `${random.pick(favoritePrefixes)}${random.pick(favoriteSubjects)}`,
-    weaknessLine: `${random.pick(weaknessPrefixes)}${random.pick(weaknessSubjects)}`,
-    personality: random.pick(personalities),
-    favorite: random.pick(favorites),
-    weakness: random.pick(weaknesses),
+    personalityLine,
+    favoriteLine,
+    weaknessLine,
+    personality: personalityLine || random.pick(personalities),
+    favorite: favoriteLine || random.pick(favorites),
+    weakness: weaknessLine || random.pick(weaknesses),
     weapon: weaponName,
     appearance,
     visuals: {
