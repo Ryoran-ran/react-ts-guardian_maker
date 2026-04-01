@@ -104,7 +104,11 @@ export function generateGuardian(input: GuardianFormInput): GuardianProfile {
       ? 'round'
       : appearance.eyeShape === '切れ長'
         ? 'almond'
-        : 'sharp'
+        : appearance.eyeShape === 'つり目'
+          ? 'sharp'
+          : appearance.eyeShape === '可愛い'
+            ? 'cute'
+            : 'cool'
 
   const earVariant =
     appearance.earShape === '丸耳'

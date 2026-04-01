@@ -55,7 +55,7 @@ export type GuardianVisuals = {
   weaponType: 'sword' | 'staff' | 'spear' | 'orb'
   hairVariant: 'short' | 'long' | 'spiky' | 'bob'
   faceVariant: 'round' | 'oval' | 'diamond'
-  eyeVariant: 'round' | 'almond' | 'sharp'
+  eyeVariant: 'round' | 'almond' | 'sharp' | 'cute' | 'cool'
   earVariant: 'round' | 'leaf' | 'pointed'
 }
 
