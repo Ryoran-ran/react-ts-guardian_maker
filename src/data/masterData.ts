@@ -302,4 +302,6 @@ export const mouthSizes = ['小さめ', '標準', '大きめ'] as const
 export const shoulderWidths = ['狭め', '標準', '広め'] as const
 export const bodyTypes = ['細身', '均整', '頑健'] as const
 export const heights = ['低め', '標準', '高め'] as const
+export const armThicknesses = ['細め', '標準', '太め'] as const
 export const armLengths = ['短め', '標準', '長め'] as const
+export const legThicknesses = ['細め', '標準', '太め'] as const

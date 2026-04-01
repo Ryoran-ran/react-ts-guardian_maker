@@ -27,7 +27,9 @@ export type GuardianAppearance = {
   shoulderWidth: string
   bodyType: string
   height: string
+  armThickness: string
   armLength: string
+  legThickness: string
 }
 
 export type GuardianVisuals = {
@@ -44,7 +46,9 @@ export type GuardianVisuals = {
   bodyScaleX: number
   torsoHeight: number
   armLength: number
+  armWidth: number
   legLength: number
+  legWidth: number
   characterY: number
   headScaleX: number
   eyeScaleX: number

@@ -1,4 +1,5 @@
 import {
+  armThicknesses,
   armLengths,
   bodyTypes,
   earShapes,
@@ -34,6 +35,7 @@ import {
   personalityLeadings,
   personalityMiddles,
   skinColors,
+  legThicknesses,
   shoulderWidths,
   weapons,
   weaknessPrefixes,
@@ -96,7 +98,9 @@ function pickAppearance(random: SeededRandom): GuardianAppearance {
     shoulderWidth: random.pick(shoulderWidths),
     bodyType: random.pick(bodyTypes),
     height: random.pick(heights),
+    armThickness: random.pick(armThicknesses),
     armLength: random.pick(armLengths),
+    legThickness: random.pick(legThicknesses),
   }
 }
 
@@ -229,10 +233,22 @@ function buildGuardianFromSeed(seed: number, recoveryCode: string | null): Guard
         appearance.bodyType === '細身' ? 0.88 : appearance.bodyType === '均整' ? 1 : 1.15,
       torsoHeight:
         appearance.height === '低め' ? 146 : appearance.height === '標準' ? 164 : 184,
+      armWidth:
+        appearance.armThickness === '細め'
+          ? 28
+          : appearance.armThickness === '標準'
+            ? 34
+            : 40,
       armLength:
         appearance.armLength === '短め' ? 92 : appearance.armLength === '標準' ? 108 : 126,
       legLength:
         appearance.height === '低め' ? 76 : appearance.height === '標準' ? 94 : 114,
+      legWidth:
+        appearance.legThickness === '細め'
+          ? 28
+          : appearance.legThickness === '標準'
+            ? 34
+            : 40,
       characterY:
         appearance.height === '低め' ? 304 : appearance.height === '標準' ? 294 : 280,
       headScaleX:

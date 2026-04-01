@@ -27,7 +27,9 @@ const appearanceLabels: Array<keyof GuardianProfile['appearance']> = [
   'shoulderWidth',
   'bodyType',
   'height',
+  'armThickness',
   'armLength',
+  'legThickness',
 ]
 
 const labelMap: Record<(typeof appearanceLabels)[number], string> = {
@@ -51,7 +53,9 @@ const labelMap: Record<(typeof appearanceLabels)[number], string> = {
   shoulderWidth: '肩幅',
   bodyType: '体型',
   height: '身長',
+  armThickness: '腕の太さ',
   armLength: '手の長さ',
+  legThickness: '脚の太さ',
 }
 
 export function GuardianResult({ guardian, onSave, onSaveWithInfo }: GuardianResultProps) {

@@ -291,25 +291,29 @@ function Arm({
   side,
   color,
   length,
+  width,
   shoulderOffset,
 }: {
   side: 'left' | 'right'
   color: string
   length: number
+  width: number
   shoulderOffset: number
 }) {
   const isLeft = side === 'left'
   const armHeight = Math.max(92, length * 0.92)
+  const armWidth = width
+  const radius = armWidth / 2
 
   return (
     <Rect
       x={isLeft ? -shoulderOffset : shoulderOffset}
       y={58}
-      offsetX={17}
+      offsetX={radius}
       offsetY={armHeight / 2}
-      width={34}
+      width={armWidth}
       height={armHeight}
-      cornerRadius={17}
+      cornerRadius={radius}
       rotation={isLeft ? 20 : -20}
       fill={color}
       stroke={OUTLINE_COLOR}
@@ -399,10 +403,10 @@ export const GuardianCanvas = forwardRef<Konva.Stage, GuardianCanvasProps>(funct
                 offsetY={306}
               >
                 <Group x={260} y={306} scaleX={visuals.bodyScaleX}>
-                  <Arm side="left" color={visuals.robeColor} length={visuals.armLength} shoulderOffset={visuals.shoulderOffset} />
-                  <Arm side="right" color={visuals.robeColor} length={visuals.armLength} shoulderOffset={visuals.shoulderOffset} />
-                  <Rect x={-46} y={visuals.torsoHeight - 22} width={34} height={visuals.legLength} fill="#453428" cornerRadius={18} stroke={OUTLINE_COLOR} strokeWidth={OUTLINE_WIDTH} />
-                  <Rect x={12} y={visuals.torsoHeight - 22} width={34} height={visuals.legLength} fill="#453428" cornerRadius={18} stroke={OUTLINE_COLOR} strokeWidth={OUTLINE_WIDTH} />
+                  <Arm side="left" color={visuals.robeColor} length={visuals.armLength} width={visuals.armWidth} shoulderOffset={visuals.shoulderOffset} />
+                  <Arm side="right" color={visuals.robeColor} length={visuals.armLength} width={visuals.armWidth} shoulderOffset={visuals.shoulderOffset} />
+                  <Rect x={-(visuals.legWidth + 12)} y={visuals.torsoHeight - 22} width={visuals.legWidth} height={visuals.legLength} fill="#453428" cornerRadius={visuals.legWidth / 2} stroke={OUTLINE_COLOR} strokeWidth={OUTLINE_WIDTH} />
+                  <Rect x={12} y={visuals.torsoHeight - 22} width={visuals.legWidth} height={visuals.legLength} fill="#453428" cornerRadius={visuals.legWidth / 2} stroke={OUTLINE_COLOR} strokeWidth={OUTLINE_WIDTH} />
                   <Rect x={-72} y={-18} width={144} height={visuals.torsoHeight} fill={visuals.robeColor} cornerRadius={34} stroke={OUTLINE_COLOR} strokeWidth={OUTLINE_WIDTH} />
                   <Circle x={0} y={14} radius={18} fill={visuals.auraAccent} opacity={0.65} stroke={OUTLINE_COLOR} strokeWidth={OUTLINE_WIDTH} />
                 </Group>
