@@ -2,6 +2,7 @@ import { forwardRef, useEffect, useRef, useState } from 'react'
 import { Circle, Ellipse, Group, Layer, Line, Rect, RegularPolygon, Stage } from 'react-konva'
 import type Konva from 'konva'
 import type { GuardianProfile } from '../types/guardian'
+import { BackgroundPattern } from './BackgroundPattern'
 
 type GuardianCanvasProps = {
   guardian: GuardianProfile
@@ -228,6 +229,7 @@ export const GuardianCanvas = forwardRef<Konva.Stage, GuardianCanvasProps>(funct
             <Rect width={WIDTH} height={HEIGHT} fill="#f7f1e5" />
             <Group x={260} y={288} offsetX={260} offsetY={260} scaleX={PREVIEW_SCALE} scaleY={PREVIEW_SCALE}>
               <Rect x={76} y={GROUND_Y} width={368} height={6} fill="#d7c6a7" cornerRadius={999} opacity={0.9} />
+              <BackgroundPattern guardian={guardian} />
               <Circle x={260} y={258} radius={188} fill={visuals.auraAccent} opacity={0.18} />
               <Circle x={260} y={240} radius={148} fill={visuals.auraColor} opacity={0.22} />
               <RegularPolygon
