@@ -5,6 +5,7 @@ import {
   earSizes,
   eyeColors,
   eyeShapes,
+  eyeSpacings,
   eyeSizes,
   eyebrowShapes,
   eyebrowColors,
@@ -79,6 +80,7 @@ function pickAppearance(random: SeededRandom): GuardianAppearance {
     hairstyle: random.pick(hairstyles),
     eyeSize: random.pick(eyeSizes),
     eyeShape: random.pick(eyeShapes),
+    eyeSpacing: random.pick(eyeSpacings),
     eyeColor: random.pick(eyeColors),
     eyebrowShape: random.pick(eyebrowShapes),
     eyebrowSize: random.pick(eyebrowSizes),
@@ -237,6 +239,8 @@ function buildGuardianFromSeed(seed: number, recoveryCode: string | null): Guard
         appearance.eyeShape === '丸い' ? 1 : appearance.eyeShape === '切れ長' ? 1.35 : 1.2,
       eyeScaleY:
         appearance.eyeSize === '小さめ' ? 0.72 : appearance.eyeSize === '標準' ? 0.92 : 1.12,
+      eyeOffsetX:
+        appearance.eyeSpacing === '狭め' ? 36 : appearance.eyeSpacing === '標準' ? 42 : 48,
       browWidth:
         appearance.eyebrowSize === '短め' ? 24 : appearance.eyebrowSize === '標準' ? 32 : 42,
       browStroke:

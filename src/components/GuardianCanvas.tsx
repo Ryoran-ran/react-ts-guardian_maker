@@ -84,17 +84,19 @@ function Ear({ x, y, guardian, direction }: { x: number; y: number; guardian: Gu
 }
 
 function Eyes({ guardian }: GuardianCanvasProps) {
-  const { eyeHex, eyeScaleX, eyeScaleY, eyeVariant } = guardian.visuals
+  const { eyeHex, eyeScaleX, eyeScaleY, eyeVariant, eyeOffsetX } = guardian.visuals
   const radiusX = 18 * eyeScaleX
   const radiusY = 11 * eyeScaleY
+  const leftX = 260 - eyeOffsetX
+  const rightX = 260 + eyeOffsetX
 
   if (eyeVariant === 'sharp') {
     return (
       <>
-        <Ellipse x={218} y={216} radiusX={25} radiusY={12} rotation={-12} fill="#fff" />
-        <Ellipse x={302} y={216} radiusX={25} radiusY={12} rotation={12} fill="#fff" />
-        <Ellipse x={218} y={216} radiusX={9} radiusY={9} fill={eyeHex} />
-        <Ellipse x={302} y={216} radiusX={9} radiusY={9} fill={eyeHex} />
+        <Ellipse x={leftX} y={216} radiusX={25} radiusY={12} rotation={-12} fill="#fff" />
+        <Ellipse x={rightX} y={216} radiusX={25} radiusY={12} rotation={12} fill="#fff" />
+        <Ellipse x={leftX} y={216} radiusX={9} radiusY={9} fill={eyeHex} />
+        <Ellipse x={rightX} y={216} radiusX={9} radiusY={9} fill={eyeHex} />
       </>
     )
   }
@@ -102,10 +104,10 @@ function Eyes({ guardian }: GuardianCanvasProps) {
   if (eyeVariant === 'cute') {
     return (
       <>
-        <Ellipse x={220} y={216} radiusX={24} radiusY={15} fill="#fff" />
-        <Ellipse x={304} y={216} radiusX={24} radiusY={15} fill="#fff" />
-        <Circle x={220} y={217} radius={10} fill={eyeHex} />
-        <Circle x={304} y={217} radius={10} fill={eyeHex} />
+        <Ellipse x={leftX} y={216} radiusX={24} radiusY={15} fill="#fff" />
+        <Ellipse x={rightX} y={216} radiusX={24} radiusY={15} fill="#fff" />
+        <Circle x={leftX} y={217} radius={10} fill={eyeHex} />
+        <Circle x={rightX} y={217} radius={10} fill={eyeHex} />
       </>
     )
   }
@@ -113,10 +115,10 @@ function Eyes({ guardian }: GuardianCanvasProps) {
   if (eyeVariant === 'cool') {
     return (
       <>
-        <Ellipse x={220} y={214} radiusX={23} radiusY={10} rotation={-6} fill="#fff" />
-        <Ellipse x={304} y={214} radiusX={23} radiusY={10} rotation={6} fill="#fff" />
-        <Ellipse x={220} y={214} radiusX={8.5} radiusY={8.5} fill={eyeHex} />
-        <Ellipse x={304} y={214} radiusX={8.5} radiusY={8.5} fill={eyeHex} />
+        <Ellipse x={leftX} y={214} radiusX={23} radiusY={10} rotation={-6} fill="#fff" />
+        <Ellipse x={rightX} y={214} radiusX={23} radiusY={10} rotation={6} fill="#fff" />
+        <Ellipse x={leftX} y={214} radiusX={8.5} radiusY={8.5} fill={eyeHex} />
+        <Ellipse x={rightX} y={214} radiusX={8.5} radiusY={8.5} fill={eyeHex} />
       </>
     )
   }
@@ -124,20 +126,20 @@ function Eyes({ guardian }: GuardianCanvasProps) {
   if (eyeVariant === 'almond') {
     return (
       <>
-        <Ellipse x={220} y={214} radiusX={radiusX} radiusY={radiusY} fill="#fff" />
-        <Ellipse x={304} y={214} radiusX={radiusX} radiusY={radiusY} fill="#fff" />
-        <Ellipse x={220} y={214} radiusX={10} radiusY={9} fill={eyeHex} />
-        <Ellipse x={304} y={214} radiusX={10} radiusY={9} fill={eyeHex} />
+        <Ellipse x={leftX} y={214} radiusX={radiusX} radiusY={radiusY} fill="#fff" />
+        <Ellipse x={rightX} y={214} radiusX={radiusX} radiusY={radiusY} fill="#fff" />
+        <Ellipse x={leftX} y={214} radiusX={10} radiusY={9} fill={eyeHex} />
+        <Ellipse x={rightX} y={214} radiusX={10} radiusY={9} fill={eyeHex} />
       </>
     )
   }
 
   return (
     <>
-      <Circle x={220} y={214} radius={16 * eyeScaleY} fill="#fff" />
-      <Circle x={304} y={214} radius={16 * eyeScaleY} fill="#fff" />
-      <Circle x={220} y={214} radius={9.5} fill={eyeHex} />
-      <Circle x={304} y={214} radius={9.5} fill={eyeHex} />
+      <Circle x={leftX} y={214} radius={16 * eyeScaleY} fill="#fff" />
+      <Circle x={rightX} y={214} radius={16 * eyeScaleY} fill="#fff" />
+      <Circle x={leftX} y={214} radius={9.5} fill={eyeHex} />
+      <Circle x={rightX} y={214} radius={9.5} fill={eyeHex} />
     </>
   )
 }
@@ -202,20 +204,22 @@ function Nose({ guardian }: GuardianCanvasProps) {
 }
 
 function Brows({ guardian }: GuardianCanvasProps) {
-  const { browVariant, browWidth, browStroke, eyebrowHex } = guardian.visuals
+  const { browVariant, browWidth, browStroke, eyebrowHex, eyeOffsetX } = guardian.visuals
+  const leftX = 260 - eyeOffsetX
+  const rightX = 260 + eyeOffsetX
 
   if (browVariant === 'arched') {
     return (
       <>
         <Line
-          points={[220 - browWidth / 2, 184, 220, 176, 220 + browWidth / 2, 184]}
+          points={[leftX - browWidth / 2, 184, leftX, 176, leftX + browWidth / 2, 184]}
           stroke={eyebrowHex}
           strokeWidth={browStroke}
           tension={0.45}
           lineCap="round"
         />
         <Line
-          points={[304 - browWidth / 2, 184, 304, 176, 304 + browWidth / 2, 184]}
+          points={[rightX - browWidth / 2, 184, rightX, 176, rightX + browWidth / 2, 184]}
           stroke={eyebrowHex}
           strokeWidth={browStroke}
           tension={0.45}
@@ -229,13 +233,13 @@ function Brows({ guardian }: GuardianCanvasProps) {
     return (
       <>
         <Line
-          points={[220 - browWidth / 2, 186, 220 + browWidth / 2, 178]}
+          points={[leftX - browWidth / 2, 186, leftX + browWidth / 2, 178]}
           stroke={eyebrowHex}
           strokeWidth={browStroke}
           lineCap="round"
         />
         <Line
-          points={[304 - browWidth / 2, 178, 304 + browWidth / 2, 186]}
+          points={[rightX - browWidth / 2, 178, rightX + browWidth / 2, 186]}
           stroke={eyebrowHex}
           strokeWidth={browStroke}
           lineCap="round"
@@ -248,14 +252,14 @@ function Brows({ guardian }: GuardianCanvasProps) {
     return (
       <>
         <Line
-          points={[220 - browWidth / 2, 178, 220, 184, 220 + browWidth / 2, 186]}
+          points={[leftX - browWidth / 2, 178, leftX, 184, leftX + browWidth / 2, 186]}
           stroke={eyebrowHex}
           strokeWidth={browStroke}
           tension={0.4}
           lineCap="round"
         />
         <Line
-          points={[304 - browWidth / 2, 186, 304, 184, 304 + browWidth / 2, 178]}
+          points={[rightX - browWidth / 2, 186, rightX, 184, rightX + browWidth / 2, 178]}
           stroke={eyebrowHex}
           strokeWidth={browStroke}
           tension={0.4}
@@ -268,13 +272,13 @@ function Brows({ guardian }: GuardianCanvasProps) {
   return (
     <>
       <Line
-        points={[220 - browWidth / 2, 182, 220 + browWidth / 2, 178]}
+        points={[leftX - browWidth / 2, 182, leftX + browWidth / 2, 178]}
         stroke={eyebrowHex}
         strokeWidth={browStroke}
         lineCap="round"
       />
       <Line
-        points={[304 - browWidth / 2, 178, 304 + browWidth / 2, 182]}
+        points={[rightX - browWidth / 2, 178, rightX + browWidth / 2, 182]}
         stroke={eyebrowHex}
         strokeWidth={browStroke}
         lineCap="round"
@@ -399,36 +403,35 @@ export const GuardianCanvas = forwardRef<Konva.Stage, GuardianCanvasProps>(funct
                 <Group x={260} offsetX={260} scaleX={visuals.headScaleX}>
                   <Ellipse x={260} y={226} radiusX={76} radiusY={88} fill={visuals.skinHex} stroke={OUTLINE_COLOR} strokeWidth={OUTLINE_WIDTH} />
                 </Group>
-
                 <Brows guardian={guardian} />
                 <Eyes guardian={guardian} />
               {visuals.eyeVariant === 'sharp' ? (
                 <>
-                  <Circle x={218} y={216} radius={3.4} fill="#161616" />
-                  <Circle x={302} y={216} radius={3.4} fill="#161616" />
-                  <Circle x={214} y={212} radius={2.1} fill="#ffffff" opacity={0.8} />
-                  <Circle x={298} y={212} radius={2.1} fill="#ffffff" opacity={0.8} />
+                  <Circle x={260 - visuals.eyeOffsetX} y={216} radius={3.4} fill="#161616" />
+                  <Circle x={260 + visuals.eyeOffsetX} y={216} radius={3.4} fill="#161616" />
+                  <Circle x={256 - visuals.eyeOffsetX} y={212} radius={2.1} fill="#ffffff" opacity={0.8} />
+                  <Circle x={256 + visuals.eyeOffsetX} y={212} radius={2.1} fill="#ffffff" opacity={0.8} />
                 </>
               ) : visuals.eyeVariant === 'cute' ? (
                 <>
-                  <Circle x={220} y={217} radius={3.6} fill="#161616" />
-                  <Circle x={304} y={217} radius={3.6} fill="#161616" />
-                  <Circle x={216} y={212} radius={2.3} fill="#ffffff" opacity={0.85} />
-                  <Circle x={300} y={212} radius={2.3} fill="#ffffff" opacity={0.85} />
+                  <Circle x={260 - visuals.eyeOffsetX} y={217} radius={3.6} fill="#161616" />
+                  <Circle x={260 + visuals.eyeOffsetX} y={217} radius={3.6} fill="#161616" />
+                  <Circle x={256 - visuals.eyeOffsetX} y={212} radius={2.3} fill="#ffffff" opacity={0.85} />
+                  <Circle x={256 + visuals.eyeOffsetX} y={212} radius={2.3} fill="#ffffff" opacity={0.85} />
                 </>
               ) : visuals.eyeVariant === 'cool' ? (
                 <>
-                  <Circle x={220} y={214} radius={3.2} fill="#161616" />
-                  <Circle x={304} y={214} radius={3.2} fill="#161616" />
-                  <Circle x={216} y={211} radius={1.9} fill="#ffffff" opacity={0.75} />
-                  <Circle x={300} y={211} radius={1.9} fill="#ffffff" opacity={0.75} />
+                  <Circle x={260 - visuals.eyeOffsetX} y={214} radius={3.2} fill="#161616" />
+                  <Circle x={260 + visuals.eyeOffsetX} y={214} radius={3.2} fill="#161616" />
+                  <Circle x={256 - visuals.eyeOffsetX} y={211} radius={1.9} fill="#ffffff" opacity={0.75} />
+                  <Circle x={256 + visuals.eyeOffsetX} y={211} radius={1.9} fill="#ffffff" opacity={0.75} />
                 </>
               ) : (
                 <>
-                  <Circle x={220} y={214} radius={3.6} fill="#161616" />
-                  <Circle x={304} y={214} radius={3.6} fill="#161616" />
-                  <Circle x={216} y={210} radius={2.2} fill="#ffffff" opacity={0.8} />
-                  <Circle x={300} y={210} radius={2.2} fill="#ffffff" opacity={0.8} />
+                  <Circle x={260 - visuals.eyeOffsetX} y={214} radius={3.6} fill="#161616" />
+                  <Circle x={260 + visuals.eyeOffsetX} y={214} radius={3.6} fill="#161616" />
+                  <Circle x={256 - visuals.eyeOffsetX} y={210} radius={2.2} fill="#ffffff" opacity={0.8} />
+                  <Circle x={256 + visuals.eyeOffsetX} y={210} radius={2.2} fill="#ffffff" opacity={0.8} />
                 </>
               )}
 

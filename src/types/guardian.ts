@@ -12,6 +12,7 @@ export type GuardianAppearance = {
   hairstyle: string
   eyeSize: string
   eyeShape: string
+  eyeSpacing: string
   eyeColor: string
   eyebrowShape: string
   eyebrowSize: string
@@ -47,6 +48,7 @@ export type GuardianVisuals = {
   headScaleX: number
   eyeScaleX: number
   eyeScaleY: number
+  eyeOffsetX: number
   browWidth: number
   browStroke: number
   earWidth: number
