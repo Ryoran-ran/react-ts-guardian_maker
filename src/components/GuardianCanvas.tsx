@@ -1,0 +1,293 @@
+import { forwardRef, useEffect, useRef, useState } from 'react'
+import { Circle, Ellipse, Group, Layer, Line, Rect, RegularPolygon, Stage } from 'react-konva'
+import type Konva from 'konva'
+import type { GuardianProfile } from '../types/guardian'
+
+type GuardianCanvasProps = {
+  guardian: GuardianProfile
+}
+
+const WIDTH = 520
+const HEIGHT = 520
+
+function Weapon({ guardian }: GuardianCanvasProps) {
+  const { weaponColor, weaponType } = guardian.visuals
+
+  if (weaponType === 'staff') {
+    return (
+      <Group x={366} y={210} rotation={-18}>
+        <Rect width={12} height={185} fill="#8d6b54" cornerRadius={8} />
+        <Circle x={6} y={-10} radius={20} fill={weaponColor} shadowBlur={14} shadowColor={weaponColor} />
+      </Group>
+    )
+  }
+
+  if (weaponType === 'spear') {
+    return (
+      <Group x={368} y={200} rotation={-16}>
+        <Rect width={10} height={200} fill="#8d6b54" cornerRadius={8} />
+        <Line
+          points={[5, -18, 20, 18, 5, 32, -10, 18]}
+          closed
+          fill={weaponColor}
+          stroke="#edf3ff"
+          strokeWidth={2}
+        />
+      </Group>
+    )
+  }
+
+  if (weaponType === 'orb') {
+    return (
+      <Group x={374} y={240}>
+        <Circle radius={28} fill={weaponColor} shadowBlur={18} shadowColor={guardian.visuals.auraColor} />
+        <Circle radius={13} fill="#ffffff" opacity={0.46} />
+      </Group>
+    )
+  }
+
+  return (
+    <Group x={366} y={204} rotation={-10}>
+      <Rect width={10} height={170} fill="#8d6b54" cornerRadius={8} />
+      <Line
+        points={[5, -12, 24, 22, 18, 34, 5, 26, -8, 34, -14, 22]}
+        closed
+        fill={weaponColor}
+        stroke="#edf3ff"
+        strokeWidth={2}
+      />
+    </Group>
+  )
+}
+
+function Hair({ guardian }: GuardianCanvasProps) {
+  const { hairColor, hairVariant } = guardian.visuals
+
+  if (hairVariant === 'long') {
+    return (
+      <Group>
+        <Ellipse x={260} y={186} radiusX={90} radiusY={104} fill={hairColor} />
+        <Rect x={176} y={188} width={40} height={160} fill={hairColor} cornerRadius={20} />
+        <Rect x={304} y={188} width={40} height={160} fill={hairColor} cornerRadius={20} />
+      </Group>
+    )
+  }
+
+  if (hairVariant === 'spiky') {
+    return (
+      <Group>
+        <RegularPolygon x={260} y={124} sides={9} radius={82} fill={hairColor} rotation={-14} />
+        <Ellipse x={260} y={176} radiusX={88} radiusY={76} fill={hairColor} />
+      </Group>
+    )
+  }
+
+  if (hairVariant === 'bob') {
+    return (
+      <Group>
+        <Rect x={170} y={110} width={180} height={150} fill={hairColor} cornerRadius={48} />
+        <Rect x={190} y={238} width={32} height={84} fill={hairColor} cornerRadius={16} />
+        <Rect x={298} y={238} width={32} height={84} fill={hairColor} cornerRadius={16} />
+      </Group>
+    )
+  }
+
+  return <Ellipse x={260} y={170} radiusX={86} radiusY={72} fill={hairColor} />
+}
+
+function Ear({ x, y, guardian, direction }: { x: number; y: number; guardian: GuardianProfile; direction: 1 | -1 }) {
+  const { earHeight, earWidth, earVariant, skinHex } = guardian.visuals
+
+  if (earVariant === 'pointed') {
+    return (
+      <Line
+        points={[x, y, x + direction * earWidth, y - earHeight / 2, x + direction * (earWidth + 2), y + earHeight / 2]}
+        closed
+        fill={skinHex}
+        stroke="#5c4436"
+        strokeWidth={2}
+      />
+    )
+  }
+
+  if (earVariant === 'leaf') {
+    return (
+      <Ellipse
+        x={x}
+        y={y}
+        radiusX={earWidth}
+        radiusY={earHeight / 2}
+        fill={skinHex}
+        stroke="#5c4436"
+        strokeWidth={2}
+        rotation={direction * 18}
+      />
+    )
+  }
+
+  return <Ellipse x={x} y={y} radiusX={earWidth} radiusY={earHeight / 2} fill={skinHex} stroke="#5c4436" strokeWidth={2} />
+}
+
+function Eyes({ guardian }: GuardianCanvasProps) {
+  const { eyeHex, eyeScaleX, eyeScaleY, eyeVariant } = guardian.visuals
+  const radiusX = 18 * eyeScaleX
+  const radiusY = 11 * eyeScaleY
+
+  if (eyeVariant === 'sharp') {
+    return (
+      <>
+        <Line points={[196, 212, 232, 202, 240, 214, 202, 224]} closed fill="#fff" />
+        <Line points={[280, 214, 318, 204, 326, 216, 288, 226]} closed fill="#fff" />
+        <Ellipse x={220} y={214} radiusX={10} radiusY={9} fill={eyeHex} />
+        <Ellipse x={304} y={216} radiusX={10} radiusY={9} fill={eyeHex} />
+      </>
+    )
+  }
+
+  if (eyeVariant === 'almond') {
+    return (
+      <>
+        <Ellipse x={220} y={214} radiusX={radiusX} radiusY={radiusY} fill="#fff" />
+        <Ellipse x={304} y={214} radiusX={radiusX} radiusY={radiusY} fill="#fff" />
+        <Ellipse x={220} y={214} radiusX={10} radiusY={9} fill={eyeHex} />
+        <Ellipse x={304} y={214} radiusX={10} radiusY={9} fill={eyeHex} />
+      </>
+    )
+  }
+
+  return (
+    <>
+      <Circle x={220} y={214} radius={16 * eyeScaleY} fill="#fff" />
+      <Circle x={304} y={214} radius={16 * eyeScaleY} fill="#fff" />
+      <Circle x={220} y={214} radius={9.5} fill={eyeHex} />
+      <Circle x={304} y={214} radius={9.5} fill={eyeHex} />
+    </>
+  )
+}
+
+function Mouth({ guardian }: GuardianCanvasProps) {
+  const { mouthCurve, mouthWidth } = guardian.visuals
+  const left = 260 - mouthWidth / 2
+  const right = 260 + mouthWidth / 2
+
+  return (
+    <Line
+      points={[left, 282, 260, 282 + mouthCurve, right, 282]}
+      stroke="#7c3e49"
+      strokeWidth={3}
+      tension={0.6}
+      lineCap="round"
+    />
+  )
+}
+
+export const GuardianCanvas = forwardRef<Konva.Stage, GuardianCanvasProps>(function GuardianCanvas(
+  { guardian },
+  ref,
+) {
+  const { visuals } = guardian
+  const frameRef = useRef<HTMLDivElement>(null)
+  const [scale, setScale] = useState(1)
+
+  useEffect(() => {
+    const element = frameRef.current
+
+    if (!element) {
+      return
+    }
+
+    const updateScale = () => {
+      const nextScale = Math.min(1, element.clientWidth / WIDTH)
+      setScale(nextScale)
+    }
+
+    updateScale()
+
+    const observer = new ResizeObserver(updateScale)
+    observer.observe(element)
+
+    return () => {
+      observer.disconnect()
+    }
+  }, [])
+
+  return (
+    <div className="panel canvas-panel">
+      <div className="panel-header">
+        <p className="eyebrow">Preview</p>
+        <h2>守護神プレビュー</h2>
+      </div>
+
+      <div className="canvas-frame" ref={frameRef}>
+        <Stage width={WIDTH * scale} height={HEIGHT * scale} scaleX={scale} scaleY={scale} ref={ref}>
+          <Layer>
+            <Rect width={WIDTH} height={HEIGHT} fill="#f7f1e5" />
+            <Circle x={260} y={258} radius={188} fill={visuals.auraAccent} opacity={0.18} />
+            <Circle x={260} y={240} radius={148} fill={visuals.auraColor} opacity={0.22} />
+            <RegularPolygon
+              x={260}
+              y={240}
+              sides={8}
+              radius={130}
+              stroke={visuals.sigilColor}
+              strokeWidth={4}
+              opacity={0.48}
+              rotation={22}
+            />
+            <RegularPolygon
+              x={260}
+              y={240}
+              sides={3}
+              radius={92}
+              stroke={visuals.sigilColor}
+              strokeWidth={2}
+              opacity={0.52}
+              rotation={-30}
+            />
+
+            <Weapon guardian={guardian} />
+
+            <Group x={260} y={306} scaleX={visuals.bodyScaleX} scaleY={visuals.bodyScaleY}>
+              <Rect x={-72} y={-18} width={144} height={164} fill={visuals.robeColor} cornerRadius={34} />
+              <Rect x={-108} y={2} width={42} height={112} fill={visuals.robeColor} cornerRadius={18} rotation={14} />
+              <Rect x={68} y={2} width={42} height={112} fill={visuals.robeColor} cornerRadius={18} rotation={-14} />
+              <Rect x={-46} y={142} width={34} height={94} fill="#453428" cornerRadius={18} />
+              <Rect x={12} y={142} width={34} height={94} fill="#453428" cornerRadius={18} />
+              <Circle x={0} y={14} radius={18} fill={visuals.auraAccent} opacity={0.65} />
+            </Group>
+
+            <Hair guardian={guardian} />
+            <Ear x={176} y={232} guardian={guardian} direction={-1} />
+            <Ear x={344} y={232} guardian={guardian} direction={1} />
+
+            <Group x={260} offsetX={260} scaleX={visuals.headScaleX}>
+              <Ellipse x={260} y={226} radiusX={76} radiusY={88} fill={visuals.skinHex} stroke="#5c4436" strokeWidth={3} />
+            </Group>
+
+            <Line
+              points={[220 - visuals.browWidth / 2, 182, 220 + visuals.browWidth / 2, 178]}
+              stroke={visuals.eyebrowHex}
+              strokeWidth={visuals.browStroke}
+              lineCap="round"
+            />
+            <Line
+              points={[304 - visuals.browWidth / 2, 178, 304 + visuals.browWidth / 2, 182]}
+              stroke={visuals.eyebrowHex}
+              strokeWidth={visuals.browStroke}
+              lineCap="round"
+            />
+
+            <Eyes guardian={guardian} />
+            <Circle x={220} y={214} radius={3.6} fill="#161616" />
+            <Circle x={304} y={214} radius={3.6} fill="#161616" />
+            <Circle x={216} y={210} radius={2.2} fill="#ffffff" opacity={0.8} />
+            <Circle x={300} y={210} radius={2.2} fill="#ffffff" opacity={0.8} />
+
+            <Line points={[260, 226, 252, 252, 260, 256]} stroke="#9d6d5a" strokeWidth={2.5} tension={0.6} lineCap="round" />
+            <Mouth guardian={guardian} />
+          </Layer>
+        </Stage>
+      </div>
+    </div>
+  )
+})
