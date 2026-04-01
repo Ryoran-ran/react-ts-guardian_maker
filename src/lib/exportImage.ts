@@ -92,8 +92,8 @@ export function downloadGuardianProfileCard(
       ['性格', guardian.personalityLine],
       ['好きなもの', guardian.favoriteLine],
       ['嫌いなもの', guardian.weaknessLine],
-      ['使用武器', guardian.weapon],
       ['シード値', String(guardian.seed)],
+      ['使用武器', guardian.weapon],
     ] as const
 
     infoRows.forEach(([label, value], index) => {

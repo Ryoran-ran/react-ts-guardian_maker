@@ -88,12 +88,12 @@ export function GuardianResult({ guardian, onSave, onSaveWithInfo }: GuardianRes
           <dd>{guardian.weaknessLine}</dd>
         </div>
         <div>
-          <dt>シード値</dt>
-          <dd>{guardian.seed}</dd>
-        </div>
-        <div>
           <dt>使用武器</dt>
           <dd>{guardian.weapon}</dd>
+        </div>
+        <div>
+          <dt>シード値</dt>
+          <dd>{guardian.seed}</dd>
         </div>
       </dl>
 
