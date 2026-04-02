@@ -1,9 +1,11 @@
 export type Gender = '女性' | '男性' | 'その他'
+export type GuardianTone = '神秘感' | '生活感'
 
 export type GuardianFormInput = {
   name: string
   gender: Gender
   birthDate: string
+  tone: GuardianTone
 }
 
 export type GuardianAppearance = {

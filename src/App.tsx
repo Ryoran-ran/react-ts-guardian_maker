@@ -13,6 +13,7 @@ const defaultInput: GuardianFormInput = {
   name: '天城ヒカリ',
   gender: '女性',
   birthDate: '1998-07-12',
+  tone: '神秘感',
 }
 
 function App() {
@@ -24,7 +25,7 @@ function App() {
   const stageRef = useRef<Konva.Stage>(null)
 
   const guardian = useMemo(
-    () => (submittedSeed === null ? generateGuardian(submitted) : generateGuardianFromSeed(submittedSeed)),
+    () => (submittedSeed === null ? generateGuardian(submitted) : generateGuardianFromSeed(submittedSeed, submitted.tone)),
     [submitted, submittedSeed],
   )
 

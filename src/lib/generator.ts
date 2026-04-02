@@ -1,5 +1,4 @@
 import {
-  abilityAdjectives,
   abilityConditions,
   abilityEffects,
   abilityTargets,
@@ -42,6 +41,10 @@ import {
   personalityEndings,
   personalityLeadings,
   personalityMiddles,
+  quirkyAbilities,
+  quirkyFavorites,
+  quirkyPersonalities,
+  quirkyWeaknesses,
   skinColors,
   legThicknesses,
   legLengths,
@@ -52,7 +55,7 @@ import {
   weaknessSubjects,
   weaknesses,
 } from '../data/masterData'
-import type { GuardianAppearance, GuardianFormInput, GuardianProfile } from '../types/guardian'
+import type { GuardianAppearance, GuardianFormInput, GuardianProfile, GuardianTone } from '../types/guardian'
 import { createSeedFromInput } from './hash'
 import { encodeRecoveryCode } from './recovery'
 import { SeededRandom } from './seededRandom'
@@ -131,37 +134,50 @@ function joinUnique(parts: string[]): string {
   return parts.filter((part, index) => parts.indexOf(part) === index).join('')
 }
 
-function buildAbility(random: SeededRandom) {
+function buildMysticAbility(random: SeededRandom) {
   const condition = random.pick(abilityConditions)
   const target = random.pick(abilityTargets)
-  const adjective = random.pick(abilityAdjectives)
   const effect = random.pick(abilityEffects)
 
-  return `${condition}${target}${adjective}${effect}能力`
+  return `${condition}${target}${effect}能力`
 }
 
-function buildGuardianFromSeed(seed: number, recoveryCode: string | null): GuardianProfile {
-  const random = new SeededRandom(seed)
-  const appearance = pickAppearance(random)
-  const auraHue = random.nextInt(0, 359)
-  const weaponName = random.pick(weapons)
-  const guardianName = composeGuardianName(random)
-  const ability = buildAbility(random)
-  const personalityLine = joinUnique([
-    random.pick(personalityLeadings),
-    random.pick(personalityMiddles),
-    random.pick(personalityEndings),
-  ])
-  const favoriteLine = joinUnique([
-    random.pick(favoritePrefixes),
-    random.pick(favoriteMiddles),
-    random.pick(favoriteSubjects),
-  ])
-  const weaknessLine = joinUnique([
-    random.pick(weaknessPrefixes),
-    random.pick(weaknessMiddles),
-    random.pick(weaknessSubjects),
-  ])
+function buildQuirkyAbility(random: SeededRandom) {
+  return random.pick(quirkyAbilities)
+}
+
+function buildGuardianFromSeed(seed: number, recoveryCode: string | null, tone: GuardianTone): GuardianProfile {
+  const profileRandom = new SeededRandom(seed)
+  const textRandom = new SeededRandom((seed ^ 0x9e3779b9) >>> 0 || 1)
+  const appearance = pickAppearance(profileRandom)
+  const auraHue = profileRandom.nextInt(0, 359)
+  const weaponName = profileRandom.pick(weapons)
+  const guardianName = composeGuardianName(profileRandom)
+  const ability = tone === '生活感' ? buildQuirkyAbility(textRandom) : buildMysticAbility(textRandom)
+  const personalityLine =
+    tone === '生活感'
+      ? textRandom.pick(quirkyPersonalities)
+      : joinUnique([
+          textRandom.pick(personalityLeadings),
+          textRandom.pick(personalityMiddles),
+          textRandom.pick(personalityEndings),
+        ])
+  const favoriteLine =
+    tone === '生活感'
+      ? textRandom.pick(quirkyFavorites)
+      : joinUnique([
+          textRandom.pick(favoritePrefixes),
+          textRandom.pick(favoriteMiddles),
+          textRandom.pick(favoriteSubjects),
+        ])
+  const weaknessLine =
+    tone === '生活感'
+      ? textRandom.pick(quirkyWeaknesses)
+      : joinUnique([
+          textRandom.pick(weaknessPrefixes),
+          textRandom.pick(weaknessMiddles),
+          textRandom.pick(weaknessSubjects),
+        ])
 
   const faceVariant =
     appearance.faceShape === '丸顔'
@@ -231,16 +247,16 @@ function buildGuardianFromSeed(seed: number, recoveryCode: string | null): Guard
     ability,
     heightCm:
       appearance.height === '低め'
-        ? random.nextInt(138, 154)
+        ? profileRandom.nextInt(138, 154)
         : appearance.height === '標準'
-          ? random.nextInt(155, 173)
-          : random.nextInt(174, 196),
+          ? profileRandom.nextInt(155, 173)
+          : profileRandom.nextInt(174, 196),
     personalityLine,
     favoriteLine,
     weaknessLine,
-    personality: personalityLine || random.pick(personalities),
-    favorite: favoriteLine || random.pick(favorites),
-    weakness: weaknessLine || random.pick(weaknesses),
+    personality: personalityLine || textRandom.pick(personalities),
+    favorite: favoriteLine || textRandom.pick(favorites),
+    weakness: weaknessLine || textRandom.pick(weaknesses),
     weapon: weaponName,
     appearance,
     visuals: {
@@ -377,9 +393,9 @@ function buildGuardianFromSeed(seed: number, recoveryCode: string | null): Guard
 }
 
 export function generateGuardian(input: GuardianFormInput): GuardianProfile {
-  return buildGuardianFromSeed(createSeedFromInput(input), encodeRecoveryCode(input))
+  return buildGuardianFromSeed(createSeedFromInput(input), encodeRecoveryCode(input), input.tone)
 }
 
-export function generateGuardianFromSeed(seed: number): GuardianProfile {
-  return buildGuardianFromSeed((seed >>> 0) || 1, null)
+export function generateGuardianFromSeed(seed: number, tone: GuardianTone = '神秘感'): GuardianProfile {
+  return buildGuardianFromSeed((seed >>> 0) || 1, null, tone)
 }
