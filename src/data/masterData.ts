@@ -298,6 +298,7 @@ export const earShapes = ['丸耳', '葉耳', '尖り耳'] as const
 export const earSizes = ['小さめ', '標準', '大きめ'] as const
 export const noseShapes = ['丸い', 'すっきり', '短め'] as const
 export const noseSizes = ['小さめ', '標準', '大きめ'] as const
+export const neckLengths = ['短め', '標準', '長め'] as const
 export const mouthShapes = ['微笑み', '凛々しい', '穏やか'] as const
 export const mouthPositions = ['高め', '標準', '低め'] as const
 export const mouthSizes = ['小さめ', '標準', '大きめ'] as const

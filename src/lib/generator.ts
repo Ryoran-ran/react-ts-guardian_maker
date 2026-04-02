@@ -31,6 +31,7 @@ import {
   mouthShapes,
   mouthPositions,
   mouthSizes,
+  neckLengths,
   noseShapes,
   noseSizes,
   personalities,
@@ -98,6 +99,7 @@ function pickAppearance(random: SeededRandom): GuardianAppearance {
     earSize: random.pick(earSizes),
     noseShape: random.pick(noseShapes),
     noseSize: random.pick(noseSizes),
+    neckLength: random.pick(neckLengths),
     mouthShape: random.pick(mouthShapes),
     mouthPosition: random.pick(mouthPositions),
     mouthSize: random.pick(mouthSizes),
@@ -296,6 +298,12 @@ function buildGuardianFromSeed(seed: number, recoveryCode: string | null): Guard
         appearance.noseSize === '小さめ' ? 6 : appearance.noseSize === '標準' ? 8 : 10,
       noseHeight:
         appearance.noseSize === '小さめ' ? 22 : appearance.noseSize === '標準' ? 28 : 34,
+      neckLength:
+        appearance.neckLength === '短め'
+          ? 14
+          : appearance.neckLength === '標準'
+            ? 24
+            : 34,
       mouthY:
         appearance.mouthPosition === '高め'
           ? 274
@@ -322,6 +330,26 @@ function buildGuardianFromSeed(seed: number, recoveryCode: string | null): Guard
           : appearance.armAngle === '標準'
             ? 20
             : 28,
+      armAttachX:
+        72
+        - (appearance.armThickness === '細め'
+            ? 28
+            : appearance.armThickness === '標準'
+              ? 34
+              : 40) * 0.42
+        + (appearance.shoulderWidth === '狭め'
+            ? -4
+            : appearance.shoulderWidth === '標準'
+              ? 0
+              : 4),
+      armAttachY:
+        6
+        + ((appearance.armAngle === '標準'
+            ? 20
+            : appearance.armAngle === '内寄り'
+              ? 12
+              : 28)
+            - 20) * -0.25,
       weaponType,
       hairVariant,
       faceVariant,
