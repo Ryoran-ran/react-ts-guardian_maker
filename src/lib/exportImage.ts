@@ -58,7 +58,7 @@ export function downloadGuardianProfileCard(
   previewImage.onload = () => {
     const canvas = document.createElement('canvas')
     canvas.width = 1080
-    canvas.height = 1840
+    canvas.height = 2020
     const context = canvas.getContext('2d')
 
     if (!context) {
@@ -72,7 +72,7 @@ export function downloadGuardianProfileCard(
     context.strokeStyle = 'rgba(92, 68, 54, 0.12)'
     context.lineWidth = 3
     context.beginPath()
-    context.roundRect(40, 40, 1000, 1760, 36)
+    context.roundRect(40, 40, 1000, 1940, 36)
     context.fill()
     context.stroke()
 
@@ -92,6 +92,8 @@ export function downloadGuardianProfileCard(
       ['性格', guardian.personalityLine],
       ['好きなもの', guardian.favoriteLine],
       ['嫌いなもの', guardian.weaknessLine],
+      ['能力名', guardian.abilityName],
+      ['能力', guardian.abilityDescription],
       ['使用武器', guardian.weapon],
       ['シード値', String(guardian.seed)],
     ] as const
@@ -119,10 +121,10 @@ export function downloadGuardianProfileCard(
     if (guardian.recoveryCode) {
       context.fillStyle = '#7a6456'
       context.font = '500 18px "Hiragino Sans", "Yu Gothic", sans-serif'
-      context.fillText('コード', 76, 1712)
+      context.fillText('コード', 76, 1892)
       context.fillStyle = '#2c211c'
       context.font = '400 14px ui-monospace, SFMono-Regular, Menlo, monospace'
-      drawWrappedText(context, guardian.recoveryCode, 76, 1742, 928, 18)
+      drawWrappedText(context, guardian.recoveryCode, 76, 1922, 928, 18)
     }
 
     downloadDataUrl(canvas.toDataURL('image/png'), fileName)

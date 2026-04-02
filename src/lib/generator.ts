@@ -1,4 +1,8 @@
 import {
+  abilityAdjectives,
+  abilityConditions,
+  abilityEffects,
+  abilityTargets,
   armAngles,
   armThicknesses,
   armLengths,
@@ -127,12 +131,25 @@ function joinUnique(parts: string[]): string {
   return parts.filter((part, index) => parts.indexOf(part) === index).join('')
 }
 
+function buildAbility(random: SeededRandom) {
+  const condition = random.pick(abilityConditions)
+  const target = random.pick(abilityTargets)
+  const adjective = random.pick(abilityAdjectives)
+  const effect = random.pick(abilityEffects)
+
+  return {
+    abilityName: `${target}${effect}能力`,
+    abilityDescription: `${condition}${target}${adjective}${effect}能力`,
+  }
+}
+
 function buildGuardianFromSeed(seed: number, recoveryCode: string | null): GuardianProfile {
   const random = new SeededRandom(seed)
   const appearance = pickAppearance(random)
   const auraHue = random.nextInt(0, 359)
   const weaponName = random.pick(weapons)
   const guardianName = composeGuardianName(random)
+  const { abilityName, abilityDescription } = buildAbility(random)
   const personalityLine = joinUnique([
     random.pick(personalityLeadings),
     random.pick(personalityMiddles),
@@ -214,6 +231,8 @@ function buildGuardianFromSeed(seed: number, recoveryCode: string | null): Guard
     recoveryCode,
     guardianName,
     displayName: guardianName,
+    abilityName,
+    abilityDescription,
     heightCm:
       appearance.height === '低め'
         ? random.nextInt(138, 154)

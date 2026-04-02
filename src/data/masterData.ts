@@ -282,6 +282,58 @@ export const weapons = [
   '祈祷の宝珠',
 ] as const
 
+export const abilityConditions = [
+  '満月の夜に',
+  '祈りを捧げると',
+  '静寂に包まれると',
+  '風が止んだ瞬間に',
+  '朝露が光るころに',
+  '強く願ったとき',
+  '仲間と心を重ねると',
+  '危機が迫ると',
+  '星明かりの下で',
+  '深く息を整えると',
+] as const
+
+export const abilityTargets = [
+  '触れた影を',
+  '視界に映る敵を',
+  '周囲の空気を',
+  '自らの武器を',
+  '仲間の傷を',
+  '足元の地面を',
+  '飛来する力を',
+  '閉ざされた道を',
+  '流れる時間を',
+  '揺らぐ心を',
+] as const
+
+export const abilityAdjectives = [
+  '静かに',
+  '鮮やかに',
+  '一瞬で',
+  '柔らかく',
+  '力強く',
+  '神秘的に',
+  '容赦なく',
+  '穏やかに',
+  '密やかに',
+  '確かに',
+] as const
+
+export const abilityEffects = [
+  '凍らせる',
+  '浄化する',
+  '増幅する',
+  '跳ね返す',
+  '封じる',
+  '導く',
+  '癒やす',
+  '眠らせる',
+  '遅らせる',
+  '変質させる',
+] as const
+
 export const faceShapes = ['丸顔', '卵型', '菱形'] as const
 export const skinColors = ['白磁', '蜜色', '褐色', '青白'] as const
 export const hairstyles = ['短髪', '長髪', '逆立ち', '切り揃え'] as const
