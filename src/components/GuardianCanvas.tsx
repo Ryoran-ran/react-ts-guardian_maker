@@ -16,11 +16,11 @@ const OUTLINE_COLOR = '#5c4436'
 const OUTLINE_WIDTH = 3
 
 function Hair({ guardian }: GuardianCanvasProps) {
-  const { hairColor, hairVariant } = guardian.visuals
+  const { hairColor, hairVariant, hairScaleX, hairScaleY } = guardian.visuals
 
   if (hairVariant === 'long') {
     return (
-      <Group>
+      <Group x={260} y={186} offsetX={260} offsetY={186} scaleX={hairScaleX} scaleY={hairScaleY}>
         <Ellipse x={260} y={186} radiusX={90} radiusY={104} fill={hairColor} stroke={OUTLINE_COLOR} strokeWidth={OUTLINE_WIDTH} />
         <Rect x={176} y={188} width={40} height={160} fill={hairColor} cornerRadius={20} stroke={OUTLINE_COLOR} strokeWidth={OUTLINE_WIDTH} />
         <Rect x={304} y={188} width={40} height={160} fill={hairColor} cornerRadius={20} stroke={OUTLINE_COLOR} strokeWidth={OUTLINE_WIDTH} />
@@ -30,7 +30,7 @@ function Hair({ guardian }: GuardianCanvasProps) {
 
   if (hairVariant === 'spiky') {
     return (
-      <Group>
+      <Group x={260} y={164} offsetX={260} offsetY={164} scaleX={hairScaleX} scaleY={hairScaleY}>
         <RegularPolygon x={260} y={124} sides={9} radius={82} fill={hairColor} rotation={-14} stroke={OUTLINE_COLOR} strokeWidth={OUTLINE_WIDTH} />
         <Ellipse x={260} y={176} radiusX={88} radiusY={76} fill={hairColor} />
       </Group>
@@ -39,7 +39,7 @@ function Hair({ guardian }: GuardianCanvasProps) {
 
   if (hairVariant === 'bob') {
     return (
-      <Group>
+      <Group x={260} y={184} offsetX={260} offsetY={184} scaleX={hairScaleX} scaleY={hairScaleY}>
         <Rect x={170} y={110} width={180} height={150} fill={hairColor} cornerRadius={48} stroke={OUTLINE_COLOR} strokeWidth={OUTLINE_WIDTH} />
         <Rect x={190} y={238} width={32} height={84} fill={hairColor} cornerRadius={16} stroke={OUTLINE_COLOR} strokeWidth={OUTLINE_WIDTH} />
         <Rect x={298} y={238} width={32} height={84} fill={hairColor} cornerRadius={16} stroke={OUTLINE_COLOR} strokeWidth={OUTLINE_WIDTH} />
@@ -47,7 +47,11 @@ function Hair({ guardian }: GuardianCanvasProps) {
     )
   }
 
-  return <Ellipse x={260} y={170} radiusX={86} radiusY={72} fill={hairColor} stroke={OUTLINE_COLOR} strokeWidth={OUTLINE_WIDTH} />
+  return (
+    <Group x={260} y={170} offsetX={260} offsetY={170} scaleX={hairScaleX} scaleY={hairScaleY}>
+      <Ellipse x={260} y={170} radiusX={86} radiusY={72} fill={hairColor} stroke={OUTLINE_COLOR} strokeWidth={OUTLINE_WIDTH} />
+    </Group>
+  )
 }
 
 function Ear({ x, y, guardian, direction }: { x: number; y: number; guardian: GuardianProfile; direction: 1 | -1 }) {
@@ -84,17 +88,19 @@ function Ear({ x, y, guardian, direction }: { x: number; y: number; guardian: Gu
 }
 
 function Eyes({ guardian }: GuardianCanvasProps) {
-  const { eyeHex, eyeScaleX, eyeScaleY, eyeVariant } = guardian.visuals
+  const { eyeHex, eyeScaleX, eyeScaleY, eyeVariant, eyeOffsetX } = guardian.visuals
   const radiusX = 18 * eyeScaleX
   const radiusY = 11 * eyeScaleY
+  const leftX = 260 - eyeOffsetX
+  const rightX = 260 + eyeOffsetX
 
   if (eyeVariant === 'sharp') {
     return (
       <>
-        <Ellipse x={218} y={216} radiusX={25} radiusY={12} rotation={-12} fill="#fff" />
-        <Ellipse x={302} y={216} radiusX={25} radiusY={12} rotation={12} fill="#fff" />
-        <Ellipse x={218} y={216} radiusX={9} radiusY={9} fill={eyeHex} />
-        <Ellipse x={302} y={216} radiusX={9} radiusY={9} fill={eyeHex} />
+        <Ellipse x={leftX} y={216} radiusX={25} radiusY={12} rotation={-12} fill="#fff" />
+        <Ellipse x={rightX} y={216} radiusX={25} radiusY={12} rotation={12} fill="#fff" />
+        <Ellipse x={leftX} y={216} radiusX={9} radiusY={9} fill={eyeHex} />
+        <Ellipse x={rightX} y={216} radiusX={9} radiusY={9} fill={eyeHex} />
       </>
     )
   }
@@ -102,10 +108,10 @@ function Eyes({ guardian }: GuardianCanvasProps) {
   if (eyeVariant === 'cute') {
     return (
       <>
-        <Ellipse x={220} y={216} radiusX={24} radiusY={15} fill="#fff" />
-        <Ellipse x={304} y={216} radiusX={24} radiusY={15} fill="#fff" />
-        <Circle x={220} y={217} radius={10} fill={eyeHex} />
-        <Circle x={304} y={217} radius={10} fill={eyeHex} />
+        <Ellipse x={leftX} y={216} radiusX={24} radiusY={15} fill="#fff" />
+        <Ellipse x={rightX} y={216} radiusX={24} radiusY={15} fill="#fff" />
+        <Circle x={leftX} y={217} radius={10} fill={eyeHex} />
+        <Circle x={rightX} y={217} radius={10} fill={eyeHex} />
       </>
     )
   }
@@ -113,10 +119,10 @@ function Eyes({ guardian }: GuardianCanvasProps) {
   if (eyeVariant === 'cool') {
     return (
       <>
-        <Ellipse x={220} y={214} radiusX={23} radiusY={10} rotation={-6} fill="#fff" />
-        <Ellipse x={304} y={214} radiusX={23} radiusY={10} rotation={6} fill="#fff" />
-        <Ellipse x={220} y={214} radiusX={8.5} radiusY={8.5} fill={eyeHex} />
-        <Ellipse x={304} y={214} radiusX={8.5} radiusY={8.5} fill={eyeHex} />
+        <Ellipse x={leftX} y={214} radiusX={23} radiusY={10} rotation={-6} fill="#fff" />
+        <Ellipse x={rightX} y={214} radiusX={23} radiusY={10} rotation={6} fill="#fff" />
+        <Ellipse x={leftX} y={214} radiusX={8.5} radiusY={8.5} fill={eyeHex} />
+        <Ellipse x={rightX} y={214} radiusX={8.5} radiusY={8.5} fill={eyeHex} />
       </>
     )
   }
@@ -124,32 +130,32 @@ function Eyes({ guardian }: GuardianCanvasProps) {
   if (eyeVariant === 'almond') {
     return (
       <>
-        <Ellipse x={220} y={214} radiusX={radiusX} radiusY={radiusY} fill="#fff" />
-        <Ellipse x={304} y={214} radiusX={radiusX} radiusY={radiusY} fill="#fff" />
-        <Ellipse x={220} y={214} radiusX={10} radiusY={9} fill={eyeHex} />
-        <Ellipse x={304} y={214} radiusX={10} radiusY={9} fill={eyeHex} />
+        <Ellipse x={leftX} y={214} radiusX={radiusX} radiusY={radiusY} fill="#fff" />
+        <Ellipse x={rightX} y={214} radiusX={radiusX} radiusY={radiusY} fill="#fff" />
+        <Ellipse x={leftX} y={214} radiusX={10} radiusY={9} fill={eyeHex} />
+        <Ellipse x={rightX} y={214} radiusX={10} radiusY={9} fill={eyeHex} />
       </>
     )
   }
 
   return (
     <>
-      <Circle x={220} y={214} radius={16 * eyeScaleY} fill="#fff" />
-      <Circle x={304} y={214} radius={16 * eyeScaleY} fill="#fff" />
-      <Circle x={220} y={214} radius={9.5} fill={eyeHex} />
-      <Circle x={304} y={214} radius={9.5} fill={eyeHex} />
+      <Circle x={leftX} y={214} radius={16 * eyeScaleY} fill="#fff" />
+      <Circle x={rightX} y={214} radius={16 * eyeScaleY} fill="#fff" />
+      <Circle x={leftX} y={214} radius={9.5} fill={eyeHex} />
+      <Circle x={rightX} y={214} radius={9.5} fill={eyeHex} />
     </>
   )
 }
 
 function Mouth({ guardian }: GuardianCanvasProps) {
-  const { mouthCurve, mouthWidth } = guardian.visuals
+  const { mouthCurve, mouthWidth, mouthY } = guardian.visuals
   const left = 260 - mouthWidth / 2
   const right = 260 + mouthWidth / 2
 
   return (
     <Line
-      points={[left, 282, 260, 282 + mouthCurve, right, 282]}
+      points={[left, mouthY, 260, mouthY + mouthCurve, right, mouthY]}
       stroke="#7c3e49"
       strokeWidth={3}
       tension={0.6}
@@ -158,20 +164,176 @@ function Mouth({ guardian }: GuardianCanvasProps) {
   )
 }
 
-function Arm({ side, color, length }: { side: 'left' | 'right'; color: string; length: number }) {
+function Nose({ guardian }: GuardianCanvasProps) {
+  const { noseVariant, noseWidth, noseHeight } = guardian.visuals
+  const x = 260
+  const y = 226
+
+  if (noseVariant === 'sharp') {
+    return (
+      <Line
+        points={[x + 2, y, x - noseWidth, y + noseHeight * 0.78, x + noseWidth * 0.2, y + noseHeight]}
+        stroke={OUTLINE_COLOR}
+        strokeWidth={2.5}
+        tension={0.2}
+        lineCap="round"
+        lineJoin="round"
+      />
+    )
+  }
+
+  if (noseVariant === 'short') {
+    return (
+      <Line
+        points={[x, y + 4, x - noseWidth * 0.55, y + noseHeight * 0.6, x + noseWidth * 0.4, y + noseHeight * 0.66]}
+        stroke={OUTLINE_COLOR}
+        strokeWidth={2.5}
+        tension={0.7}
+        lineCap="round"
+        lineJoin="round"
+      />
+    )
+  }
+
+  return (
+    <Line
+      points={[x, y, x - noseWidth, y + noseHeight * 0.82, x + noseWidth * 0.3, y + noseHeight]}
+      stroke={OUTLINE_COLOR}
+      strokeWidth={2.5}
+      tension={0.6}
+      lineCap="round"
+      lineJoin="round"
+    />
+  )
+}
+
+function Brows({ guardian }: GuardianCanvasProps) {
+  const { browVariant, browWidth, browStroke, eyebrowHex, eyeOffsetX } = guardian.visuals
+  const leftX = 260 - eyeOffsetX
+  const rightX = 260 + eyeOffsetX
+
+  if (browVariant === 'arched') {
+    return (
+      <>
+        <Line
+          points={[leftX - browWidth / 2, 184, leftX, 176, leftX + browWidth / 2, 184]}
+          stroke={eyebrowHex}
+          strokeWidth={browStroke}
+          tension={0.45}
+          lineCap="round"
+        />
+        <Line
+          points={[rightX - browWidth / 2, 184, rightX, 176, rightX + browWidth / 2, 184]}
+          stroke={eyebrowHex}
+          strokeWidth={browStroke}
+          tension={0.45}
+          lineCap="round"
+        />
+      </>
+    )
+  }
+
+  if (browVariant === 'angled') {
+    return (
+      <>
+        <Line
+          points={[leftX - browWidth / 2, 186, leftX + browWidth / 2, 178]}
+          stroke={eyebrowHex}
+          strokeWidth={browStroke}
+          lineCap="round"
+        />
+        <Line
+          points={[rightX - browWidth / 2, 178, rightX + browWidth / 2, 186]}
+          stroke={eyebrowHex}
+          strokeWidth={browStroke}
+          lineCap="round"
+        />
+      </>
+    )
+  }
+
+  if (browVariant === 'gentle') {
+    return (
+      <>
+        <Line
+          points={[leftX - browWidth / 2, 178, leftX, 184, leftX + browWidth / 2, 186]}
+          stroke={eyebrowHex}
+          strokeWidth={browStroke}
+          tension={0.4}
+          lineCap="round"
+        />
+        <Line
+          points={[rightX - browWidth / 2, 186, rightX, 184, rightX + browWidth / 2, 178]}
+          stroke={eyebrowHex}
+          strokeWidth={browStroke}
+          tension={0.4}
+          lineCap="round"
+        />
+      </>
+    )
+  }
+
+  return (
+    <>
+      <Line
+        points={[leftX - browWidth / 2, 182, leftX + browWidth / 2, 178]}
+        stroke={eyebrowHex}
+        strokeWidth={browStroke}
+        lineCap="round"
+      />
+      <Line
+        points={[rightX - browWidth / 2, 178, rightX + browWidth / 2, 182]}
+        stroke={eyebrowHex}
+        strokeWidth={browStroke}
+        lineCap="round"
+      />
+    </>
+  )
+}
+
+function Arm({
+  side,
+  color,
+  length,
+  width,
+  rotation,
+  bodyX,
+  bodyY,
+  bodyWidth,
+  bodyHeight,
+}: {
+  side: 'left' | 'right'
+  color: string
+  length: number
+  width: number
+  rotation: number
+  bodyX: number
+  bodyY: number
+  bodyWidth: number
+  bodyHeight: number
+}) {
   const isLeft = side === 'left'
   const armHeight = Math.max(92, length * 0.92)
+  const armWidth = width
+  const radius = armWidth / 2
+  const shoulderY = bodyY + bodyHeight * 0.18
+  const armTopY = shoulderY
+  const bodyEdgeOverlap = armWidth * 0.34
+  const armCenterX = isLeft
+    ? bodyX + bodyEdgeOverlap - radius
+    : bodyX + bodyWidth - bodyEdgeOverlap + radius
+  const armRotation = isLeft ? rotation * 0.45 : -rotation * 0.45
 
   return (
     <Rect
-      x={isLeft ? -92 : 92}
-      y={58}
-      offsetX={17}
-      offsetY={armHeight / 2}
-      width={34}
+      x={armCenterX}
+      y={armTopY}
+      offsetX={radius}
+      offsetY={0}
+      width={armWidth}
       height={armHeight}
-      cornerRadius={17}
-      rotation={isLeft ? 20 : -20}
+      cornerRadius={radius}
+      rotation={armRotation}
       fill={color}
       stroke={OUTLINE_COLOR}
       strokeWidth={OUTLINE_WIDTH}
@@ -184,6 +346,9 @@ export const GuardianCanvas = forwardRef<Konva.Stage, GuardianCanvasProps>(funct
   ref,
 ) {
   const { visuals } = guardian
+  const bodyX = -72
+  const bodyY = -18
+  const bodyWidth = 144
   const faceRadiusX = 76 * visuals.headScaleX
   const earOffsetX =
     visuals.earVariant === 'pointed'
@@ -260,11 +425,12 @@ export const GuardianCanvas = forwardRef<Konva.Stage, GuardianCanvasProps>(funct
                 offsetY={306}
               >
                 <Group x={260} y={306} scaleX={visuals.bodyScaleX}>
-                  <Arm side="left" color={visuals.robeColor} length={visuals.armLength} />
-                  <Arm side="right" color={visuals.robeColor} length={visuals.armLength} />
-                  <Rect x={-46} y={visuals.torsoHeight - 22} width={34} height={visuals.legLength} fill="#453428" cornerRadius={18} stroke={OUTLINE_COLOR} strokeWidth={OUTLINE_WIDTH} />
-                  <Rect x={12} y={visuals.torsoHeight - 22} width={34} height={visuals.legLength} fill="#453428" cornerRadius={18} stroke={OUTLINE_COLOR} strokeWidth={OUTLINE_WIDTH} />
-                  <Rect x={-72} y={-18} width={144} height={visuals.torsoHeight} fill={visuals.robeColor} cornerRadius={34} stroke={OUTLINE_COLOR} strokeWidth={OUTLINE_WIDTH} />
+                  <Arm side="left" color={visuals.robeColor} length={visuals.armLength} width={visuals.armWidth} rotation={visuals.armRotation} bodyX={bodyX} bodyY={bodyY} bodyWidth={bodyWidth} bodyHeight={visuals.torsoHeight} />
+                  <Arm side="right" color={visuals.robeColor} length={visuals.armLength} width={visuals.armWidth} rotation={visuals.armRotation} bodyX={bodyX} bodyY={bodyY} bodyWidth={bodyWidth} bodyHeight={visuals.torsoHeight} />
+                  <Rect x={-(visuals.legWidth + 12)} y={visuals.torsoHeight - 22} width={visuals.legWidth} height={visuals.legLength} fill="#453428" cornerRadius={visuals.legWidth / 2} stroke={OUTLINE_COLOR} strokeWidth={OUTLINE_WIDTH} />
+                  <Rect x={12} y={visuals.torsoHeight - 22} width={visuals.legWidth} height={visuals.legLength} fill="#453428" cornerRadius={visuals.legWidth / 2} stroke={OUTLINE_COLOR} strokeWidth={OUTLINE_WIDTH} />
+                  <Rect x={bodyX} y={bodyY} width={bodyWidth} height={visuals.torsoHeight} fill={visuals.robeColor} cornerRadius={34} stroke={OUTLINE_COLOR} strokeWidth={OUTLINE_WIDTH} />
+                  <Rect x={-16} y={-18 - visuals.neckLength + 8} width={32} height={visuals.neckLength} fill={visuals.skinHex} cornerRadius={16} stroke={OUTLINE_COLOR} strokeWidth={OUTLINE_WIDTH} />
                   <Circle x={0} y={14} radius={18} fill={visuals.auraAccent} opacity={0.65} stroke={OUTLINE_COLOR} strokeWidth={OUTLINE_WIDTH} />
                 </Group>
 
@@ -274,52 +440,39 @@ export const GuardianCanvas = forwardRef<Konva.Stage, GuardianCanvasProps>(funct
                 <Group x={260} offsetX={260} scaleX={visuals.headScaleX}>
                   <Ellipse x={260} y={226} radiusX={76} radiusY={88} fill={visuals.skinHex} stroke={OUTLINE_COLOR} strokeWidth={OUTLINE_WIDTH} />
                 </Group>
-
-                <Line
-                  points={[220 - visuals.browWidth / 2, 182, 220 + visuals.browWidth / 2, 178]}
-                  stroke={visuals.eyebrowHex}
-                  strokeWidth={visuals.browStroke}
-                  lineCap="round"
-                />
-                <Line
-                  points={[304 - visuals.browWidth / 2, 178, 304 + visuals.browWidth / 2, 182]}
-                  stroke={visuals.eyebrowHex}
-                  strokeWidth={visuals.browStroke}
-                  lineCap="round"
-                />
-
+                <Brows guardian={guardian} />
                 <Eyes guardian={guardian} />
               {visuals.eyeVariant === 'sharp' ? (
                 <>
-                  <Circle x={218} y={216} radius={3.4} fill="#161616" />
-                  <Circle x={302} y={216} radius={3.4} fill="#161616" />
-                  <Circle x={214} y={212} radius={2.1} fill="#ffffff" opacity={0.8} />
-                  <Circle x={298} y={212} radius={2.1} fill="#ffffff" opacity={0.8} />
+                  <Circle x={260 - visuals.eyeOffsetX} y={216} radius={3.4} fill="#161616" />
+                  <Circle x={260 + visuals.eyeOffsetX} y={216} radius={3.4} fill="#161616" />
+                  <Circle x={256 - visuals.eyeOffsetX} y={212} radius={2.1} fill="#ffffff" opacity={0.8} />
+                  <Circle x={256 + visuals.eyeOffsetX} y={212} radius={2.1} fill="#ffffff" opacity={0.8} />
                 </>
               ) : visuals.eyeVariant === 'cute' ? (
                 <>
-                  <Circle x={220} y={217} radius={3.6} fill="#161616" />
-                  <Circle x={304} y={217} radius={3.6} fill="#161616" />
-                  <Circle x={216} y={212} radius={2.3} fill="#ffffff" opacity={0.85} />
-                  <Circle x={300} y={212} radius={2.3} fill="#ffffff" opacity={0.85} />
+                  <Circle x={260 - visuals.eyeOffsetX} y={217} radius={3.6} fill="#161616" />
+                  <Circle x={260 + visuals.eyeOffsetX} y={217} radius={3.6} fill="#161616" />
+                  <Circle x={256 - visuals.eyeOffsetX} y={212} radius={2.3} fill="#ffffff" opacity={0.85} />
+                  <Circle x={256 + visuals.eyeOffsetX} y={212} radius={2.3} fill="#ffffff" opacity={0.85} />
                 </>
               ) : visuals.eyeVariant === 'cool' ? (
                 <>
-                  <Circle x={220} y={214} radius={3.2} fill="#161616" />
-                  <Circle x={304} y={214} radius={3.2} fill="#161616" />
-                  <Circle x={216} y={211} radius={1.9} fill="#ffffff" opacity={0.75} />
-                  <Circle x={300} y={211} radius={1.9} fill="#ffffff" opacity={0.75} />
+                  <Circle x={260 - visuals.eyeOffsetX} y={214} radius={3.2} fill="#161616" />
+                  <Circle x={260 + visuals.eyeOffsetX} y={214} radius={3.2} fill="#161616" />
+                  <Circle x={256 - visuals.eyeOffsetX} y={211} radius={1.9} fill="#ffffff" opacity={0.75} />
+                  <Circle x={256 + visuals.eyeOffsetX} y={211} radius={1.9} fill="#ffffff" opacity={0.75} />
                 </>
               ) : (
                 <>
-                  <Circle x={220} y={214} radius={3.6} fill="#161616" />
-                  <Circle x={304} y={214} radius={3.6} fill="#161616" />
-                  <Circle x={216} y={210} radius={2.2} fill="#ffffff" opacity={0.8} />
-                  <Circle x={300} y={210} radius={2.2} fill="#ffffff" opacity={0.8} />
+                  <Circle x={260 - visuals.eyeOffsetX} y={214} radius={3.6} fill="#161616" />
+                  <Circle x={260 + visuals.eyeOffsetX} y={214} radius={3.6} fill="#161616" />
+                  <Circle x={256 - visuals.eyeOffsetX} y={210} radius={2.2} fill="#ffffff" opacity={0.8} />
+                  <Circle x={256 + visuals.eyeOffsetX} y={210} radius={2.2} fill="#ffffff" opacity={0.8} />
                 </>
               )}
 
-                <Line points={[260, 226, 252, 252, 260, 256]} stroke={OUTLINE_COLOR} strokeWidth={2.5} tension={0.6} lineCap="round" />
+                <Nose guardian={guardian} />
                 <Mouth guardian={guardian} />
               </Group>
             </Group>

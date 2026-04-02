@@ -1,11 +1,15 @@
 import {
+  armAngles,
+  armThicknesses,
   armLengths,
   bodyTypes,
   earShapes,
   earSizes,
   eyeColors,
   eyeShapes,
+  eyeSpacings,
   eyeSizes,
+  eyebrowShapes,
   eyebrowColors,
   eyebrowSizes,
   eyebrowThicknesses,
@@ -21,16 +25,23 @@ import {
   guardianNameStarts,
   guardianNameSuffixes,
   guardianTitles,
+  hairVolumes,
   hairstyles,
   heights,
-  jaws,
   mouthShapes,
+  mouthPositions,
   mouthSizes,
+  neckLengths,
+  noseShapes,
+  noseSizes,
   personalities,
   personalityEndings,
   personalityLeadings,
   personalityMiddles,
   skinColors,
+  legThicknesses,
+  legLengths,
+  shoulderWidths,
   weapons,
   weaknessPrefixes,
   weaknessMiddles,
@@ -75,20 +86,31 @@ function pickAppearance(random: SeededRandom): GuardianAppearance {
     faceShape: random.pick(faceShapes),
     skinColor: random.pick(skinColors),
     hairstyle: random.pick(hairstyles),
+    hairVolume: random.pick(hairVolumes),
     eyeSize: random.pick(eyeSizes),
     eyeShape: random.pick(eyeShapes),
+    eyeSpacing: random.pick(eyeSpacings),
     eyeColor: random.pick(eyeColors),
+    eyebrowShape: random.pick(eyebrowShapes),
     eyebrowSize: random.pick(eyebrowSizes),
     eyebrowThickness: random.pick(eyebrowThicknesses),
     eyebrowColor: random.pick(eyebrowColors),
     earShape: random.pick(earShapes),
     earSize: random.pick(earSizes),
+    noseShape: random.pick(noseShapes),
+    noseSize: random.pick(noseSizes),
+    neckLength: random.pick(neckLengths),
     mouthShape: random.pick(mouthShapes),
+    mouthPosition: random.pick(mouthPositions),
     mouthSize: random.pick(mouthSizes),
-    jaw: random.pick(jaws),
+    shoulderWidth: random.pick(shoulderWidths),
     bodyType: random.pick(bodyTypes),
     height: random.pick(heights),
+    armThickness: random.pick(armThicknesses),
+    armAngle: random.pick(armAngles),
     armLength: random.pick(armLengths),
+    legLength: random.pick(legLengths),
+    legThickness: random.pick(legThicknesses),
   }
 }
 
@@ -152,6 +174,22 @@ function buildGuardianFromSeed(seed: number, recoveryCode: string | null): Guard
         ? 'leaf'
         : 'pointed'
 
+  const noseVariant =
+    appearance.noseShape === '丸い'
+      ? 'rounded'
+      : appearance.noseShape === 'すっきり'
+        ? 'sharp'
+        : 'short'
+
+  const browVariant =
+    appearance.eyebrowShape === 'まっすぐ'
+      ? 'straight'
+      : appearance.eyebrowShape === 'アーチ'
+        ? 'arched'
+        : appearance.eyebrowShape === 'きりり'
+          ? 'angled'
+          : 'gentle'
+
   const hairVariant =
     appearance.hairstyle === '短髪'
       ? 'short'
@@ -198,6 +236,18 @@ function buildGuardianFromSeed(seed: number, recoveryCode: string | null): Guard
       weaponColor: buildAuraColor((auraHue + 22) % 360, 30, 82),
       robeColor: buildAuraColor((auraHue + 300) % 360, 34, 34),
       hairColor: hairHexMap[appearance.hairstyle],
+      hairScaleX:
+        appearance.hairVolume === '少なめ'
+          ? 0.9
+          : appearance.hairVolume === '標準'
+            ? 1
+            : 1.12,
+      hairScaleY:
+        appearance.hairVolume === '少なめ'
+          ? 0.88
+          : appearance.hairVolume === '標準'
+            ? 1
+            : 1.16,
       eyebrowHex: eyebrowHexMap[appearance.eyebrowColor],
       skinHex: skinHexMap[appearance.skinColor],
       eyeHex: eyeHexMap[appearance.eyeColor],
@@ -205,20 +255,33 @@ function buildGuardianFromSeed(seed: number, recoveryCode: string | null): Guard
         appearance.bodyType === '細身' ? 0.88 : appearance.bodyType === '均整' ? 1 : 1.15,
       torsoHeight:
         appearance.height === '低め' ? 146 : appearance.height === '標準' ? 164 : 184,
+      armWidth:
+        appearance.armThickness === '細め'
+          ? 28
+          : appearance.armThickness === '標準'
+            ? 34
+            : 40,
       armLength:
         appearance.armLength === '短め' ? 92 : appearance.armLength === '標準' ? 108 : 126,
       legLength:
-        appearance.height === '低め' ? 76 : appearance.height === '標準' ? 94 : 114,
+        (appearance.height === '低め' ? 76 : appearance.height === '標準' ? 94 : 114)
+        + (appearance.legLength === '短め' ? -10 : appearance.legLength === '標準' ? 0 : 12),
+      legWidth:
+        appearance.legThickness === '細め'
+          ? 28
+          : appearance.legThickness === '標準'
+            ? 34
+            : 40,
       characterY:
         appearance.height === '低め' ? 304 : appearance.height === '標準' ? 294 : 280,
       headScaleX:
         appearance.faceShape === '丸顔' ? 1.05 : appearance.faceShape === '卵型' ? 0.95 : 0.9,
-      jawWidth:
-        appearance.jaw === 'なめらか' ? 52 : appearance.jaw === 'シャープ' ? 42 : 60,
       eyeScaleX:
         appearance.eyeShape === '丸い' ? 1 : appearance.eyeShape === '切れ長' ? 1.35 : 1.2,
       eyeScaleY:
         appearance.eyeSize === '小さめ' ? 0.72 : appearance.eyeSize === '標準' ? 0.92 : 1.12,
+      eyeOffsetX:
+        appearance.eyeSpacing === '狭め' ? 36 : appearance.eyeSpacing === '標準' ? 42 : 48,
       browWidth:
         appearance.eyebrowSize === '短め' ? 24 : appearance.eyebrowSize === '標準' ? 32 : 42,
       browStroke:
@@ -231,6 +294,22 @@ function buildGuardianFromSeed(seed: number, recoveryCode: string | null): Guard
         appearance.earSize === '小さめ' ? 12 : appearance.earSize === '標準' ? 16 : 20,
       earHeight:
         appearance.earSize === '小さめ' ? 20 : appearance.earSize === '標準' ? 26 : 34,
+      noseWidth:
+        appearance.noseSize === '小さめ' ? 6 : appearance.noseSize === '標準' ? 8 : 10,
+      noseHeight:
+        appearance.noseSize === '小さめ' ? 22 : appearance.noseSize === '標準' ? 28 : 34,
+      neckLength:
+        appearance.neckLength === '短め'
+          ? 14
+          : appearance.neckLength === '標準'
+            ? 24
+            : 34,
+      mouthY:
+        appearance.mouthPosition === '高め'
+          ? 274
+          : appearance.mouthPosition === '標準'
+            ? 282
+            : 290,
       mouthWidth:
         appearance.mouthSize === '小さめ' ? 16 : appearance.mouthSize === '標準' ? 24 : 34,
       mouthCurve:
@@ -239,11 +318,45 @@ function buildGuardianFromSeed(seed: number, recoveryCode: string | null): Guard
           : appearance.mouthShape === '凛々しい'
             ? -4
             : 2,
+      shoulderOffset:
+        appearance.shoulderWidth === '狭め'
+          ? 82
+          : appearance.shoulderWidth === '標準'
+            ? 92
+            : 104,
+      armRotation:
+        appearance.armAngle === '内寄り'
+          ? 12
+          : appearance.armAngle === '標準'
+            ? 20
+            : 28,
+      armAttachX:
+        72
+        - (appearance.armThickness === '細め'
+            ? 28
+            : appearance.armThickness === '標準'
+              ? 34
+              : 40) * 0.42
+        + (appearance.shoulderWidth === '狭め'
+            ? -4
+            : appearance.shoulderWidth === '標準'
+              ? 0
+              : 4),
+      armAttachY:
+        6
+        + ((appearance.armAngle === '標準'
+            ? 20
+            : appearance.armAngle === '内寄り'
+              ? 12
+              : 28)
+            - 20) * -0.25,
       weaponType,
       hairVariant,
       faceVariant,
       eyeVariant,
+      browVariant,
       earVariant,
+      noseVariant,
     },
   }
 }

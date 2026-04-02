@@ -10,40 +10,62 @@ const appearanceLabels: Array<keyof GuardianProfile['appearance']> = [
   'faceShape',
   'skinColor',
   'hairstyle',
+  'hairVolume',
   'eyeSize',
   'eyeShape',
+  'eyeSpacing',
   'eyeColor',
+  'eyebrowShape',
   'eyebrowSize',
   'eyebrowThickness',
   'eyebrowColor',
   'earShape',
   'earSize',
+  'noseShape',
+  'noseSize',
+  'neckLength',
   'mouthShape',
+  'mouthPosition',
   'mouthSize',
-  'jaw',
+  'shoulderWidth',
   'bodyType',
   'height',
+  'armThickness',
+  'armAngle',
   'armLength',
+  'legLength',
+  'legThickness',
 ]
 
 const labelMap: Record<(typeof appearanceLabels)[number], string> = {
   faceShape: '顔の形',
   skinColor: '肌の色',
   hairstyle: '髪型',
+  hairVolume: '髪のボリューム',
   eyeSize: '目の大きさ',
   eyeShape: '目の形',
+  eyeSpacing: '目の間隔',
   eyeColor: '目の色',
+  eyebrowShape: '眉の形',
   eyebrowSize: '眉の大きさ',
   eyebrowThickness: '眉の太さ',
   eyebrowColor: '眉の色',
   earShape: '耳の形',
   earSize: '耳の大きさ',
+  noseShape: '鼻の形',
+  noseSize: '鼻の大きさ',
+  neckLength: '首の長さ',
   mouthShape: '口の形',
+  mouthPosition: '口の位置',
   mouthSize: '口の大きさ',
-  jaw: '顎',
+  shoulderWidth: '肩幅',
   bodyType: '体型',
   height: '身長',
+  armThickness: '腕の太さ',
+  armAngle: '腕の角度',
   armLength: '手の長さ',
+  legLength: '脚の長さ',
+  legThickness: '脚の太さ',
 }
 
 export function GuardianResult({ guardian, onSave, onSaveWithInfo }: GuardianResultProps) {
@@ -86,12 +108,12 @@ export function GuardianResult({ guardian, onSave, onSaveWithInfo }: GuardianRes
           <dd>{guardian.weaknessLine}</dd>
         </div>
         <div>
-          <dt>シード値</dt>
-          <dd>{guardian.seed}</dd>
-        </div>
-        <div>
           <dt>使用武器</dt>
           <dd>{guardian.weapon}</dd>
+        </div>
+        <div>
+          <dt>シード値</dt>
+          <dd>{guardian.seed}</dd>
         </div>
       </dl>
 
