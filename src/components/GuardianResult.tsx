@@ -108,12 +108,8 @@ export function GuardianResult({ guardian, onSave, onSaveWithInfo }: GuardianRes
           <dd>{guardian.weaknessLine}</dd>
         </div>
         <div>
-          <dt>能力名</dt>
-          <dd>{guardian.abilityName}</dd>
-        </div>
-        <div>
           <dt>能力</dt>
-          <dd>{guardian.abilityDescription}</dd>
+          <dd>{guardian.ability}</dd>
         </div>
         <div>
           <dt>使用武器</dt>

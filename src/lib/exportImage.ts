@@ -92,8 +92,7 @@ export function downloadGuardianProfileCard(
       ['性格', guardian.personalityLine],
       ['好きなもの', guardian.favoriteLine],
       ['嫌いなもの', guardian.weaknessLine],
-      ['能力名', guardian.abilityName],
-      ['能力', guardian.abilityDescription],
+      ['能力', guardian.ability],
       ['使用武器', guardian.weapon],
       ['シード値', String(guardian.seed)],
     ] as const

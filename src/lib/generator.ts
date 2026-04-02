@@ -137,10 +137,7 @@ function buildAbility(random: SeededRandom) {
   const adjective = random.pick(abilityAdjectives)
   const effect = random.pick(abilityEffects)
 
-  return {
-    abilityName: `${target}${effect}能力`,
-    abilityDescription: `${condition}${target}${adjective}${effect}能力`,
-  }
+  return `${condition}${target}${adjective}${effect}能力`
 }
 
 function buildGuardianFromSeed(seed: number, recoveryCode: string | null): GuardianProfile {
@@ -149,7 +146,7 @@ function buildGuardianFromSeed(seed: number, recoveryCode: string | null): Guard
   const auraHue = random.nextInt(0, 359)
   const weaponName = random.pick(weapons)
   const guardianName = composeGuardianName(random)
-  const { abilityName, abilityDescription } = buildAbility(random)
+  const ability = buildAbility(random)
   const personalityLine = joinUnique([
     random.pick(personalityLeadings),
     random.pick(personalityMiddles),
@@ -231,8 +228,7 @@ function buildGuardianFromSeed(seed: number, recoveryCode: string | null): Guard
     recoveryCode,
     guardianName,
     displayName: guardianName,
-    abilityName,
-    abilityDescription,
+    ability,
     heightCm:
       appearance.height === '低め'
         ? random.nextInt(138, 154)

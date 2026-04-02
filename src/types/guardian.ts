@@ -89,8 +89,7 @@ export type GuardianProfile = {
   recoveryCode: string | null
   guardianName: string
   displayName: string
-  abilityName: string
-  abilityDescription: string
+  ability: string
   heightCm: number
   personalityLine: string
   favoriteLine: string
