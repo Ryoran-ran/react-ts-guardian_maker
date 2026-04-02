@@ -1,4 +1,5 @@
 import {
+  abilityAdjectives,
   abilityConditions,
   abilityEffects,
   abilityTargets,
@@ -28,6 +29,9 @@ import {
   guardianNameStarts,
   guardianNameSuffixes,
   guardianTitles,
+  mysticWeaponLeadings,
+  mysticWeaponModifiers,
+  mysticWeaponSubjects,
   hairVolumes,
   hairstyles,
   heights,
@@ -41,15 +45,19 @@ import {
   personalityEndings,
   personalityLeadings,
   personalityMiddles,
-  quirkyAbilities,
-  quirkyFavorites,
-  quirkyPersonalities,
-  quirkyWeaknesses,
+  quirkyAbilityNodes,
+  quirkyFavoriteNodes,
+  quirkyGuardianEndings,
+  quirkyGuardianLeadings,
+  quirkyPersonalityNodes,
+  quirkyWeaponLeadings,
+  quirkyWeaponModifiers,
+  quirkyWeaponSubjects,
+  quirkyWeaknessNodes,
   skinColors,
   legThicknesses,
   legLengths,
   shoulderWidths,
-  weapons,
   weaknessPrefixes,
   weaknessMiddles,
   weaknessSubjects,
@@ -121,8 +129,12 @@ function pickAppearance(random: SeededRandom): GuardianAppearance {
   }
 }
 
-function composeGuardianName(random: SeededRandom): string {
+function composeGuardianName(random: SeededRandom, tone: GuardianTone): string {
   const coreName = `${random.pick(guardianNameStarts)}${random.pick(guardianNameMiddles)}${random.pick(guardianNameEnds)}${random.pick(guardianNameSuffixes)}`
+  if (tone === '生活感') {
+    return `${random.pick(quirkyGuardianLeadings)}の${random.pick(quirkyGuardianEndings)} ${coreName}`
+  }
+
   return `${random.pick(guardianTitles)}${random.pick(guardianDescriptors)}${random.pick(guardianConnectors)} ${coreName}`
 }
 
@@ -137,26 +149,53 @@ function joinUnique(parts: string[]): string {
 function buildMysticAbility(random: SeededRandom) {
   const condition = random.pick(abilityConditions)
   const target = random.pick(abilityTargets)
+  const manner = random.pick(abilityAdjectives)
   const effect = random.pick(abilityEffects)
 
-  return `${condition}${target}${effect}能力`
+  return `${condition}${target}${manner}${effect}能力`
 }
 
 function buildQuirkyAbility(random: SeededRandom) {
-  return random.pick(quirkyAbilities)
+  const node = random.pick(quirkyAbilityNodes)
+  return `${random.pick(node.prefixes)}${node.result}能力`
+}
+
+function buildQuirkyPersonality(random: SeededRandom) {
+  const node = random.pick(quirkyPersonalityNodes)
+  return `${node.lead}${random.pick(node.connectors)}${random.pick(node.habits)}`
+}
+
+function buildQuirkyWeapon(random: SeededRandom) {
+  return `${random.pick(quirkyWeaponLeadings)}${random.pick(quirkyWeaponModifiers)}${random.pick(quirkyWeaponSubjects)}`
+}
+
+function buildMysticWeapon(random: SeededRandom) {
+  return `${random.pick(mysticWeaponLeadings)}${random.pick(mysticWeaponModifiers)}${random.pick(mysticWeaponSubjects)}`
+}
+
+function buildQuirkyFavorite(random: SeededRandom) {
+  const node = random.pick(quirkyFavoriteNodes)
+  return `${random.pick(node.leadings)}${random.pick(node.modifiers)}${node.subject}`
+}
+
+function buildQuirkyWeakness(random: SeededRandom) {
+  const node = random.pick(quirkyWeaknessNodes)
+  return `${random.pick(node.leadings)}${random.pick(node.modifiers)}${node.subject}`
 }
 
 function buildGuardianFromSeed(seed: number, recoveryCode: string | null, tone: GuardianTone): GuardianProfile {
   const profileRandom = new SeededRandom(seed)
+  const nameRandom = new SeededRandom((seed ^ 0x85ebca6b) >>> 0 || 1)
   const textRandom = new SeededRandom((seed ^ 0x9e3779b9) >>> 0 || 1)
+  const heightRandom = new SeededRandom((seed ^ 0xc2b2ae35) >>> 0 || 1)
   const appearance = pickAppearance(profileRandom)
   const auraHue = profileRandom.nextInt(0, 359)
-  const weaponName = profileRandom.pick(weapons)
-  const guardianName = composeGuardianName(profileRandom)
+  const weaponName = tone === '生活感' ? buildQuirkyWeapon(textRandom) : buildMysticWeapon(profileRandom)
+  const guardianName = composeGuardianName(nameRandom, tone)
   const ability = tone === '生活感' ? buildQuirkyAbility(textRandom) : buildMysticAbility(textRandom)
   const personalityLine =
     tone === '生活感'
-      ? textRandom.pick(quirkyPersonalities)
+      ? buildQuirkyPersonality(textRandom)
       : joinUnique([
           textRandom.pick(personalityLeadings),
           textRandom.pick(personalityMiddles),
@@ -164,7 +203,7 @@ function buildGuardianFromSeed(seed: number, recoveryCode: string | null, tone: 
         ])
   const favoriteLine =
     tone === '生活感'
-      ? textRandom.pick(quirkyFavorites)
+      ? buildQuirkyFavorite(textRandom)
       : joinUnique([
           textRandom.pick(favoritePrefixes),
           textRandom.pick(favoriteMiddles),
@@ -172,7 +211,7 @@ function buildGuardianFromSeed(seed: number, recoveryCode: string | null, tone: 
         ])
   const weaknessLine =
     tone === '生活感'
-      ? textRandom.pick(quirkyWeaknesses)
+      ? buildQuirkyWeakness(textRandom)
       : joinUnique([
           textRandom.pick(weaknessPrefixes),
           textRandom.pick(weaknessMiddles),
@@ -235,22 +274,31 @@ function buildGuardianFromSeed(seed: number, recoveryCode: string | null, tone: 
       ? 'spear'
       : weaponName.includes('杖')
         ? 'staff'
+        : weaponName.includes('傘') ||
+            weaponName.includes('竿') ||
+            weaponName.includes('木べら') ||
+            weaponName.includes('靴べら') ||
+            weaponName.includes('洗濯ばさみ')
+          ? 'staff'
+          : weaponName.includes('ふた') || weaponName.includes('かご')
+            ? 'orb'
         : weaponName.includes('珠')
           ? 'orb'
           : 'sword'
 
   return {
     seed,
+    tone,
     recoveryCode,
     guardianName,
     displayName: guardianName,
     ability,
     heightCm:
       appearance.height === '低め'
-        ? profileRandom.nextInt(138, 154)
+        ? heightRandom.nextInt(138, 154)
         : appearance.height === '標準'
-          ? profileRandom.nextInt(155, 173)
-          : profileRandom.nextInt(174, 196),
+          ? heightRandom.nextInt(155, 173)
+          : heightRandom.nextInt(174, 196),
     personalityLine,
     favoriteLine,
     weaknessLine,

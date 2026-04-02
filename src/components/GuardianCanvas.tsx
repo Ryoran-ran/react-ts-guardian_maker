@@ -395,28 +395,64 @@ export const GuardianCanvas = forwardRef<Konva.Stage, GuardianCanvasProps>(funct
             <Group x={260} y={288} offsetX={260} offsetY={260} scaleX={PREVIEW_SCALE} scaleY={PREVIEW_SCALE}>
               <Rect x={76} y={GROUND_Y} width={368} height={6} fill="#d7c6a7" cornerRadius={999} opacity={0.9} />
               <BackgroundPattern guardian={guardian} />
-              <Circle x={260} y={258} radius={188} fill={visuals.auraAccent} opacity={0.18} />
-              <Circle x={260} y={240} radius={148} fill={visuals.auraColor} opacity={0.22} />
-              <RegularPolygon
-                x={260}
-                y={240}
-                sides={8}
-                radius={130}
-                stroke={visuals.sigilColor}
-                strokeWidth={4}
-                opacity={0.48}
-                rotation={22}
-              />
-              <RegularPolygon
-                x={260}
-                y={240}
-                sides={3}
-                radius={92}
-                stroke={visuals.sigilColor}
-                strokeWidth={2}
-                opacity={0.52}
-                rotation={-30}
-              />
+              {guardian.tone === '生活感' ? (
+                <>
+                  <Rect
+                    x={116}
+                    y={92}
+                    width={288}
+                    height={310}
+                    cornerRadius={72}
+                    fill={visuals.auraAccent}
+                    opacity={0.18}
+                  />
+                  <Rect
+                    x={138}
+                    y={116}
+                    width={244}
+                    height={262}
+                    cornerRadius={56}
+                    fill={visuals.auraColor}
+                    opacity={0.18}
+                  />
+                  <Circle x={260} y={252} radius={128} fill={visuals.auraAccent} opacity={0.12} />
+                  <RegularPolygon
+                    x={260}
+                    y={240}
+                    sides={6}
+                    radius={122}
+                    stroke={visuals.sigilColor}
+                    strokeWidth={3}
+                    opacity={0.34}
+                    rotation={30}
+                  />
+                </>
+              ) : (
+                <>
+                  <Circle x={260} y={258} radius={188} fill={visuals.auraAccent} opacity={0.18} />
+                  <Circle x={260} y={240} radius={148} fill={visuals.auraColor} opacity={0.22} />
+                  <RegularPolygon
+                    x={260}
+                    y={240}
+                    sides={8}
+                    radius={130}
+                    stroke={visuals.sigilColor}
+                    strokeWidth={4}
+                    opacity={0.48}
+                    rotation={22}
+                  />
+                  <RegularPolygon
+                    x={260}
+                    y={240}
+                    sides={3}
+                    radius={92}
+                    stroke={visuals.sigilColor}
+                    strokeWidth={2}
+                    opacity={0.52}
+                    rotation={-30}
+                  />
+                </>
+              )}
 
               <Group
                 x={260}

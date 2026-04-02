@@ -11,9 +11,9 @@ export function BackgroundPattern({ guardian }: BackgroundPatternProps) {
   const ornaments = useMemo(() => {
     const random = new SeededRandom(guardian.seed ^ 0x9e3779b9)
     const centerX = 260
-    const startX = 90
-    const startY = 92
-    const cell = 34
+    const startX = guardian.tone === '生活感' ? 86 : 90
+    const startY = guardian.tone === '生活感' ? 88 : 92
+    const cell = guardian.tone === '生活感' ? 36 : 34
     const rows = 10
     const cols = 5
 
@@ -22,10 +22,15 @@ export function BackgroundPattern({ guardian }: BackgroundPatternProps) {
       const col = index % cols
       const x = startX + col * cell
       const y = startY + row * cell
-      const enabled = random.nextFloat() > 0.18
-      const inset = random.nextInt(4, 9)
-      const opacity = Number((0.1 + random.nextFloat() * 0.18).toFixed(3))
-      const color = random.pick([guardian.visuals.sigilColor, guardian.visuals.auraAccent])
+      const enabled = random.nextFloat() > (guardian.tone === '生活感' ? 0.12 : 0.18)
+      const inset = guardian.tone === '生活感' ? random.nextInt(3, 8) : random.nextInt(4, 9)
+      const opacity = Number(
+        ((guardian.tone === '生活感' ? 0.14 : 0.1) + random.nextFloat() * (guardian.tone === '生活感' ? 0.16 : 0.18)).toFixed(3),
+      )
+      const color = guardian.tone === '生活感'
+        ? random.pick([guardian.visuals.auraAccent, guardian.visuals.auraColor])
+        : random.pick([guardian.visuals.sigilColor, guardian.visuals.auraAccent])
+      const cornerRadius = guardian.tone === '生活感' ? random.pick([8, 12, 16]) : 6
 
       return {
         id: `ornament-${index}`,
@@ -37,6 +42,7 @@ export function BackgroundPattern({ guardian }: BackgroundPatternProps) {
         size: cell,
         opacity,
         color,
+        cornerRadius,
       }
     }).filter((ornament) => ornament.enabled)
   }, [guardian])
@@ -53,7 +59,7 @@ export function BackgroundPattern({ guardian }: BackgroundPatternProps) {
             height={ornament.size - ornament.inset * 2}
             fill={ornament.color}
             opacity={ornament.opacity}
-            cornerRadius={6}
+            cornerRadius={ornament.cornerRadius}
           />
         )
 

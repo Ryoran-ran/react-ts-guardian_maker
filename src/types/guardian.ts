@@ -88,6 +88,7 @@ export type GuardianVisuals = {
 
 export type GuardianProfile = {
   seed: number
+  tone: GuardianTone
   recoveryCode: string | null
   guardianName: string
   displayName: string
