@@ -516,10 +516,10 @@ button {
 
 @keyframes loading-shift {
   0% {
-    transform: translateX(-65%);
+    transform: translateX(-180%);
   }
 
   100% {
-    transform: translateX(170%);
+    transform: translateX(280%);
   }
 }
