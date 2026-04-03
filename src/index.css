@@ -30,6 +30,7 @@ html,
 body,
 #root {
   min-height: 100%;
+  overflow-x: hidden;
 }
 
 body {
@@ -40,6 +41,8 @@ button,
 input,
 select {
   font: inherit;
+  font-size: 16px;
+  max-width: 100%;
 }
 
 button {
@@ -75,6 +78,7 @@ button {
 .public-screen,
 .public-result-layout {
   width: min(100%, 1100px);
+  min-width: 0;
 }
 
 .public-start {
@@ -98,6 +102,7 @@ button {
 
 .public-form-wrap {
   width: min(100%, 560px);
+  min-width: 0;
   margin: 0 auto;
 }
 
@@ -153,6 +158,8 @@ button {
 }
 
 .panel {
+  width: 100%;
+  min-width: 0;
   background: var(--paper);
   backdrop-filter: blur(14px);
   border: 1px solid var(--border);
@@ -174,6 +181,8 @@ button {
 }
 
 .form-panel {
+  width: 100%;
+  min-width: 0;
   padding: 28px;
   display: grid;
   gap: 18px;
@@ -205,6 +214,8 @@ button {
 }
 
 .field {
+  width: 100%;
+  min-width: 0;
   display: grid;
   gap: 8px;
   color: var(--heading);
@@ -220,6 +231,11 @@ button {
 .field input,
 .field select {
   width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  inline-size: 100%;
+  min-inline-size: 0;
+  display: block;
   border: 1px solid rgba(106, 80, 56, 0.22);
   background: rgba(255, 255, 255, 0.72);
   border-radius: 16px;
@@ -237,6 +253,11 @@ button {
   border-color: rgba(123, 49, 40, 0.5);
   box-shadow: 0 0 0 4px rgba(123, 49, 40, 0.12);
   transform: translateY(-1px);
+}
+
+.field input[type='date'] {
+  -webkit-appearance: none;
+  appearance: none;
 }
 
 .code-input {
@@ -280,10 +301,13 @@ button {
 
 .canvas-panel,
 .result-panel {
+  width: 100%;
+  min-width: 0;
   padding: 24px;
 }
 
 .canvas-frame {
+  width: 100%;
   margin-top: 18px;
   padding: 16px;
   border-radius: 24px;
@@ -291,7 +315,18 @@ button {
     radial-gradient(circle at top, rgba(255, 248, 231, 0.95), rgba(245, 233, 211, 0.9)),
     linear-gradient(180deg, rgba(255, 255, 255, 0.44), rgba(255, 255, 255, 0));
   border: 1px solid rgba(118, 89, 61, 0.14);
-  overflow: auto;
+  overflow: hidden;
+  touch-action: pan-y;
+  -webkit-overflow-scrolling: touch;
+}
+
+.canvas-frame canvas {
+  touch-action: pan-y !important;
+}
+
+.canvas-frame .konvajs-content,
+.canvas-frame canvas {
+  pointer-events: none;
 }
 
 .result-top {
@@ -322,6 +357,8 @@ button {
 
 .summary-grid div,
 .appearance-grid div {
+  width: 100%;
+  min-width: 0;
   background: rgba(255, 255, 255, 0.56);
   border: 1px solid rgba(118, 89, 61, 0.12);
   border-radius: 18px;
@@ -438,6 +475,16 @@ button {
 
   .public-result-actions {
     justify-content: stretch;
+  }
+
+  .public-screen,
+  .public-result-layout,
+  .public-form-wrap,
+  .canvas-panel,
+  .result-panel,
+  .canvas-frame {
+    width: 100%;
+    min-width: 0;
   }
 }
 

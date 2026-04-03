@@ -389,7 +389,14 @@ export const GuardianCanvas = forwardRef<Konva.Stage, GuardianCanvasProps>(funct
       </div>
 
       <div className="canvas-frame" ref={frameRef}>
-        <Stage width={WIDTH * scale} height={HEIGHT * scale} scaleX={scale} scaleY={scale} ref={ref}>
+        <Stage
+          width={WIDTH * scale}
+          height={HEIGHT * scale}
+          scaleX={scale}
+          scaleY={scale}
+          ref={ref}
+          style={{ touchAction: 'pan-y' }}
+        >
           <Layer>
             <Rect width={WIDTH} height={HEIGHT} fill="#f7f1e5" />
             <Group x={260} y={288} offsetX={260} offsetY={260} scaleX={PREVIEW_SCALE} scaleY={PREVIEW_SCALE}>

@@ -89,19 +89,19 @@ export function GuardianForm({
         />
       </label>
 
-      {isDeveloper ? (
-        <label className="field">
-          <span>文章の雰囲気</span>
-          <select value={value.tone} onChange={handleFieldChange('tone')}>
-            {toneOptions.map((option) => (
-              <option key={option} value={option}>
-                {option}
-              </option>
-            ))}
-          </select>
-          <small className="field-hint">迷ったら「神秘感」のままで大丈夫です。</small>
-        </label>
-      ) : null}
+      <label className="field">
+        <span>{isDeveloper ? '文章の雰囲気' : '診断の雰囲気'}</span>
+        <select value={value.tone} onChange={handleFieldChange('tone')}>
+          {toneOptions.map((option) => (
+            <option key={option} value={option}>
+              {option}
+            </option>
+          ))}
+        </select>
+        <small className="field-hint">
+          {isDeveloper ? '迷ったら「神秘感」のままで大丈夫です。' : '神秘感は荘厳に、生活感は少し身近な雰囲気になります。'}
+        </small>
+      </label>
 
       <button className="primary-button" type="submit">
         {isDeveloper ? '生成' : '守護神を生成する'}

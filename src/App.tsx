@@ -8,17 +8,13 @@ import { downloadGuardianProfileCard, downloadStageAsPng } from './lib/exportIma
 import { generateGuardian, generateGuardianFromSeed } from './lib/generator'
 import { createSeedFromInput } from './lib/hash'
 import { decodeRecoveryCode } from './lib/recovery'
-import type { GuardianFormInput, GuardianProfile, GuardianTone } from './types/guardian'
+import type { GuardianFormInput, GuardianProfile } from './types/guardian'
 
 const defaultInput: GuardianFormInput = {
   name: '天城ヒカリ',
   gender: '女性',
   birthDate: '1998-07-12',
   tone: '神秘感',
-}
-
-function inferToneFromInput(input: GuardianFormInput): GuardianTone {
-  return createSeedFromInput(input) % 2 === 0 ? '神秘感' : '生活感'
 }
 
 function DeveloperScreen() {
@@ -124,12 +120,7 @@ function PublicFlow() {
   const [draft, setDraft] = useState<GuardianFormInput>(defaultInput)
   const [phase, setPhase] = useState<'input' | 'loading' | 'result'>('input')
   const [submittedName, setSubmittedName] = useState(defaultInput.name)
-  const [guardian, setGuardian] = useState<GuardianProfile>(() =>
-    generateGuardian({
-      ...defaultInput,
-      tone: inferToneFromInput(defaultInput),
-    }),
-  )
+  const [guardian, setGuardian] = useState<GuardianProfile>(() => generateGuardian(defaultInput))
   const stageRef = useRef<Konva.Stage>(null)
   const timerRef = useRef<number | null>(null)
 
@@ -146,11 +137,7 @@ function PublicFlow() {
       ...draft,
       name: draft.name.trim(),
     }
-    const tone = inferToneFromInput(normalized)
-    const preparedInput = {
-      ...normalized,
-      tone,
-    }
+    const preparedInput = normalized
     const seed = createSeedFromInput(preparedInput)
     const waitMs = 3000 + (seed % 4001)
 
