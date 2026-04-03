@@ -69,6 +69,8 @@ const labelMap: Record<(typeof appearanceLabels)[number], string> = {
 }
 
 export function GuardianResult({ guardian, onSave, onSaveWithInfo }: GuardianResultProps) {
+  const weaponLabel = guardian.tone === '生活感' ? '使用アイテム' : '使用武器'
+
   return (
     <section className="panel result-panel">
       <div className="result-top">
@@ -108,7 +110,11 @@ export function GuardianResult({ guardian, onSave, onSaveWithInfo }: GuardianRes
           <dd>{guardian.weaknessLine}</dd>
         </div>
         <div>
-          <dt>使用武器</dt>
+          <dt>能力</dt>
+          <dd>{guardian.ability}</dd>
+        </div>
+        <div>
+          <dt>{weaponLabel}</dt>
           <dd>{guardian.weapon}</dd>
         </div>
         <div>

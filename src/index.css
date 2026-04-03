@@ -124,6 +124,12 @@ button {
   font-weight: 600;
 }
 
+.field-hint {
+  color: var(--muted);
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
 .field input,
 .field select {
   width: 100%;
@@ -247,9 +253,15 @@ button {
   color: var(--heading);
   font-weight: 700;
   white-space: nowrap;
-  overflow-x: auto;
+  overflow: hidden;
+  text-overflow: ellipsis;
   display: block;
   padding-bottom: 2px;
+  line-height: 1.35;
+}
+
+.summary-grid dd {
+  font-size: 0.95rem;
 }
 
 .appearance-block {
@@ -273,11 +285,12 @@ button {
 
 .code-value {
   font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-  font-size: 0.78rem;
+  font-size: 0.72rem;
   line-height: 1.45;
   color: var(--heading);
-  white-space: nowrap;
-  overflow-x: auto;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  word-break: break-word;
   display: block;
   padding-bottom: 2px;
 }

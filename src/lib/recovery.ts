@@ -1,9 +1,10 @@
-import type { GuardianFormInput } from '../types/guardian'
+import type { GuardianFormInput, GuardianTone } from '../types/guardian'
 
 type RecoveryPayload = {
   name: string
   gender: GuardianFormInput['gender']
   birthDate: string
+  tone?: GuardianTone
 }
 
 function toBase64Url(value: string): string {
@@ -37,6 +38,7 @@ export function encodeRecoveryCode(input: GuardianFormInput): string {
     name: input.name.trim(),
     gender: input.gender,
     birthDate: input.birthDate.trim(),
+    tone: input.tone,
   }
 
   const json = JSON.stringify(payload)
@@ -66,6 +68,7 @@ export function decodeRecoveryCode(code: string): GuardianFormInput | null {
       name: parsed.name,
       gender: parsed.gender as GuardianFormInput['gender'],
       birthDate: parsed.birthDate,
+      tone: parsed.tone === '生活感' ? '生活感' : '神秘感',
     }
   } catch {
     return null

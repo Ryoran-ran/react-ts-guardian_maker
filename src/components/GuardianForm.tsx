@@ -1,5 +1,5 @@
 import type { ChangeEvent, FormEvent } from 'react'
-import type { Gender, GuardianFormInput } from '../types/guardian'
+import type { Gender, GuardianFormInput, GuardianTone } from '../types/guardian'
 
 type GuardianFormProps = {
   value: GuardianFormInput
@@ -14,6 +14,7 @@ type GuardianFormProps = {
 }
 
 const genderOptions: Gender[] = ['男性', '女性', 'その他']
+const toneOptions: GuardianTone[] = ['神秘感', '生活感']
 
 export function GuardianForm({
   value,
@@ -80,6 +81,18 @@ export function GuardianForm({
           onChange={handleFieldChange('birthDate')}
           required
         />
+      </label>
+
+      <label className="field">
+        <span>文章の雰囲気</span>
+        <select value={value.tone} onChange={handleFieldChange('tone')}>
+          {toneOptions.map((option) => (
+            <option key={option} value={option}>
+              {option}
+            </option>
+          ))}
+        </select>
+        <small className="field-hint">迷ったら「神秘感」のままで大丈夫です。</small>
       </label>
 
       <button className="primary-button" type="submit">
