@@ -310,6 +310,8 @@ button {
   width: 100%;
   margin-top: 18px;
   padding: 16px;
+  display: flex;
+  justify-content: center;
   border-radius: 24px;
   background:
     radial-gradient(circle at top, rgba(255, 248, 231, 0.95), rgba(245, 233, 211, 0.9)),

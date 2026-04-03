@@ -367,7 +367,11 @@ export const GuardianCanvas = forwardRef<Konva.Stage, GuardianCanvasProps>(funct
     }
 
     const updateScale = () => {
-      const nextScale = Math.min(1, element.clientWidth / WIDTH)
+      const styles = window.getComputedStyle(element)
+      const horizontalPadding =
+        Number.parseFloat(styles.paddingLeft || '0') + Number.parseFloat(styles.paddingRight || '0')
+      const availableWidth = Math.max(0, element.clientWidth - horizontalPadding)
+      const nextScale = Math.min(1, availableWidth / WIDTH)
       setScale(nextScale)
     }
 
