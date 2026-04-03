@@ -221,9 +221,18 @@ function PublicFlow() {
 }
 
 function App() {
-  const isDeveloperRoute =
-    typeof window !== 'undefined' &&
-    (window.location.pathname === '/developer' || window.location.pathname.startsWith('/developer/'))
+  const isDeveloperRoute = (() => {
+    if (typeof window === 'undefined') {
+      return false
+    }
+
+    const basePath = import.meta.env.BASE_URL.replace(/\/$/, '')
+    const normalizedPath = window.location.pathname.startsWith(basePath)
+      ? window.location.pathname.slice(basePath.length) || '/'
+      : window.location.pathname
+
+    return normalizedPath === '/developer' || normalizedPath.startsWith('/developer/')
+  })()
 
   return isDeveloperRoute ? <DeveloperScreen /> : <PublicFlow />
 }
