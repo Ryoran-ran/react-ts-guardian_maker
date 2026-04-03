@@ -467,6 +467,17 @@ button {
     grid-template-columns: 1fr;
   }
 
+  .summary-grid dd,
+  .appearance-grid dd {
+    white-space: normal;
+    overflow: visible;
+    text-overflow: clip;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+    font-size: 0.9rem;
+    line-height: 1.45;
+  }
+
   .result-top {
     flex-direction: column;
   }
