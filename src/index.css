@@ -51,6 +51,13 @@ button {
   padding: 32px;
 }
 
+.public-shell {
+  min-height: 100vh;
+  padding: 32px 20px;
+  display: grid;
+  place-items: center;
+}
+
 .layout-grid {
   max-width: 1380px;
   margin: 0 auto;
@@ -63,6 +70,86 @@ button {
 .right-column {
   display: grid;
   gap: 24px;
+}
+
+.public-screen,
+.public-result-layout {
+  width: min(100%, 1100px);
+}
+
+.public-start {
+  display: grid;
+  gap: 24px;
+}
+
+.public-intro {
+  text-align: center;
+  display: grid;
+  gap: 10px;
+}
+
+.public-intro h1,
+.public-loading h1 {
+  margin: 0;
+  color: var(--heading);
+  font-size: clamp(2.2rem, 6vw, 4rem);
+  line-height: 1.08;
+}
+
+.public-form-wrap {
+  width: min(100%, 560px);
+  margin: 0 auto;
+}
+
+.public-form-wrap .form-panel {
+  position: static;
+}
+
+.public-loading {
+  padding: 48px 32px;
+  display: grid;
+  justify-items: center;
+  text-align: center;
+  gap: 14px;
+}
+
+.loading-orb {
+  width: 124px;
+  height: 124px;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 35% 35%, rgba(255, 255, 255, 0.92), rgba(255, 255, 255, 0) 34%),
+    radial-gradient(circle, rgba(186, 163, 255, 0.4), rgba(120, 176, 255, 0.12) 58%, rgba(255, 255, 255, 0) 72%);
+  animation: pulse-orb 1.8s ease-in-out infinite;
+  box-shadow: 0 0 0 18px rgba(185, 157, 255, 0.08);
+}
+
+.loading-bar {
+  width: min(100%, 360px);
+  height: 10px;
+  padding: 2px;
+  border-radius: 999px;
+  background: rgba(123, 49, 40, 0.08);
+  overflow: hidden;
+}
+
+.loading-bar-fill {
+  display: block;
+  width: 45%;
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #dcae62, #8d69cc, #5f8fe0);
+  animation: loading-shift 1.4s ease-in-out infinite;
+}
+
+.public-result-layout {
+  display: grid;
+  gap: 24px;
+}
+
+.public-result-actions {
+  display: flex;
+  justify-content: flex-end;
 }
 
 .panel {
@@ -307,6 +394,10 @@ button {
     padding: 20px;
   }
 
+  .public-shell {
+    padding: 20px 14px;
+  }
+
   .layout-grid {
     grid-template-columns: 1fr;
   }
@@ -318,6 +409,10 @@ button {
 
 @media (max-width: 720px) {
   .app-shell {
+    padding: 14px;
+  }
+
+  .public-shell {
     padding: 14px;
   }
 
@@ -339,5 +434,32 @@ button {
 
   .result-actions {
     width: 100%;
+  }
+
+  .public-result-actions {
+    justify-content: stretch;
+  }
+}
+
+@keyframes pulse-orb {
+  0%,
+  100% {
+    transform: scale(0.96);
+    opacity: 0.86;
+  }
+
+  50% {
+    transform: scale(1.04);
+    opacity: 1;
+  }
+}
+
+@keyframes loading-shift {
+  0% {
+    transform: translateX(-65%);
+  }
+
+  100% {
+    transform: translateX(170%);
   }
 }

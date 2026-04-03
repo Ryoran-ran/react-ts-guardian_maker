@@ -1,6 +1,7 @@
 import type { GuardianProfile } from '../types/guardian'
 
 type GuardianResultProps = {
+  mode?: 'developer' | 'public'
   guardian: GuardianProfile
   onSave: () => void
   onSaveWithInfo: () => void
@@ -68,14 +69,20 @@ const labelMap: Record<(typeof appearanceLabels)[number], string> = {
   legThickness: '脚の太さ',
 }
 
-export function GuardianResult({ guardian, onSave, onSaveWithInfo }: GuardianResultProps) {
+export function GuardianResult({
+  mode = 'developer',
+  guardian,
+  onSave,
+  onSaveWithInfo,
+}: GuardianResultProps) {
+  const isDeveloper = mode === 'developer'
   const weaponLabel = guardian.tone === '生活感' ? '使用アイテム' : '使用武器'
 
   return (
     <section className="panel result-panel">
       <div className="result-top">
         <div>
-          <p className="eyebrow">Result</p>
+          <p className="eyebrow">{isDeveloper ? 'Result' : 'Guardian'}</p>
           <h2>{guardian.guardianName}</h2>
         </div>
         <div className="result-actions">
@@ -117,30 +124,34 @@ export function GuardianResult({ guardian, onSave, onSaveWithInfo }: GuardianRes
           <dt>{weaponLabel}</dt>
           <dd>{guardian.weapon}</dd>
         </div>
-        <div>
-          <dt>シード値</dt>
-          <dd>{guardian.seed}</dd>
-        </div>
+        {isDeveloper ? (
+          <div>
+            <dt>シード値</dt>
+            <dd>{guardian.seed}</dd>
+          </div>
+        ) : null}
       </dl>
 
-      {guardian.recoveryCode ? (
+      {isDeveloper && guardian.recoveryCode ? (
         <div className="code-strip">
           <span className="code-label">コード</span>
           <code className="code-value">{guardian.recoveryCode}</code>
         </div>
       ) : null}
 
-      <div className="appearance-block">
-        <h3>外見パラメータ</h3>
-        <dl className="appearance-grid">
-          {appearanceLabels.map((key) => (
-            <div key={key}>
-              <dt>{labelMap[key]}</dt>
-              <dd>{guardian.appearance[key]}</dd>
-            </div>
-          ))}
-        </dl>
-      </div>
+      {isDeveloper ? (
+        <div className="appearance-block">
+          <h3>外見パラメータ</h3>
+          <dl className="appearance-grid">
+            {appearanceLabels.map((key) => (
+              <div key={key}>
+                <dt>{labelMap[key]}</dt>
+                <dd>{guardian.appearance[key]}</dd>
+              </div>
+            ))}
+          </dl>
+        </div>
+      ) : null}
     </section>
   )
 }

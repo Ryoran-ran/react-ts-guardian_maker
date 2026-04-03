@@ -2,24 +2,26 @@ import type { ChangeEvent, FormEvent } from 'react'
 import type { Gender, GuardianFormInput, GuardianTone } from '../types/guardian'
 
 type GuardianFormProps = {
+  mode?: 'developer' | 'public'
   value: GuardianFormInput
-  seedValue: string
-  recoveryValue: string
+  seedValue?: string
+  recoveryValue?: string
   onChange: (value: GuardianFormInput) => void
-  onSeedChange: (value: string) => void
-  onRecoveryChange: (value: string) => void
+  onSeedChange?: (value: string) => void
+  onRecoveryChange?: (value: string) => void
   onSubmit: () => void
-  onSeedSubmit: () => void
-  onRecoverySubmit: () => void
+  onSeedSubmit?: () => void
+  onRecoverySubmit?: () => void
 }
 
 const genderOptions: Gender[] = ['男性', '女性', 'その他']
 const toneOptions: GuardianTone[] = ['神秘感', '生活感']
 
 export function GuardianForm({
+  mode = 'developer',
   value,
-  seedValue,
-  recoveryValue,
+  seedValue = '',
+  recoveryValue = '',
   onChange,
   onSeedChange,
   onRecoveryChange,
@@ -27,6 +29,8 @@ export function GuardianForm({
   onSeedSubmit,
   onRecoverySubmit,
 }: GuardianFormProps) {
+  const isDeveloper = mode === 'developer'
+
   const handleFieldChange =
     (field: keyof GuardianFormInput) =>
     (event: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -44,10 +48,12 @@ export function GuardianForm({
   return (
     <form className="panel form-panel" onSubmit={handleSubmit}>
       <div className="panel-header">
-        <p className="eyebrow">Input</p>
-        <h1>守護神メーカー</h1>
+        <p className="eyebrow">{isDeveloper ? 'Input' : 'Start'}</p>
+        <h1>{isDeveloper ? '守護神メーカー' : '守護神診断'}</h1>
         <p className="panel-copy">
-          名前・性別・生年月日からシード値を作り、毎回同じ守護神を呼び出します。
+          {isDeveloper
+            ? '名前・性別・生年月日からシード値を作り、毎回同じ守護神を呼び出します。'
+            : '名前・性別・生年月日から、あなただけの守護神を呼び出します。'}
         </p>
       </div>
 
@@ -83,52 +89,58 @@ export function GuardianForm({
         />
       </label>
 
-      <label className="field">
-        <span>文章の雰囲気</span>
-        <select value={value.tone} onChange={handleFieldChange('tone')}>
-          {toneOptions.map((option) => (
-            <option key={option} value={option}>
-              {option}
-            </option>
-          ))}
-        </select>
-        <small className="field-hint">迷ったら「神秘感」のままで大丈夫です。</small>
-      </label>
+      {isDeveloper ? (
+        <label className="field">
+          <span>文章の雰囲気</span>
+          <select value={value.tone} onChange={handleFieldChange('tone')}>
+            {toneOptions.map((option) => (
+              <option key={option} value={option}>
+                {option}
+              </option>
+            ))}
+          </select>
+          <small className="field-hint">迷ったら「神秘感」のままで大丈夫です。</small>
+        </label>
+      ) : null}
 
       <button className="primary-button" type="submit">
-        生成
+        {isDeveloper ? '生成' : '守護神を生成する'}
       </button>
 
-      <label className="field">
-        <span>シード値から再生成</span>
-        <input
-          type="text"
-          inputMode="numeric"
-          className="code-input"
-          value={seedValue}
-          onChange={(event) => onSeedChange(event.target.value)}
-          placeholder="例: 2447797810"
-        />
-      </label>
+      {isDeveloper ? (
+        <>
+          <label className="field">
+            <span>シード値から再生成</span>
+            <input
+              type="text"
+              inputMode="numeric"
+              className="code-input"
+              value={seedValue}
+              onChange={(event) => onSeedChange?.(event.target.value)}
+              placeholder="例: 2447797810"
+            />
+          </label>
 
-      <button className="secondary-button" type="button" onClick={onSeedSubmit}>
-        シードから再生成
-      </button>
+          <button className="secondary-button" type="button" onClick={onSeedSubmit}>
+            シードから再生成
+          </button>
 
-      <label className="field">
-        <span>復元コードから再入力</span>
-        <input
-          type="text"
-          className="code-input"
-          value={recoveryValue}
-          onChange={(event) => onRecoveryChange(event.target.value)}
-          placeholder="復元コードを貼り付け"
-        />
-      </label>
+          <label className="field">
+            <span>復元コードから再入力</span>
+            <input
+              type="text"
+              className="code-input"
+              value={recoveryValue}
+              onChange={(event) => onRecoveryChange?.(event.target.value)}
+              placeholder="復元コードを貼り付け"
+            />
+          </label>
 
-      <button className="secondary-button" type="button" onClick={onRecoverySubmit}>
-        復元コードから再入力
-      </button>
+          <button className="secondary-button" type="button" onClick={onRecoverySubmit}>
+            復元コードから再入力
+          </button>
+        </>
+      ) : null}
     </form>
   )
 }
