@@ -367,7 +367,11 @@ export const GuardianCanvas = forwardRef<Konva.Stage, GuardianCanvasProps>(funct
     }
 
     const updateScale = () => {
-      const nextScale = Math.min(1, element.clientWidth / WIDTH)
+      const styles = window.getComputedStyle(element)
+      const horizontalPadding =
+        Number.parseFloat(styles.paddingLeft || '0') + Number.parseFloat(styles.paddingRight || '0')
+      const availableWidth = Math.max(0, element.clientWidth - horizontalPadding)
+      const nextScale = Math.min(1, availableWidth / WIDTH)
       setScale(nextScale)
     }
 
@@ -389,7 +393,14 @@ export const GuardianCanvas = forwardRef<Konva.Stage, GuardianCanvasProps>(funct
       </div>
 
       <div className="canvas-frame" ref={frameRef}>
-        <Stage width={WIDTH * scale} height={HEIGHT * scale} scaleX={scale} scaleY={scale} ref={ref}>
+        <Stage
+          width={WIDTH * scale}
+          height={HEIGHT * scale}
+          scaleX={scale}
+          scaleY={scale}
+          ref={ref}
+          style={{ touchAction: 'pan-y' }}
+        >
           <Layer>
             <Rect width={WIDTH} height={HEIGHT} fill="#f7f1e5" />
             <Group x={260} y={288} offsetX={260} offsetY={260} scaleX={PREVIEW_SCALE} scaleY={PREVIEW_SCALE}>
