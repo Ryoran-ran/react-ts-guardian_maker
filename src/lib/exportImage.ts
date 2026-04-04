@@ -1,15 +1,15 @@
 import type Konva from 'konva'
 import type { GuardianProfile } from '../types/guardian'
 
-export function downloadStageAsPng(stage: Konva.Stage, fileName: string): void {
-  const dataUrl = stage.toDataURL({ pixelRatio: 2 })
-  const link = document.createElement('a')
-  link.href = dataUrl
-  link.download = fileName
-  link.click()
+export function createStagePngDataUrl(stage: Konva.Stage): string {
+  return stage.toDataURL({ pixelRatio: 2 })
 }
 
-function downloadDataUrl(dataUrl: string, fileName: string): void {
+export function downloadStageAsPng(stage: Konva.Stage, fileName: string): void {
+  downloadDataUrl(createStagePngDataUrl(stage), fileName)
+}
+
+export function downloadDataUrl(dataUrl: string, fileName: string): void {
   const link = document.createElement('a')
   link.href = dataUrl
   link.download = fileName
@@ -46,16 +46,16 @@ function drawWrappedText(
   return y
 }
 
-export function downloadGuardianProfileCard(
+export function createGuardianProfileCardDataUrl(
   stage: Konva.Stage,
-  fileName: string,
   ownerName: string,
   guardian: GuardianProfile,
-): void {
-  const previewImage = new Image()
-  previewImage.src = stage.toDataURL({ pixelRatio: 2 })
+): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const previewImage = new Image()
+    previewImage.src = createStagePngDataUrl(stage)
 
-  previewImage.onload = () => {
+    previewImage.onload = () => {
     const weaponLabel = guardian.tone === '生活感' ? '使用アイテム' : '使用武器'
     const isQuirky = guardian.tone === '生活感'
     const pageBg = isQuirky ? '#f7f1e3' : '#f1ecdf'
@@ -73,6 +73,7 @@ export function downloadGuardianProfileCard(
     const context = canvas.getContext('2d')
 
     if (!context) {
+      reject(new Error('Canvas context is not available'))
       return
     }
 
@@ -156,6 +157,21 @@ export function downloadGuardianProfileCard(
       drawWrappedText(context, value, cardX + 24, cardY + 58, 880, 28)
     })
 
-    downloadDataUrl(canvas.toDataURL('image/png'), fileName)
-  }
+      resolve(canvas.toDataURL('image/png'))
+    }
+
+    previewImage.onerror = () => {
+      reject(new Error('Failed to render guardian profile card'))
+    }
+  })
+}
+
+export async function downloadGuardianProfileCard(
+  stage: Konva.Stage,
+  fileName: string,
+  ownerName: string,
+  guardian: GuardianProfile,
+): Promise<void> {
+  const dataUrl = await createGuardianProfileCardDataUrl(stage, ownerName, guardian)
+  downloadDataUrl(dataUrl, fileName)
 }
