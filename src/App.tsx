@@ -4,7 +4,7 @@ import './index.css'
 import { GuardianCanvas } from './components/GuardianCanvas'
 import { GuardianForm } from './components/GuardianForm'
 import { GuardianResult } from './components/GuardianResult'
-import { downloadGuardianProfileCard, downloadStageAsPng } from './lib/exportImage'
+import { createGuardianProfileCardDataUrl, createStagePngDataUrl, downloadDataUrl } from './lib/exportImage'
 import { generateGuardian, generateGuardianFromSeed } from './lib/generator'
 import { createSeedFromInput } from './lib/hash'
 import { decodeRecoveryCode } from './lib/recovery'
@@ -23,6 +23,7 @@ function DeveloperScreen() {
   const [seedDraft, setSeedDraft] = useState('')
   const [recoveryDraft, setRecoveryDraft] = useState('')
   const [submittedSeed, setSubmittedSeed] = useState<number | null>(null)
+  const [previewImage, setPreviewImage] = useState<{ dataUrl: string; fileName: string; title: string } | null>(null)
   const stageRef = useRef<Konva.Stage>(null)
 
   const guardian = useMemo(
@@ -69,20 +70,34 @@ function DeveloperScreen() {
     }
 
     const safeName = draft.name.trim() || 'guardian'
-    downloadStageAsPng(stageRef.current, `${safeName}-guardian.png`)
+    setPreviewImage({
+      dataUrl: createStagePngDataUrl(stageRef.current),
+      fileName: `${safeName}-guardian.png`,
+      title: '生成画像',
+    })
   }
 
-  const handleSaveWithInfo = () => {
+  const handleSaveWithInfo = async () => {
     if (!stageRef.current) {
       return
     }
 
     const safeName = draft.name.trim() || 'guardian'
-    downloadGuardianProfileCard(
-      stageRef.current,
-      `${safeName}-guardian-profile.png`,
-      submitted.name.trim(),
-      guardian,
+    const dataUrl = await createGuardianProfileCardDataUrl(stageRef.current, submitted.name.trim(), guardian)
+    setPreviewImage({
+      dataUrl,
+      fileName: `${safeName}-guardian-profile.png`,
+      title: '情報付き画像',
+    })
+  }
+
+  if (previewImage) {
+    return (
+      <SavedImageScreen
+        mode="developer"
+        previewImage={previewImage}
+        onBack={() => setPreviewImage(null)}
+      />
     )
   }
 
@@ -118,9 +133,10 @@ function DeveloperScreen() {
 
 function PublicFlow() {
   const [draft, setDraft] = useState<GuardianFormInput>(defaultInput)
-  const [phase, setPhase] = useState<'input' | 'loading' | 'result'>('input')
+  const [phase, setPhase] = useState<'input' | 'loading' | 'result' | 'preview'>('input')
   const [submittedName, setSubmittedName] = useState(defaultInput.name)
   const [guardian, setGuardian] = useState<GuardianProfile>(() => generateGuardian(defaultInput))
+  const [previewImage, setPreviewImage] = useState<{ dataUrl: string; fileName: string; title: string } | null>(null)
   const stageRef = useRef<Konva.Stage>(null)
   const timerRef = useRef<number | null>(null)
 
@@ -161,20 +177,32 @@ function PublicFlow() {
     }
 
     const safeName = submittedName || 'guardian'
-    downloadStageAsPng(stageRef.current, `${safeName}-guardian.png`)
+    setPreviewImage({
+      dataUrl: createStagePngDataUrl(stageRef.current),
+      fileName: `${safeName}-guardian.png`,
+      title: '生成画像',
+    })
+    setPhase('preview')
   }
 
-  const handleSaveWithInfo = () => {
+  const handleSaveWithInfo = async () => {
     if (!stageRef.current) {
       return
     }
 
     const safeName = submittedName || 'guardian'
-    downloadGuardianProfileCard(stageRef.current, `${safeName}-guardian-profile.png`, submittedName, guardian)
+    const dataUrl = await createGuardianProfileCardDataUrl(stageRef.current, submittedName, guardian)
+    setPreviewImage({
+      dataUrl,
+      fileName: `${safeName}-guardian-profile.png`,
+      title: '情報付き画像',
+    })
+    setPhase('preview')
   }
 
   const handleRestart = () => {
     setPhase('input')
+    setPreviewImage(null)
   }
 
   if (phase === 'input') {
@@ -205,6 +233,16 @@ function PublicFlow() {
     )
   }
 
+  if (phase === 'preview' && previewImage) {
+    return (
+      <SavedImageScreen
+        mode="public"
+        previewImage={previewImage}
+        onBack={() => setPhase('result')}
+      />
+    )
+  }
+
   return (
     <main className="public-shell">
       <section className="public-result-layout">
@@ -215,6 +253,50 @@ function PublicFlow() {
         </div>
         <GuardianCanvas guardian={guardian} ref={stageRef} />
         <GuardianResult mode="public" guardian={guardian} onSave={handleSave} onSaveWithInfo={handleSaveWithInfo} />
+      </section>
+    </main>
+  )
+}
+
+type SavedImageScreenProps = {
+  mode: 'developer' | 'public'
+  previewImage: {
+    dataUrl: string
+    fileName: string
+    title: string
+  }
+  onBack: () => void
+}
+
+function SavedImageScreen({ mode, previewImage, onBack }: SavedImageScreenProps) {
+  const shellClassName = mode === 'developer' ? 'app-shell' : 'public-shell'
+
+  return (
+    <main className={shellClassName}>
+      <section className="panel saved-image-screen">
+        <div className="saved-image-header">
+          <div>
+            <p className="eyebrow">Preview</p>
+            <h1>{previewImage.title}を表示しています</h1>
+            <p className="panel-copy">このページで画像を確認してからダウンロードできます。スマートフォンでは画像を長押しして保存することもできます。</p>
+          </div>
+          <div className="saved-image-actions">
+            <button className="secondary-button" type="button" onClick={onBack}>
+              戻る
+            </button>
+            <button
+              className="primary-button"
+              type="button"
+              onClick={() => downloadDataUrl(previewImage.dataUrl, previewImage.fileName)}
+            >
+              ダウンロード
+            </button>
+          </div>
+        </div>
+
+        <div className="saved-image-frame">
+          <img alt={previewImage.title} src={previewImage.dataUrl} />
+        </div>
       </section>
     </main>
   )
